@@ -99,7 +99,7 @@ public class IO implements Observer {
                 close();
                 reset();
             }
-            System.out.println(++count);
+            ++count;
         }
         if (o1 instanceof Pair) {
             Pair p = (Pair)o1;

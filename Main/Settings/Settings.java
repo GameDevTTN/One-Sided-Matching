@@ -17,6 +17,8 @@ import Main.Observers.Timer;
 import Main.Observers.iResultsCollator;
 import Main.Observers.BordaRelated.BordaScoreRaw;
 import Main.Observers.BordaRelated.PluralityScoreRaw;
+import Main.Observers.OrdinalEfficiency;
+import Main.Observers.RankEfficiency;
 import MatchingAlgorithm.ProbabilisticSerialRule;
 import MatchingAlgorithm.Proportional;
 import MatchingAlgorithm.iAlgorithm;
@@ -29,6 +31,8 @@ import MatchingAlgorithm.DeterministicAlgorithm.YankeeSwap.YankeeSwapStandardWit
 import MatchingAlgorithm.Hybrid.PSRYSGTTC;
 import MatchingAlgorithm.Hybrid.RSDPSR;
 import MatchingAlgorithm.Hybrid.RSDYSGTTC;
+import ordinalpreferencegenerator.IAC;
+import ordinalpreferencegenerator.IANC;
 import ordinalpreferencegenerator.IC;
 import ordinalpreferencegenerator.Mallows;
 //import MatchingAlgorithm.Gurobi.*;
@@ -51,7 +55,8 @@ public abstract class Settings {
 //            EnvyPairsCounter.class,
 //            WeaklyEnvyFreeProfilesCount.class,
 //            WeaklyEnvyPairsCount.class,
-//            OrdinalEfficiency.class,
+            OrdinalEfficiency.class,
+//            RankEfficiency.class,
 //            SDProportionalProfileCount.class,
 //            SDProportionalityAgentCount.class,
 //            WeaklySDProportionalProfileCount.class,
@@ -68,17 +73,17 @@ public abstract class Settings {
 //            NStealPerItemWithGTTC.class,
     };
     public static final Class<? extends iAlgorithm>[] classes = new Class[]{
-            HungarianAlgorithmWrapper.class,
-            Proportional.class,
-            ProbabilisticSerialRule.class, 
-            RandomSerialDictatorship.class, 
-            AdaptiveBoston.class, 
-            NaiveBoston.class,
+//            HungarianAlgorithmWrapper.class,
+//            Proportional.class,
+//            ProbabilisticSerialRule.class, 
+//            RandomSerialDictatorship.class, 
+//            AdaptiveBoston.class, 
+//            NaiveBoston.class,
             YankeeSwapStandard.class, 
             YankeeSwapStandardWithGTTC.class,
-            RSDPSR.class,
-            RSDYSGTTC.class,
-            PSRYSGTTC.class,
+//            RSDPSR.class,
+//            RSDYSGTTC.class,
+//            PSRYSGTTC.class,
     };
     
     public static void init() {
@@ -111,10 +116,10 @@ public abstract class Settings {
     
     //main method location & number of agents/items
     public static final Class APP_CLASS = MainBruteForce.class;
-    public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = IC.class; //Mallows.class;
+    public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = IANC.class; //Mallows.class;
     public static final double PREF_PARAM = 0.9999;
     public static final int M = 3; //5
-    public static final int N = 3; //100
+    public static final int N = 4; //100
     public static final int INCREMENT = 1; //5
     public static final double RUN_CHANCE = 1;
     public static final int PROFILE_COUNT = 1000; //use 10000 for real runs
