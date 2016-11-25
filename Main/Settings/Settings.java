@@ -10,6 +10,7 @@ import java.util.List;
 import ordinalpreferencegenerator.iOrdinalIterator;
 import Main.MainBruteForce;
 import Main.Observers.AlgorithmObserver;
+import Main.Observers.BordaRelated.BordaPercentageOfMax;
 import Main.Observers.LogWriter;
 import Main.Observers.PreferenceOrder;
 import Main.Observers.PreferencesCounter;
@@ -17,6 +18,8 @@ import Main.Observers.Timer;
 import Main.Observers.iResultsCollator;
 import Main.Observers.BordaRelated.BordaScoreRaw;
 import Main.Observers.BordaRelated.PluralityScoreRaw;
+import Main.Observers.CompareTables;
+import Main.Observers.EquivalentAlgorithm;
 import Main.Observers.OrdinalEfficiency;
 import Main.Observers.RankEfficiency;
 import MatchingAlgorithm.ProbabilisticSerialRule;
@@ -31,6 +34,10 @@ import MatchingAlgorithm.DeterministicAlgorithm.YankeeSwap.YankeeSwapStandardWit
 import MatchingAlgorithm.Hybrid.PSRYSGTTC;
 import MatchingAlgorithm.Hybrid.RSDPSR;
 import MatchingAlgorithm.Hybrid.RSDYSGTTC;
+import MatchingAlgorithm.Taxonomy.MemorylessAcceptFirstQueue;
+import MatchingAlgorithm.Taxonomy.MemorylessAcceptFirstStack;
+import MatchingAlgorithm.Taxonomy.MemorylessAcceptLastQueue;
+import MatchingAlgorithm.Taxonomy.MemorylessAcceptLastStack;
 import ordinalpreferencegenerator.IAC;
 import ordinalpreferencegenerator.IANC;
 import ordinalpreferencegenerator.IC;
@@ -48,7 +55,7 @@ public abstract class Settings {
             LogWriter.class,
             PreferencesCounter.class,
             PreferenceOrder.class,
-//            BordaPercentageOfMax.class,
+            BordaPercentageOfMax.class,
 //            BordaWorstAgentToRank.class,
 //            NashUnweighted.class,
 //            EnvyFreeProfilesCount.class,
@@ -62,7 +69,8 @@ public abstract class Settings {
 //            WeaklySDProportionalProfileCount.class,
 //            WeaklySDProportionalityAgentCount.class,
 //            LaTeXTablePrinter.class, //this has to be after everything that produce a MessageType.SUMMARY message. so that it gets the SYSTEM."End Size" message last
-            
+            CompareTables.class,
+            EquivalentAlgorithm.class,
             BordaScoreRaw.class,
             PluralityScoreRaw.class,
             Timer.class,
@@ -73,7 +81,7 @@ public abstract class Settings {
 //            NStealPerItemWithGTTC.class,
     };
     public static final Class<? extends iAlgorithm>[] classes = new Class[]{
-//            HungarianAlgorithmWrapper.class,
+            HungarianAlgorithmWrapper.class,
 //            Proportional.class,
 //            ProbabilisticSerialRule.class, 
 //            RandomSerialDictatorship.class, 
@@ -84,6 +92,10 @@ public abstract class Settings {
 //            RSDPSR.class,
 //            RSDYSGTTC.class,
 //            PSRYSGTTC.class,
+            MemorylessAcceptLastStack.class,
+            MemorylessAcceptFirstStack.class,
+            MemorylessAcceptLastQueue.class,
+            MemorylessAcceptFirstQueue.class
     };
     
     public static void init() {
@@ -116,8 +128,8 @@ public abstract class Settings {
     
     //main method location & number of agents/items
     public static final Class APP_CLASS = MainBruteForce.class;
-    public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = IANC.class; //Mallows.class;
-    public static final double PREF_PARAM = 0.9999;
+    public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = IANC.class;
+    public static final double PREF_PARAM = 0.9;
     public static final int M = 3; //5
     public static final int N = 4; //100
     public static final int INCREMENT = 1; //5

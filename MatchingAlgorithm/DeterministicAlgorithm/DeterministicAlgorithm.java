@@ -16,6 +16,7 @@ import MatchingAlgorithm.Auxiliary.PreferenceProfile;
 import MatchingAlgorithm.Auxiliary.ProbabilityMatrix;
 import MatchingAlgorithm.Auxiliary.iProbabilityMatrix;
 import Pair.Pair;
+import java.util.Arrays;
 
 /**
  *
