@@ -9,39 +9,16 @@ import java.util.List;
 
 import ordinalpreferencegenerator.iOrdinalIterator;
 import Main.MainBruteForce;
-import Main.Observers.AlgorithmObserver;
-import Main.Observers.BordaRelated.BordaPercentageOfMax;
-import Main.Observers.LogWriter;
-import Main.Observers.PreferenceOrder;
-import Main.Observers.PreferencesCounter;
-import Main.Observers.Timer;
-import Main.Observers.iResultsCollator;
-import Main.Observers.BordaRelated.BordaScoreRaw;
-import Main.Observers.BordaRelated.PluralityScoreRaw;
-import Main.Observers.CompareTables;
-import Main.Observers.EquivalentAlgorithm;
-import Main.Observers.OrdinalEfficiency;
-import Main.Observers.RankEfficiency;
-import MatchingAlgorithm.ProbabilisticSerialRule;
-import MatchingAlgorithm.Proportional;
-import MatchingAlgorithm.iAlgorithm;
-import MatchingAlgorithm.DeterministicAlgorithm.AdaptiveBoston;
-import MatchingAlgorithm.DeterministicAlgorithm.HungarianAlgorithmWrapper;
-import MatchingAlgorithm.DeterministicAlgorithm.NaiveBoston;
-import MatchingAlgorithm.DeterministicAlgorithm.RandomSerialDictatorship;
-import MatchingAlgorithm.DeterministicAlgorithm.YankeeSwap.YankeeSwapStandard;
-import MatchingAlgorithm.DeterministicAlgorithm.YankeeSwap.YankeeSwapStandardWithGTTC;
-import MatchingAlgorithm.Hybrid.PSRYSGTTC;
-import MatchingAlgorithm.Hybrid.RSDPSR;
-import MatchingAlgorithm.Hybrid.RSDYSGTTC;
-import MatchingAlgorithm.Taxonomy.MemorylessAcceptFirstQueue;
-import MatchingAlgorithm.Taxonomy.MemorylessAcceptFirstStack;
-import MatchingAlgorithm.Taxonomy.MemorylessAcceptLastQueue;
-import MatchingAlgorithm.Taxonomy.MemorylessAcceptLastStack;
-import ordinalpreferencegenerator.IAC;
-import ordinalpreferencegenerator.IANC;
-import ordinalpreferencegenerator.IC;
-import ordinalpreferencegenerator.Mallows;
+import Main.Observers.*;
+import Main.Observers.BordaRelated.*;
+import MatchingAlgorithm.*;
+import MatchingAlgorithm.DeterministicAlgorithm.*;
+import MatchingAlgorithm.DeterministicAlgorithm.YankeeSwap.*;
+import MatchingAlgorithm.DeterministicAlgorithm.YankeeSwap.XStealPerItem.NStealPerItem;
+import MatchingAlgorithm.DeterministicAlgorithm.YankeeSwap.XStealPerRound.NStealPerRound;
+import MatchingAlgorithm.Hybrid.*;
+import MatchingAlgorithm.Taxonomy.*;
+import ordinalpreferencegenerator.*;
 //import MatchingAlgorithm.Gurobi.*;
 
 /**
@@ -79,14 +56,15 @@ public abstract class Settings {
     public static final Class<? extends iAlgorithm>[] classesWithIntParam = new Class[] {
 //            NStealPerItem.class,
 //            NStealPerItemWithGTTC.class,
+            NStealPerRound.class
     };
     public static final Class<? extends iAlgorithm>[] classes = new Class[]{
             HungarianAlgorithmWrapper.class,
 //            Proportional.class,
 //            ProbabilisticSerialRule.class, 
-//            RandomSerialDictatorship.class, 
-//            AdaptiveBoston.class, 
-//            NaiveBoston.class,
+            RandomSerialDictatorship.class, 
+            AdaptiveBoston.class, 
+            NaiveBoston.class,
             YankeeSwapStandard.class, 
             YankeeSwapStandardWithGTTC.class,
 //            RSDPSR.class,
@@ -95,7 +73,9 @@ public abstract class Settings {
             MemorylessAcceptLastStack.class,
             MemorylessAcceptFirstStack.class,
             MemorylessAcceptLastQueue.class,
-            MemorylessAcceptFirstQueue.class
+            MemorylessAcceptFirstQueue.class,
+            MemoryAcceptFirstStack.class,
+            MemoryAcceptFirstQueue.class,
     };
     
     public static void init() {
@@ -112,7 +92,7 @@ public abstract class Settings {
         }
         for (Class<? extends iAlgorithm> cl : classesWithIntParam) {
             //for (int i = 1; i <= 5; i++) {
-                new AlgorithmObserver(cl, 2).init();
+                new AlgorithmObserver(cl, 1).init();
             //}
         }
         
@@ -128,13 +108,13 @@ public abstract class Settings {
     
     //main method location & number of agents/items
     public static final Class APP_CLASS = MainBruteForce.class;
-    public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = IANC.class;
+    public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = Mallows.class;
     public static final double PREF_PARAM = 0.9;
     public static final int M = 3; //5
-    public static final int N = 4; //100
+    public static final int N = 8; //100
     public static final int INCREMENT = 1; //5
     public static final double RUN_CHANCE = 1;
-    public static final int PROFILE_COUNT = 1000; //use 10000 for real runs
+    public static final int PROFILE_COUNT = 500; //use 10000 for real runs
     public static final String PATH = "141116/OneOff/";//"290716/Mallows10/";
     public static final String DATA_SAVE_PATH = null; //"randomDataPackTest/real/Pack1/";
     

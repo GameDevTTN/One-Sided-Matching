@@ -55,7 +55,7 @@ public abstract class GenericImplementation extends DeterministicAlgorithm {
                 if (insertNewProposalAsFirst()) {
                     itemPref[desiredItem - 1].add(0, actingAgent);
                 } else {
-                    if (!itemPref[desiredItem - 1].isEmpty()) {
+                    if (!itemPref[desiredItem - 1].isEmpty() && !hasMemory()) {
                         itemPref[desiredItem - 1].add(itemPref[desiredItem - 1].size() - 1, actingAgent); //insert new pref just before the last steal
                     } else {
                         itemPref[desiredItem - 1].add(actingAgent); //insert new pref just before the last steal
@@ -87,8 +87,8 @@ public abstract class GenericImplementation extends DeterministicAlgorithm {
                 hasTaken[actingAgent - 1] = desiredItem; //takes item
                 obj[desiredItem - 1] = actingAgent; //acting agent have the item
                 PostBox.broadcast(new TakeItemEvent(actingAgent, desiredItem));
-                ip.resetPointers(); //reset the round
                 if (!hasMemory()) {
+                    ip.resetPointers(); //reset the round
                     for (int i = 0; i < itemPref.length; i++) {
                         itemPref[i].clear();
                         if (obj[i] != 0) {
