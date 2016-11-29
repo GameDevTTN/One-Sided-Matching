@@ -56,11 +56,11 @@ public abstract class Settings {
     public static final Class<? extends iAlgorithm>[] classesWithIntParam = new Class[] {
 //            NStealPerItem.class,
 //            NStealPerItemWithGTTC.class,
-            NStealPerRound.class
+//            NStealPerRound.class
     };
     public static final Class<? extends iAlgorithm>[] classes = new Class[]{
             HungarianAlgorithmWrapper.class,
-//            Proportional.class,
+            Proportional.class,
 //            ProbabilisticSerialRule.class, 
             RandomSerialDictatorship.class, 
             AdaptiveBoston.class, 
@@ -76,6 +76,8 @@ public abstract class Settings {
             MemorylessAcceptFirstQueue.class,
             MemoryAcceptFirstStack.class,
             MemoryAcceptFirstQueue.class,
+            MemoryAcceptLastStack.class,
+            MemoryAcceptLastQueue.class
     };
     
     public static void init() {
@@ -110,11 +112,11 @@ public abstract class Settings {
     public static final Class APP_CLASS = MainBruteForce.class;
     public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = Mallows.class;
     public static final double PREF_PARAM = 0.9;
-    public static final int M = 3; //5
+    public static final int M = 8; //5
     public static final int N = 8; //100
     public static final int INCREMENT = 1; //5
     public static final double RUN_CHANCE = 1;
-    public static final int PROFILE_COUNT = 500; //use 10000 for real runs
+    public static final int PROFILE_COUNT = 1000; //use 10000 for real runs
     public static final String PATH = "141116/OneOff/";//"290716/Mallows10/";
     public static final String DATA_SAVE_PATH = null; //"randomDataPackTest/real/Pack1/";
     

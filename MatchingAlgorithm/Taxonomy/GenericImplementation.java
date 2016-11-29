@@ -12,6 +12,7 @@ import MatchingAlgorithm.Auxiliary.TakeItemEvent;
 import MatchingAlgorithm.Auxiliary.iIterator;
 import MatchingAlgorithm.Auxiliary.iProfileIterator;
 import MatchingAlgorithm.DeterministicAlgorithm.DeterministicAlgorithm;
+import MatchingAlgorithm.DeterministicAlgorithm.improvementAlgorithms.GTTC;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
  *
  * @author ylo019
  */
-public abstract class GenericImplementation extends DeterministicAlgorithm {
+public abstract class GenericImplementation extends DeterministicAlgorithm { //improved with GTTC
     
     protected abstract boolean hasMemory();
     
@@ -55,16 +56,15 @@ public abstract class GenericImplementation extends DeterministicAlgorithm {
                 if (insertNewProposalAsFirst()) {
                     itemPref[desiredItem - 1].add(0, actingAgent);
                 } else {
-                    if (!itemPref[desiredItem - 1].isEmpty() && !hasMemory()) {
-                        itemPref[desiredItem - 1].add(itemPref[desiredItem - 1].size() - 1, actingAgent); //insert new pref just before the last steal
-                    } else {
-                        itemPref[desiredItem - 1].add(actingAgent); //insert new pref just before the last steal
-                    }
+                    itemPref[desiredItem - 1].add(actingAgent); //insert new pref just before the last steal
                 }
             }
                
             int temp = obj[desiredItem - 1];
             if (temp > 0) { //someone has it
+                if (!itemPref[desiredItem - 1].contains(temp)) {
+                    itemPref[desiredItem - 1].add(temp);
+                }
                 if (itemPref[desiredItem - 1].indexOf(actingAgent) < itemPref[desiredItem - 1].indexOf(temp)) {
                     PostBox.broadcast(new TakeItemEvent(actingAgent, desiredItem, temp));
                     if (isStack()) {
@@ -91,14 +91,16 @@ public abstract class GenericImplementation extends DeterministicAlgorithm {
                     ip.resetPointers(); //reset the round
                     for (int i = 0; i < itemPref.length; i++) {
                         itemPref[i].clear();
-                        if (obj[i] != 0) {
-                            itemPref[i].add(obj[i]);
-                        }
                     }
                 }
             }
         }
         return hasTaken;
+    }
+    
+    @Override
+    protected Permutation improve(Permutation result, PreferenceProfile input) {
+        return GTTC.improve(result, input);
     }
     
 }
