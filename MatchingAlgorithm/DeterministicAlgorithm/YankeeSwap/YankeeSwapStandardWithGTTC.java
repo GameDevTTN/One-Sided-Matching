@@ -7,13 +7,18 @@ package MatchingAlgorithm.DeterministicAlgorithm.YankeeSwap;
 
 import MatchingAlgorithm.Auxiliary.Permutation;
 import MatchingAlgorithm.Auxiliary.PreferenceProfile;
+import MatchingAlgorithm.DeterministicAlgorithm.GTTCImprovement;
 import MatchingAlgorithm.DeterministicAlgorithm.improvementAlgorithms.GTTC;
 
 /**
  *
  * @author ylo019
  */
-public class YankeeSwapStandardWithGTTC extends YankeeSwapStandard {
+public class YankeeSwapStandardWithGTTC extends GTTCImprovement<YankeeSwapStandard> {
+    
+    public YankeeSwapStandardWithGTTC() {
+        super(YankeeSwapStandard.class);
+    }
     
     @Override
     protected Permutation improve(Permutation result, PreferenceProfile input) {

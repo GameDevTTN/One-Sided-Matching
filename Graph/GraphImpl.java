@@ -26,6 +26,7 @@ public class GraphImpl implements iGraph {
         update(ipm, pp);
     }
     
+    //put an edge between two nodes (item_x and item_y) iff someone with item_x wants item_y more
     private void update(iProbabilityMatrix ipm, PreferenceProfile pp) {
         for (int i = 0; i < ipm.size(); i++) {
             double[] probabilisticAllocation = ipm.read(i+1);

@@ -11,6 +11,7 @@ import ordinalpreferencegenerator.iOrdinalIterator;
 import Main.MainBruteForce;
 import Main.Observers.*;
 import Main.Observers.BordaRelated.*;
+import Main.Observers.BordaRelated.NashUtility.NashUnweighted;
 import MatchingAlgorithm.*;
 import MatchingAlgorithm.DeterministicAlgorithm.*;
 import MatchingAlgorithm.DeterministicAlgorithm.YankeeSwap.*;
@@ -34,7 +35,7 @@ public abstract class Settings {
             PreferenceOrder.class,
             BordaPercentageOfMax.class,
 //            BordaWorstAgentToRank.class,
-//            NashUnweighted.class,
+            NashUnweighted.class,
 //            EnvyFreeProfilesCount.class,
 //            EnvyPairsCounter.class,
 //            WeaklyEnvyFreeProfilesCount.class,
@@ -59,25 +60,58 @@ public abstract class Settings {
 //            NStealPerRound.class
     };
     public static final Class<? extends iAlgorithm>[] classes = new Class[]{
+            //Benchmarks
             HungarianAlgorithmWrapper.class,
             Proportional.class,
+            
+            //Standard Algorithms
 //            ProbabilisticSerialRule.class, 
             RandomSerialDictatorship.class, 
             AdaptiveBoston.class, 
             NaiveBoston.class,
+            
+            //Yankees
             YankeeSwapStandard.class, 
             YankeeSwapStandardWithGTTC.class,
+            
+            //Hybrids
 //            RSDPSR.class,
 //            RSDYSGTTC.class,
 //            PSRYSGTTC.class,
-            MemorylessAcceptLastStack.class,
-            MemorylessAcceptFirstStack.class,
-            MemorylessAcceptLastQueue.class,
-            MemorylessAcceptFirstQueue.class,
-            MemoryAcceptFirstStack.class,
-            MemoryAcceptFirstQueue.class,
-            MemoryAcceptLastStack.class,
-            MemoryAcceptLastQueue.class
+            
+            //Fixed Order (memory)
+                //Accept first
+                    //stack
+                    MemoryAcceptFirstStack.class, //RSD
+                    //queue
+                    MemoryAcceptFirstQueue.class, //NB
+                    MemoryAcceptFirstQueueHasDelayedKnowledge.class, //AB
+                //Accept last
+                    //stack
+                    MemoryAcceptLastStack.class,
+                    MemoryAcceptLastStackGTTC.class,
+                    //queue
+                    MemoryAcceptLastQueue.class,
+                    MemoryAcceptLastQueueHasDelayedKnowledge.class,
+                    MemoryAcceptLastQueueGTTC.class,
+                    MemoryAcceptLastQueueHasDelayedKnowledgeGTTC.class,
+            //Dynamic Order (memoryless)
+                //Accept first
+                    //stack
+                    MemorylessAcceptFirstStack.class,
+                    MemorylessAcceptFirstStackGTTC.class,
+                    //queue
+                    MemorylessAcceptFirstQueue.class,
+                    MemorylessAcceptFirstQueueHasDelayedKnowledge.class,
+                    MemorylessAcceptFirstQueueGTTC.class,
+                    MemorylessAcceptFirstQueueHasDelayedKnowledgeGTTC.class,
+                //Accept last
+                    //stack
+                    MemorylessAcceptLastStack.class,
+                    MemorylessAcceptLastStackGTTC.class,
+                    //queue
+                    MemorylessAcceptLastQueue.class,
+                    MemorylessAcceptLastQueueGTTC.class,
     };
     
     public static void init() {
@@ -111,12 +145,12 @@ public abstract class Settings {
     //main method location & number of agents/items
     public static final Class APP_CLASS = MainBruteForce.class;
     public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = Mallows.class;
-    public static final double PREF_PARAM = 0.9;
-    public static final int M = 8; //5
-    public static final int N = 8; //100
+    public static final double PREF_PARAM = 0.99;
+    public static final int M = 6; //5
+    public static final int N = 7; //100
     public static final int INCREMENT = 1; //5
     public static final double RUN_CHANCE = 1;
-    public static final int PROFILE_COUNT = 1000; //use 10000 for real runs
+    public static final int PROFILE_COUNT = 100; //use 10000 for real runs
     public static final String PATH = "141116/OneOff/";//"290716/Mallows10/";
     public static final String DATA_SAVE_PATH = null; //"randomDataPackTest/real/Pack1/";
     
