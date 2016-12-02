@@ -5,6 +5,7 @@
  */
 package MatchingAlgorithm.Taxonomy;
 
+import Main.Observers.AlgorithmObserver;
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
 import MatchingAlgorithm.Auxiliary.Permutation;
@@ -21,29 +22,92 @@ import java.util.List;
  *
  * @author ylo019
  */
-public abstract class GenericImplementation extends DeterministicAlgorithm { //improved with GTTC
+public class GenericImplementation extends DeterministicAlgorithm { 
+
+    public static void initAll() {
+        for (int i = 0; i < Math.pow(2,5); i++) {
+            Boolean[] params = new Boolean[5];
+            for (int j = 0; j < params.length; j++) {
+                params[j] = (i/((int)Math.pow(2,j))) % 2 == 0;
+            }
+            //if memory + sharedpref then RSD
+            if (params[0] == true && params[4] == true) {
+                continue;
+            }
+            //if stack + delaymemory = return (not implemented)
+            if (params[2] == true && params[3] == true) {
+                continue;
+            }
+            //remove specifc cases
+            if (params[0] == false && params[2] == true && params[4] == true) { //memory stack share pref
+                continue;
+            }
+            //Memory AcceptLast Queue DelayMemory NoSharePref
+            if (i == 22) {
+                continue;
+            }
+            new AlgorithmObserver(GenericImplementation.class, params).init();
+        }
+    }
+//improved with GTTC
     
     private final int ROUND_PLACEHOLDER = -1;
     
+    
+    private boolean hasMemory = true;
+    private boolean acceptFirst = true;
+    private boolean stack = true;
+    private boolean delayedKnowledge = false;
+    private boolean sameItemPref = false;
+    
+    protected GenericImplementation() {
+        
+    }
     //default implementation - RSD - should be overridden regardless
-    protected boolean hasMemory() {
-        return true;
+    public GenericImplementation(boolean memory, boolean acceptFirst, boolean stack, boolean delayedKnowledge, boolean sameItemPref) {
+        this.hasMemory = memory;
+        this.acceptFirst = acceptFirst;
+        this.stack = stack;
+        this.delayedKnowledge = delayedKnowledge;
+        this.sameItemPref = sameItemPref;
     }
     
-    protected boolean insertNewProposalAsFirst() {
-        return false;
+    //default implementation - RSD - should be overridden regardless
+    private boolean hasMemory() {
+        return hasMemory;
     }
     
-    protected boolean isStack() {
-        return true;
+    private boolean insertNewProposalAsFirst() {
+        return !acceptFirst; //the negation is intentional. accept first = not insert new proposal at start
+    }
+    
+    private boolean isStack() {
+        return stack;
     }
     
     private boolean isQueue() { //final
         return !isStack();
     }
     
-    protected boolean hasDelayedMemory() {
-        return false;
+    private boolean hasDelayedMemory() {
+        return delayedKnowledge;
+    }
+    
+    private boolean itemSharePreferences() {
+        return sameItemPref;
+    }
+    
+    private int getItemPrefIndex(int desiredItem) {
+        return (itemSharePreferences() ? 0 : desiredItem - 1);
+    }
+    
+    @Override
+    public String getName() {
+        return (hasMemory ? "Memory" : "NoMemory") + " " +
+                (acceptFirst ? "AcceptFirst" : "AcceptLast") + " " +
+                (stack ? "Stack" : "Queue") + " " +
+                (delayedKnowledge ? "DelayMemory" : "NoDelayMemory") + " " +
+                (sameItemPref ? "SharePref" : "NoSharePref");
     }
     
     @Override
@@ -83,29 +147,29 @@ public abstract class GenericImplementation extends DeterministicAlgorithm { //i
                 continue; //skip the rest of the while loop
             }
             int desiredItem = ip.getNext(actingAgent);
-            if (!itemPref[desiredItem - 1].contains(actingAgent)) {
+            if (!itemPref[getItemPrefIndex(desiredItem)].contains(actingAgent)) {
                 if (insertNewProposalAsFirst()) {
-                    itemPref[desiredItem - 1].add(0, actingAgent);
+                    itemPref[getItemPrefIndex(desiredItem)].add(0, actingAgent);
                 } else {
-                    itemPref[desiredItem - 1].add(actingAgent);
+                    itemPref[getItemPrefIndex(desiredItem)].add(actingAgent);
                 }
             }
             //if I know someone has the item & I will be rejected. don't propose and go back to the top of the queue
             //that belief is allowed to be wrong
             if (hasDelayedMemory() &&
-                    delayedKnowledge[desiredItem - 1] > 0 //I know someone has it
-                    && itemPref[desiredItem - 1].contains(actingAgent) //I know item's pref for me
-                    && itemPref[desiredItem - 1].contains(delayedKnowledge[desiredItem - 1]) //I know item's pref for other
-                    && itemPref[desiredItem - 1].indexOf(delayedKnowledge[desiredItem - 1]) < itemPref[desiredItem - 1].indexOf(actingAgent)) { //that person is ranked higher than me
+                    delayedKnowledge[getItemPrefIndex(desiredItem)] > 0 //I know someone has it
+                    && itemPref[getItemPrefIndex(desiredItem)].contains(actingAgent) //I know item's pref for me
+                    && itemPref[getItemPrefIndex(desiredItem)].contains(delayedKnowledge[desiredItem - 1]) //I know item's pref for other
+                    && itemPref[getItemPrefIndex(desiredItem)].indexOf(delayedKnowledge[desiredItem - 1]) < itemPref[getItemPrefIndex(desiredItem)].indexOf(actingAgent)) { //that person is ranked higher than me
                 agentOrder.add(0, actingAgent); //do not propose and retake turn
                 continue; //repeat the while loop
             }
             int temp = obj[desiredItem - 1];
             if (temp > 0) { //someone has it
-                if (!itemPref[desiredItem - 1].contains(temp)) {
-                    itemPref[desiredItem - 1].add(temp);
+                if (!itemPref[getItemPrefIndex(desiredItem)].contains(temp)) {
+                    itemPref[getItemPrefIndex(desiredItem)].add(temp);
                 }
-                if (itemPref[desiredItem - 1].indexOf(actingAgent) < itemPref[desiredItem - 1].indexOf(temp)) {
+                if (itemPref[getItemPrefIndex(desiredItem)].indexOf(actingAgent) < itemPref[getItemPrefIndex(desiredItem)].indexOf(temp)) {
                     PostBox.broadcast(new TakeItemEvent(actingAgent, desiredItem, temp));
                     if (isStack()) {
                         agentOrder.add(0, temp);

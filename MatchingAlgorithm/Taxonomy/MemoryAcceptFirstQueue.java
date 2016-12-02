@@ -10,25 +10,9 @@ package MatchingAlgorithm.Taxonomy;
  * @author ylo019
  */
 public class MemoryAcceptFirstQueue extends GenericImplementation {
-
-    @Override
-    protected boolean hasMemory() {
-        return true;
-    }
-
-    @Override
-    protected boolean insertNewProposalAsFirst() {
-        return false;
-    }
-
-    @Override
-    protected boolean isStack() {
-        return false;
-    }
-
-    @Override
-    public String getName() {
-        return "Memory AcceptFirst Queue implementation";
+    
+    public MemoryAcceptFirstQueue() {
+        super(true, true, false, false, false);
     }
     
 }

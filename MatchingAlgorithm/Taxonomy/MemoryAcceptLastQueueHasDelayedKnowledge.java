@@ -9,10 +9,10 @@ package MatchingAlgorithm.Taxonomy;
  *
  * @author ylo019
  */
-public class MemoryAcceptLastQueueHasDelayedKnowledge extends HasDelayedKnowledge<MemoryAcceptLastQueue> {
+public class MemoryAcceptLastQueueHasDelayedKnowledge extends GenericImplementation {
     
     public MemoryAcceptLastQueueHasDelayedKnowledge() {
-        super(MemoryAcceptLastQueue.class);
+        super(true, false, false, true, false);
     }
     
 }

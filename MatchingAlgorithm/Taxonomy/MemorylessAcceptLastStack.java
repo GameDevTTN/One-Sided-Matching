@@ -11,24 +11,8 @@ package MatchingAlgorithm.Taxonomy;
  */
 public class MemorylessAcceptLastStack extends GenericImplementation {
 
-    @Override
-    public String getName() {
-        return "Memoryless AcceptLast Stack implementation";
-    }
-    
-    @Override
-    protected boolean hasMemory() {
-        return false;
-    }
-    
-    @Override
-    protected boolean insertNewProposalAsFirst() {
-        return true;
-    }
-    
-    @Override
-    protected boolean isStack() {
-        return true;
+    public MemorylessAcceptLastStack() {
+        super(false, false, true, false, false);
     }
     
 }

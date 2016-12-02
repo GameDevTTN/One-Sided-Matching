@@ -14,6 +14,7 @@ import Main.Observers.System.PostBox;
 import MatchingAlgorithm.iAlgorithm;
 import MatchingAlgorithm.Auxiliary.PreferenceProfile;
 import Pair.Pair;
+import java.util.Arrays;
 
 /**
  *
@@ -40,6 +41,16 @@ public class AlgorithmObserver implements Observer {
             algorithm = algoClass.getConstructor(Integer.TYPE).newInstance(new Integer(param));
         } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex1) {
                 
+        }
+    }
+    
+    public AlgorithmObserver(Class<? extends iAlgorithm> algoClass, Boolean[] params) {
+        try {
+            Class[] clazzes = new Class[params.length];
+            Arrays.fill(clazzes, Boolean.TYPE);
+            algorithm = algoClass.getConstructor(clazzes).newInstance(params);
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex1) {
+            System.out.println("no good");
         }
     }
     

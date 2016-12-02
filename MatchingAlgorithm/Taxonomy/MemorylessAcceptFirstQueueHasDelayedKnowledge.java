@@ -9,10 +9,10 @@ package MatchingAlgorithm.Taxonomy;
  *
  * @author ylo019
  */
-public class MemorylessAcceptFirstQueueHasDelayedKnowledge extends HasDelayedKnowledge<MemorylessAcceptFirstQueue> {
+public class MemorylessAcceptFirstQueueHasDelayedKnowledge extends GenericImplementation {
 
     public MemorylessAcceptFirstQueueHasDelayedKnowledge() {
-        super(MemorylessAcceptFirstQueue.class);
+        super(false, true, false, true, false);
     }
     
 }

@@ -11,24 +11,8 @@ package MatchingAlgorithm.Taxonomy;
  */
 public class MemoryAcceptLastQueue extends GenericImplementation {
     
-    @Override
-    protected boolean hasMemory() {
-        return true;
-    }
-
-    @Override
-    protected boolean insertNewProposalAsFirst() {
-        return true;
-    }
-
-    @Override
-    protected boolean isStack() {
-        return false;
-    }
-
-    @Override
-    public String getName() {
-        return "Memory AcceptLast Queue implementation";
+    public MemoryAcceptLastQueue() {
+        super(true, false, false, false, false);
     }
     
 }

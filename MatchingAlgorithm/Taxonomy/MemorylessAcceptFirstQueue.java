@@ -11,24 +11,8 @@ package MatchingAlgorithm.Taxonomy;
  */
 public class MemorylessAcceptFirstQueue extends GenericImplementation {
 
-    @Override
-    public String getName() {
-        return "Memoryless AcceptFirst Queue implementation";
-    }
-    
-    @Override
-    protected boolean hasMemory() {
-        return false;
-    }
-    
-    @Override
-    protected boolean insertNewProposalAsFirst() {
-        return false;
-    }
-    
-    @Override
-    protected boolean isStack() {
-        return false;
+    public MemorylessAcceptFirstQueue() {
+        super(false, true, false, false, false);
     }
     
 }

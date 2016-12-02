@@ -79,39 +79,41 @@ public abstract class Settings {
 //            RSDYSGTTC.class,
 //            PSRYSGTTC.class,
             
-            //Fixed Order (memory)
-                //Accept first
-                    //stack
-                    MemoryAcceptFirstStack.class, //RSD
-                    //queue
-                    MemoryAcceptFirstQueue.class, //NB
-                    MemoryAcceptFirstQueueHasDelayedKnowledge.class, //AB
-                //Accept last
-                    //stack
-                    MemoryAcceptLastStack.class,
-                    MemoryAcceptLastStackGTTC.class,
-                    //queue
-                    MemoryAcceptLastQueue.class,
-                    MemoryAcceptLastQueueHasDelayedKnowledge.class,
-                    MemoryAcceptLastQueueGTTC.class,
-                    MemoryAcceptLastQueueHasDelayedKnowledgeGTTC.class,
-            //Dynamic Order (memoryless)
-                //Accept first
-                    //stack
-                    MemorylessAcceptFirstStack.class,
-                    MemorylessAcceptFirstStackGTTC.class,
-                    //queue
-                    MemorylessAcceptFirstQueue.class,
-                    MemorylessAcceptFirstQueueHasDelayedKnowledge.class,
-                    MemorylessAcceptFirstQueueGTTC.class,
-                    MemorylessAcceptFirstQueueHasDelayedKnowledgeGTTC.class,
-                //Accept last
-                    //stack
-                    MemorylessAcceptLastStack.class,
-                    MemorylessAcceptLastStackGTTC.class,
-                    //queue
-                    MemorylessAcceptLastQueue.class,
-                    MemorylessAcceptLastQueueGTTC.class,
+//            //Fixed Order (memory)
+//                //Accept first
+//                    //stack
+//                    MemoryAcceptFirstStack.class, //RSD
+//                    //queue
+//                    MemoryAcceptFirstQueue.class, //NB
+//                    MemoryAcceptFirstQueueHasDelayedKnowledge.class, //AB
+//                //Accept last
+//                    //stack
+//                    MemoryAcceptLastStack.class,
+//                    MemoryAcceptLastStackGTTC.class,
+//                    //queue
+//                    MemoryAcceptLastQueue.class,
+//                    MemoryAcceptLastQueueHasDelayedKnowledge.class,
+//                    MemoryAcceptLastQueueGTTC.class,
+//                    MemoryAcceptLastQueueHasDelayedKnowledgeGTTC.class,
+//            //Dynamic Order (memoryless)
+//                //Accept first
+//                    //stack
+//                    MemorylessAcceptFirstStack.class,
+//                    MemorylessAcceptFirstStackGTTC.class,
+//                    //queue
+//                    MemorylessAcceptFirstQueue.class,
+//                    MemorylessAcceptFirstQueueHasDelayedKnowledge.class,
+//                    MemorylessAcceptFirstQueueGTTC.class,
+//                    MemorylessAcceptFirstQueueHasDelayedKnowledgeGTTC.class,
+//                //Accept last
+//                    //stack
+//                    MemorylessAcceptLastStack.class,
+//                    MemorylessAcceptLastStackGTTC.class,
+//                    //queue
+//                    MemorylessAcceptLastQueue.class,
+//                    MemorylessAcceptLastQueueGTTC.class,
+//                    MemorylessAcceptLastQueueHasDelayedKnowledge.class,
+//                    MemorylessAcceptLastQueueHasDelayedKnowledgeGTTC.class
     };
     
     public static void init() {
@@ -126,6 +128,7 @@ public abstract class Settings {
         for (Class<? extends iAlgorithm> cl : classes) {
             new AlgorithmObserver(cl).init();
         }
+        GenericImplementation.initAll();
         for (Class<? extends iAlgorithm> cl : classesWithIntParam) {
             //for (int i = 1; i <= 5; i++) {
                 new AlgorithmObserver(cl, 1).init();
@@ -147,7 +150,7 @@ public abstract class Settings {
     public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = Mallows.class;
     public static final double PREF_PARAM = 0.99;
     public static final int M = 6; //5
-    public static final int N = 7; //100
+    public static final int N = 8; //100
     public static final int INCREMENT = 1; //5
     public static final double RUN_CHANCE = 1;
     public static final int PROFILE_COUNT = 100; //use 10000 for real runs
