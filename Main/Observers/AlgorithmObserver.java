@@ -24,6 +24,14 @@ public class AlgorithmObserver implements Observer {
     
     private iAlgorithm algorithm;
     
+    public AlgorithmObserver(iAlgorithm algo) {
+        if (algo != null) {
+            algorithm = algo;
+        } else {
+            throw new RuntimeException("AlgorithmObserver(iAlgorithm): algo is null");
+        }
+    }
+    
     public AlgorithmObserver(Class<? extends iAlgorithm> algoClass) {
         try {
             algorithm = algoClass.getConstructor().newInstance();

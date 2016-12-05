@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author ylo019
  */
-public abstract class GTTCImprovement<S extends DeterministicAlgorithm> extends DeterministicAlgorithm {
+public class GTTCImprovement<S extends DeterministicAlgorithm> extends DeterministicAlgorithm {
     
     private DeterministicAlgorithm inner;
     
@@ -24,6 +24,14 @@ public abstract class GTTCImprovement<S extends DeterministicAlgorithm> extends 
             inner = clazz.newInstance();
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(GTTCImprovement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public GTTCImprovement (S da) {
+        if (da != null) {
+            inner = da;
+        } else {
+            throw new RuntimeException("GTTCImprovement(S): da is null");
         }
     }
     

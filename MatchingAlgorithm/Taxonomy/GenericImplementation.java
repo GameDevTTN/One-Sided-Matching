@@ -14,6 +14,7 @@ import MatchingAlgorithm.Auxiliary.TakeItemEvent;
 import MatchingAlgorithm.Auxiliary.iIterator;
 import MatchingAlgorithm.Auxiliary.iProfileIterator;
 import MatchingAlgorithm.DeterministicAlgorithm.DeterministicAlgorithm;
+import MatchingAlgorithm.DeterministicAlgorithm.GTTCImprovement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,6 +48,7 @@ public class GenericImplementation extends DeterministicAlgorithm {
                 continue;
             }
             new AlgorithmObserver(GenericImplementation.class, params).init();
+            new AlgorithmObserver(new GTTCImprovement(new GenericImplementation(params[0], params[1], params[2], params[3], params[4]))).init();
         }
     }
 //improved with GTTC
