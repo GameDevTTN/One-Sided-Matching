@@ -47,6 +47,10 @@ public class GenericImplementation extends DeterministicAlgorithm {
             if (i == 22) {
                 continue;
             }
+            //removing all delay memory and/or sharePref
+            if (params[3] == true || params[4] == true) {
+                continue;
+            }
             new AlgorithmObserver(GenericImplementation.class, params).init();
             new AlgorithmObserver(new GTTCImprovement(new GenericImplementation(params[0], params[1], params[2], params[3], params[4]))).init();
         }

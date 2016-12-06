@@ -143,17 +143,17 @@ public abstract class Settings {
     public static final String DOUBLE_OUTPUT = "%3.6f";
     public static final String INTEGER_OUTPUT = "%2d";
     
-    public static final boolean FIXED_ORDER_FOR_ALGORITHM = false; //set to true for large value of n to only do 1 permutation
+    public static final boolean FIXED_ORDER_FOR_ALGORITHM = true; //set to true for large value of n to only do 1 permutation
     
     //main method location & number of agents/items
     public static final Class APP_CLASS = MainBruteForce.class;
     public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = Mallows.class;
     public static final double PREF_PARAM = 0.99;
-    public static final int M = 6; //5
-    public static final int N = 8; //100
+    public static final int M = 10; //5
+    public static final int N = 10; //100
     public static final int INCREMENT = 1; //5
     public static final double RUN_CHANCE = 1;
-    public static final int PROFILE_COUNT = 100; //use 10000 for real runs
+    public static final int PROFILE_COUNT = 10000; //use 10000 for real runs
     public static final String PATH = "141116/OneOff/";//"290716/Mallows10/";
     public static final String DATA_SAVE_PATH = null; //"randomDataPackTest/real/Pack1/";
     
