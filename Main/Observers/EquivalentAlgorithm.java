@@ -28,7 +28,7 @@ public class EquivalentAlgorithm extends iResultsCollator {
     protected void onProcess(String p1S, Object p1T) {
         if (p1S.equals("Comparing Output") && p1T instanceof CompareValuesTable) {
             if (isSame == null) {
-                isSame = (CompareValuesTable)p1T;
+                isSame = ((CompareValuesTable)p1T).copy();
             } else {
                 isSame = isSame.and((CompareValuesTable)p1T);
             }

@@ -5,6 +5,8 @@
  */
 package ordinalpreferencegenerator;
 
+import Main.Settings.Settings;
+
 /**
  *
  * @author ylo019
@@ -17,7 +19,7 @@ public class IC extends OrdinalIteratorAdaptor {
 
     @Override
     public boolean hasNext() {
-        if (profileIndex[0] > 0) {
+        if (profileIndex[0] > (Settings.FIXED_ORDER_FOR_ALGORITHM?profiles.length - 1:0)) {
             return false;
         }
         return true;

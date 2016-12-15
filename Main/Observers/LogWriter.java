@@ -23,7 +23,14 @@ import java.util.logging.Logger;
 public class LogWriter extends iResultsCollator {
     
     public static int id = 0;
-    public static final iUtilitiesModel[] utilModels = {new PluralityModel(), new ExponentialModel(0), new ExponentialModel(1), new ExponentialModel(2), new ExponentialModel(3), new ExponentialModel(-1), new ExponentialModel(-2)};
+    public static final iUtilitiesModel[] utilModels = {new PluralityModel(), 
+        //new ExponentialModel(0), 
+        new ExponentialModel(1), 
+        //new ExponentialModel(2), 
+        new ExponentialModel(3), 
+        new ExponentialModel(-1), 
+        //new ExponentialModel(-2)
+    };
     
     @Override
     public void onEndPreference() {

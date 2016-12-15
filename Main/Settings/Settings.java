@@ -66,13 +66,13 @@ public abstract class Settings {
             
             //Standard Algorithms
 //            ProbabilisticSerialRule.class, 
-            RandomSerialDictatorship.class, 
-            AdaptiveBoston.class, 
-            NaiveBoston.class,
+//            RandomSerialDictatorship.class, 
+//            AdaptiveBoston.class, 
+//            NaiveBoston.class,
             
             //Yankees
-            YankeeSwapStandard.class, 
-            YankeeSwapStandardWithGTTC.class,
+//            YankeeSwapStandard.class, 
+//            YankeeSwapStandardWithGTTC.class,
             
             //Hybrids
 //            RSDPSR.class,
@@ -143,18 +143,19 @@ public abstract class Settings {
     public static final String DOUBLE_OUTPUT = "%3.6f";
     public static final String INTEGER_OUTPUT = "%2d";
     
-    public static final boolean FIXED_ORDER_FOR_ALGORITHM = true; //set to true for large value of n to only do 1 permutation
+    public static final boolean FIXED_ORDER_FOR_ALGORITHM = false; //set to true for large value of n to only do 1 permutation
+    //if FIXED_ORDER... is true, DO NOT TRY ANYTHING bigger m or n (maximum m or n = 12). Otherwise the fact(n) will overflow
     
     //main method location & number of agents/items
     public static final Class APP_CLASS = MainBruteForce.class;
-    public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = Mallows.class;
+    public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = IC.class;
     public static final double PREF_PARAM = 0.99;
-    public static final int M = 10; //5
-    public static final int N = 10; //100
+    public static final int M = 3; //5
+    public static final int N = 3; //100
     public static final int INCREMENT = 1; //5
     public static final double RUN_CHANCE = 1;
-    public static final int PROFILE_COUNT = 10000; //use 10000 for real runs
-    public static final String PATH = "141116/OneOff/";//"290716/Mallows10/";
+    public static final int PROFILE_COUNT = 2; //use 10000 for real runs //not relevant for IC/IAC/IANC
+    public static final String PATH = "141216/OrderBias/";//"290716/Mallows10/";
     public static final String DATA_SAVE_PATH = null; //"randomDataPackTest/real/Pack1/";
     
     public static String DoubleToString(Double d) {

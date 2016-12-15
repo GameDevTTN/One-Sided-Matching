@@ -76,6 +76,16 @@ public class CompareTables extends iResultsCollator {
             }
             return out;
         }
+        
+        public CompareValuesTable copy() {
+            TreeMap<String, List<Boolean>> out = new TreeMap<>();
+            for (Entry<String, List<Boolean>> e : comparisons.entrySet()) {
+                List<Boolean> clone = new ArrayList<>();
+                clone.addAll(e.getValue());
+                out.put(e.getKey(), clone);
+            }
+            return new CompareValuesTable(out);
+        }
 
         public CompareValuesTable and(CompareValuesTable otherTable) {
             TreeMap<String, List<Boolean>> out = new TreeMap<>();
