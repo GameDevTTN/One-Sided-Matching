@@ -23,12 +23,12 @@ import Pair.Pair;
 public abstract class StochasticAlgorithm implements iAlgorithm {
 
     @Override
-    public iProbabilityMatrix solve(PreferenceProfile input, int agents) {
+    public iProbabilityMatrix solve(PreferenceProfile input, int agents, int objects) {
         ProbabilisticProbabilityMatrix output = new ProbabilisticProbabilityMatrix(agents);
         Permutation[] priority = StaticFunctions.permutations(agents);
         for (Permutation p : priority) {
             PostBox.broadcast(MessageType.PROCESS, new Pair<>("Priority", p));
-            iProbabilityMatrix result = solve(p, input, agents); //my implementation of Permutation.getIterator() always returns PermutationIterator
+            iProbabilityMatrix result = solve(p, input, agents, objects); //my implementation of Permutation.getIterator() always returns PermutationIterator
             try {
                 output.addPMatrix(result);
             } catch (EmptyMatrixException ex) {
@@ -41,5 +41,5 @@ public abstract class StochasticAlgorithm implements iAlgorithm {
     @Override
     public abstract String getName();
     
-    protected abstract iProbabilityMatrix solve(Permutation priority, PreferenceProfile input, int agents);
+    protected abstract iProbabilityMatrix solve(Permutation priority, PreferenceProfile input, int agents, int objects);
 }

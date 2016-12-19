@@ -14,6 +14,7 @@ import MatchingAlgorithm.Auxiliary.iProbabilityMatrix;
  */
 public interface iAlgorithm {
     
-    public iProbabilityMatrix solve(PreferenceProfile input, int agents);
+//    public iProbabilityMatrix solve(PreferenceProfile input, int agents);
+    public iProbabilityMatrix solve(PreferenceProfile input, int agents, int objects);
     public String getName();
 }

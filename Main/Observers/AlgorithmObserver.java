@@ -74,7 +74,7 @@ public class AlgorithmObserver implements Observer {
             switch (p.getSource()) {
                 case PREFERENCE:
                     if (p1.getT() instanceof Boolean && (boolean)p1.getT() &&p1.getS() instanceof PreferenceProfile) {
-                        PostBox.broadcast(MessageType.TABLE, new Pair<>(algorithm.getName(),algorithm.solve((PreferenceProfile) p1.getS(), ((PreferenceProfile)p1.getS()).size())));
+                        PostBox.broadcast(MessageType.TABLE, new Pair<>(algorithm.getName(),algorithm.solve((PreferenceProfile) p1.getS(), ((PreferenceProfile)p1.getS()).size(), ((PreferenceProfile)p1.getS()).objectSize())));
                     }
                     break;
             }

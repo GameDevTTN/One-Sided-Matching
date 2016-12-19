@@ -22,6 +22,10 @@ public class IAC extends OrdinalIteratorAdaptor{
         super(count);
     }
     
+    public IAC(int agent, int object) {
+        super(agent, object);
+    }
+    
     @Override
     protected boolean isValid() {
         return true;
@@ -37,9 +41,9 @@ public class IAC extends OrdinalIteratorAdaptor{
 
     @Override
     protected void updateProfileIndex() {
-        for (int i = size-1; i >= 0; i--) {
+        for (int i = agents-1; i >= 0; i--) {
             if (++profileIndex[i] < profiles.length) {
-                for (int j = i; j < size; j++) {
+                for (int j = i; j < agents; j++) {
                     profileIndex[j] = profileIndex[i];
                 }
                 break;

@@ -12,6 +12,14 @@ import Main.MainBruteForce;
 import Main.Observers.*;
 import Main.Observers.BordaRelated.*;
 import Main.Observers.BordaRelated.NashUtility.NashUnweighted;
+import Main.Observers.Envy.EnvyFreeProfilesCount;
+import Main.Observers.Envy.EnvyPairsCounter;
+import Main.Observers.Envy.WeaklyEnvyFreeProfilesCount;
+import Main.Observers.Envy.WeaklyEnvyPairsCount;
+import Main.Observers.Proportionality.SDProportionalProfileCount;
+import Main.Observers.Proportionality.SDProportionalityAgentCount;
+import Main.Observers.Proportionality.WeaklyProportional.WeaklySDProportionalProfileCount;
+import Main.Observers.Proportionality.WeaklyProportional.WeaklySDProportionalityAgentCount;
 import MatchingAlgorithm.*;
 import MatchingAlgorithm.DeterministicAlgorithm.*;
 import MatchingAlgorithm.DeterministicAlgorithm.YankeeSwap.*;
@@ -35,12 +43,12 @@ public abstract class Settings {
             PreferenceOrder.class,
             BordaPercentageOfMax.class,
 //            BordaWorstAgentToRank.class,
-            NashUnweighted.class,
+//            NashUnweighted.class,
 //            EnvyFreeProfilesCount.class,
 //            EnvyPairsCounter.class,
 //            WeaklyEnvyFreeProfilesCount.class,
 //            WeaklyEnvyPairsCount.class,
-            OrdinalEfficiency.class,
+//            OrdinalEfficiency.class,
 //            RankEfficiency.class,
 //            SDProportionalProfileCount.class,
 //            SDProportionalityAgentCount.class,
@@ -114,6 +122,9 @@ public abstract class Settings {
 //                    MemorylessAcceptLastQueueGTTC.class,
 //                    MemorylessAcceptLastQueueHasDelayedKnowledge.class,
 //                    MemorylessAcceptLastQueueHasDelayedKnowledgeGTTC.class
+            
+            //temporary debug/quick test classes
+            NoMemoryQueueImplTest.class
     };
     
     public static void init() {
@@ -143,19 +154,26 @@ public abstract class Settings {
     public static final String DOUBLE_OUTPUT = "%3.6f";
     public static final String INTEGER_OUTPUT = "%2d";
     
+    //code for null item
+    public static final int NULL_ITEM = -1;
+    
     public static final boolean FIXED_ORDER_FOR_ALGORITHM = false; //set to true for large value of n to only do 1 permutation
-    //if FIXED_ORDER... is true, DO NOT TRY ANYTHING bigger m or n (maximum m or n = 12). Otherwise the fact(n) will overflow
+    //if FIXED_ORDER... is false, DO NOT TRY ANYTHING bigger m or n (maximum m or n = 12). Otherwise the fact(n) will overflow
     
     //main method location & number of agents/items
     public static final Class APP_CLASS = MainBruteForce.class;
-    public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = IC.class;
-    public static final double PREF_PARAM = 0.99;
-    public static final int M = 3; //5
-    public static final int N = 3; //100
+    public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = IANC.class;
+    public static final double PREF_PARAM = 0.6;
+    //M = minimum number of agents
+    public static final int M = 5; //5
+    //N = maximum number of agents
+    public static final int N = 5; //100
+    //O = number of objects [O = -1 to set O = current number of agents]
+    public static final int O = 5;
     public static final int INCREMENT = 1; //5
     public static final double RUN_CHANCE = 1;
-    public static final int PROFILE_COUNT = 2; //use 10000 for real runs //not relevant for IC/IAC/IANC
-    public static final String PATH = "141216/OrderBias/";//"290716/Mallows10/";
+    public static final int PROFILE_COUNT = 100; //use 10000 for real runs //not relevant for IC/IAC/IANC
+    public static final String PATH = "141216/Output2/";//"290716/Mallows10/";
     public static final String DATA_SAVE_PATH = null; //"randomDataPackTest/real/Pack1/";
     
     public static String DoubleToString(Double d) {

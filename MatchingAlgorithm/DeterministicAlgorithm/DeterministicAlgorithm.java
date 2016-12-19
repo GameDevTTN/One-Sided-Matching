@@ -22,11 +22,12 @@ import java.util.Arrays;
  *
  * @author ylo019
  */
+//Run every permutation for inital order of agents if FIXED_ORDER set to true, otherwise run the numerical order for agent
 public abstract class DeterministicAlgorithm implements iAlgorithm {
     
     @Override
-    public iProbabilityMatrix solve(PreferenceProfile input, int agents) {
-        ProbabilityMatrix output = new ProbabilityMatrix(agents);
+    public iProbabilityMatrix solve(PreferenceProfile input, int agents, int objects) {
+        ProbabilityMatrix output = new ProbabilityMatrix(agents, objects);
         Permutation[] priority = null;
         //hack code ---
         if (Settings.FIXED_ORDER_FOR_ALGORITHM) {
@@ -47,7 +48,7 @@ public abstract class DeterministicAlgorithm implements iAlgorithm {
         
         for (Permutation p : priority) {
             PostBox.broadcast(MessageType.PROCESS, new Pair<>("Priority", p));
-            int[] result = solve(p, input, agents); //my implementation of Permutation.getIterator() always returns PermutationIterator
+            int[] result = solve(p, input, agents, objects); //my implementation of Permutation.getIterator() always returns PermutationIterator
             try {
                 Permutation matching = improve(new Permutation(agents, result), input);
                 PostBox.broadcast(MessageType.PROCESS, new Pair<>("Matching", matching));
@@ -62,7 +63,7 @@ public abstract class DeterministicAlgorithm implements iAlgorithm {
     @Override
     public abstract String getName();
     
-    protected abstract int[] solve(Permutation priority, PreferenceProfile input, int agents);
+    protected abstract int[] solve(Permutation priority, PreferenceProfile input, int agents, int objects);
 
     protected Permutation improve(Permutation result, PreferenceProfile input) {
         return result;

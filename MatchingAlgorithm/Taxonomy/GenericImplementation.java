@@ -8,6 +8,7 @@ package MatchingAlgorithm.Taxonomy;
 import Main.Observers.AlgorithmObserver;
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
+import Main.Settings.Settings;
 import MatchingAlgorithm.Auxiliary.Permutation;
 import MatchingAlgorithm.Auxiliary.PreferenceProfile;
 import MatchingAlgorithm.Auxiliary.TakeItemEvent;
@@ -51,7 +52,7 @@ public class GenericImplementation extends DeterministicAlgorithm {
             if (params[3] == true || params[4] == true) {
                 continue;
             }
-            //new AlgorithmObserver(GenericImplementation.class, params).init();
+            new AlgorithmObserver(GenericImplementation.class, params).init();
             new AlgorithmObserver(new GTTCImprovement(new GenericImplementation(params[0], params[1], params[2], params[3], params[4]))).init();
         }
     }
@@ -117,23 +118,23 @@ public class GenericImplementation extends DeterministicAlgorithm {
     }
     
     @Override
-    protected int[] solve(Permutation priority, PreferenceProfile input, int agents) {
+    protected int[] solve(Permutation priority, PreferenceProfile input, int agents, int objects) {
         iIterator pp = priority.getIterator();
         iProfileIterator ip = input.getIterator();
         //who has what object
-        int[] obj = new int[agents];
-        int[] delayedKnowledge = Arrays.copyOf(obj, agents); //if it does not have rounds or delayed memory, this should always not empty
+        int[] obj = new int[objects];
+        int[] delayedMemory = Arrays.copyOf(obj, agents); //if it does not have rounds or delayed memory, this should always not empty
         
         //datastructure for item preferences
         List<Integer>[] itemPref = new List[agents];
         for (int i = 0; i < itemPref.length; i++) {
-            itemPref[i] = new ArrayList<Integer>();
+            itemPref[i] = new ArrayList<>();
         }
         
         //what has each agent got
         int[] hasTaken = new int[agents];
         //which agent still has to act
-        List<Integer> agentOrder = new ArrayList<Integer>();
+        List<Integer> agentOrder = new ArrayList<>();
         while (pp.hasNext()) {
             agentOrder.add(pp.getNext());
         }
@@ -147,12 +148,16 @@ public class GenericImplementation extends DeterministicAlgorithm {
                 if (agentOrder.isEmpty()) {
                     break;
                 } else {
-                    delayedKnowledge = Arrays.copyOf(obj, agents);
+                    delayedMemory = Arrays.copyOf(obj, agents);
                     agentOrder.add(ROUND_PLACEHOLDER);
                 }
                 continue; //skip the rest of the while loop
             }
-            int desiredItem = ip.getNext(actingAgent);
+            int desiredItem = (ip.hasNext(actingAgent)? ip.getNext(actingAgent) : Settings.NULL_ITEM);
+            if (desiredItem == Settings.NULL_ITEM) {
+                hasTaken[actingAgent - 1] = Settings.NULL_ITEM;
+                continue;
+            }
             if (!itemPref[getItemPrefIndex(desiredItem)].contains(actingAgent)) {
                 if (insertNewProposalAsFirst()) {
                     itemPref[getItemPrefIndex(desiredItem)].add(0, actingAgent);
@@ -163,10 +168,10 @@ public class GenericImplementation extends DeterministicAlgorithm {
             //if I know someone has the item & I will be rejected. don't propose and go back to the top of the queue
             //that belief is allowed to be wrong
             if (hasDelayedMemory() &&
-                    delayedKnowledge[getItemPrefIndex(desiredItem)] > 0 //I know someone has it
+                    delayedMemory[getItemPrefIndex(desiredItem)] > 0 //I know someone has it
                     && itemPref[getItemPrefIndex(desiredItem)].contains(actingAgent) //I know item's pref for me
-                    && itemPref[getItemPrefIndex(desiredItem)].contains(delayedKnowledge[desiredItem - 1]) //I know item's pref for other
-                    && itemPref[getItemPrefIndex(desiredItem)].indexOf(delayedKnowledge[desiredItem - 1]) < itemPref[getItemPrefIndex(desiredItem)].indexOf(actingAgent)) { //that person is ranked higher than me
+                    && itemPref[getItemPrefIndex(desiredItem)].contains(delayedMemory[desiredItem - 1]) //I know item's pref for other
+                    && itemPref[getItemPrefIndex(desiredItem)].indexOf(delayedMemory[desiredItem - 1]) < itemPref[getItemPrefIndex(desiredItem)].indexOf(actingAgent)) { //that person is ranked higher than me
                 agentOrder.add(0, actingAgent); //do not propose and retake turn
                 continue; //repeat the while loop
             }
@@ -184,9 +189,9 @@ public class GenericImplementation extends DeterministicAlgorithm {
                     } else {
                         throw new RuntimeException(this.getClass() + ": solve(): " + "neither stack nor queue.");
                     }
-                    hasTaken[actingAgent - 1] = desiredItem; //takes item
+                    hasTaken[actingAgent - 1] = desiredItem; //acting agent takes item
                     obj[desiredItem - 1] = actingAgent; //acting agent have the item
-                    hasTaken[temp - 1] = 0; //that agent loses item;
+                    hasTaken[temp - 1] = 0; //previous agent loses item;
                 } else {
                     //%%JL Should agent that failed a steal allowed to retry?
                     if (isStack()) {
@@ -203,8 +208,8 @@ public class GenericImplementation extends DeterministicAlgorithm {
                 PostBox.broadcast(new TakeItemEvent(actingAgent, desiredItem));
                 if (!hasMemory()) {
                     ip.resetPointers(); //reset the round
-                    for (int i = 0; i < itemPref.length; i++) {
-                        itemPref[i].clear();
+                    for (List<Integer> itemPref1 : itemPref) {
+                        itemPref1.clear();
                     }
                 }
             }

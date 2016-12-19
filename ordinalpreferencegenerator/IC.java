@@ -16,6 +16,10 @@ public class IC extends OrdinalIteratorAdaptor {
     public IC(int count) {
         super(count);
     }
+    
+    public IC(int agent, int object) {
+        super(agent, object);
+    }
 
     @Override
     public boolean hasNext() {
@@ -27,9 +31,9 @@ public class IC extends OrdinalIteratorAdaptor {
 
     @Override
     protected void updateProfileIndex() {
-        for (int i = size-1; i >= 0; i--) {
+        for (int i = agents-1; i >= 0; i--) {
             if (++profileIndex[i] < profiles.length) {
-                for (int j = i + 1; j < size; j++) {
+                for (int j = i + 1; j < agents; j++) {
                     profileIndex[j] = 0;
                 }
                 break;

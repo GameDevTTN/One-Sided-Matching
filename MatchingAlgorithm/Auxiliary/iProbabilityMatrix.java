@@ -15,10 +15,12 @@ public abstract class iProbabilityMatrix {
     
     protected final double[][] normalized;
     private final int agents;
+    private final int objects;
     
     protected iProbabilityMatrix(int agent, int items) {
         normalized = new double[agent][items];
         agents = agent;
+        objects = items;
     }
     
     protected void normalize() throws EmptyMatrixException {
@@ -158,6 +160,10 @@ public abstract class iProbabilityMatrix {
         return agents;
     }
     
+    public int objectSize() {
+        return objects;
+    }
+    
     @Override
     public String toString() {
         try {
@@ -238,11 +244,11 @@ public abstract class iProbabilityMatrix {
     }
 
     public double[][] inPreferenceOrder(PreferenceProfile pp) {
-        double[][] newMatrix = new double[size()][size()];
+        double[][] newMatrix = new double[size()][objectSize()];
         iProfileIterator pi = pp.getIterator();
         for (int i = 0; i < pp.size(); i++) {
             int agent = i + 1;
-            for (int j = 0; j < pp.size(); j++) {
+            for (int j = 0; j < pp.objectSize(); j++) {
                 newMatrix[i][j] = read(agent, pi.getNext(agent));
             }
         }
@@ -250,7 +256,7 @@ public abstract class iProbabilityMatrix {
     }
     
     public boolean equals(iProbabilityMatrix other) {
-        if (size() != other.size()) {
+        if (size() != other.size() || objectSize() != other.objectSize()) {
             return false;
         }
         try {
@@ -260,7 +266,7 @@ public abstract class iProbabilityMatrix {
             throw new RuntimeException("iProbabilityMatrix: equals(iPM): EmptyMatrixException");
         }
         for (int i = 0; i < size(); i++) {
-            for (int j = 0; j < size(); j++) {
+            for (int j = 0; j < objectSize(); j++) {
                 if (normalized[i][j] != other.normalized[i][j]) {
                     return false;
                 }

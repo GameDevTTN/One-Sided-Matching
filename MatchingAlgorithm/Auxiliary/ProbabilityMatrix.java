@@ -5,6 +5,8 @@
  */
 package MatchingAlgorithm.Auxiliary;
 
+import Main.Settings.Settings;
+
 /**
  *
  * @author ylo019
@@ -14,9 +16,9 @@ public class ProbabilityMatrix extends iProbabilityMatrix{
     private int permutation;
     private final int[][] distribution;
     
-    public ProbabilityMatrix(int agent) {
-        super(agent, agent);
-        distribution = new int[agent][agent];
+    public ProbabilityMatrix(int agent, int object) {
+        super(agent, object);
+        distribution = new int[agent][object];
     }
     
     public boolean addMatching(Permutation p) {
@@ -27,7 +29,11 @@ public class ProbabilityMatrix extends iProbabilityMatrix{
         ++permutation;
         iIterator pp = p.getIterator();
         while (pp.hasNext()) {
-            distribution[count++][pp.getNext() - 1]++;
+            int next = pp.getNext();
+            if (next != Settings.NULL_ITEM) {
+                distribution[count][next - 1]++;
+            }
+            ++count;
         }
         return true;
     }
@@ -38,7 +44,7 @@ public class ProbabilityMatrix extends iProbabilityMatrix{
             throw new EmptyMatrixException("normalize(): empty matrix cannot be normalized");
         }
         for (int i = 0; i < size(); i++) {
-            for (int j = 0; j < size(); j++) {
+            for (int j = 0; j < objectSize(); j++) {
                 normalized[i][j] = distribution[i][j]/((double)permutation);
             }
         }

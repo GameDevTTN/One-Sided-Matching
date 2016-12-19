@@ -23,6 +23,7 @@ import Pair.Pair;
  *
  * @author ylo019
  */
+//create LaTeX table for the measures
 public class LaTeXTablePrinter extends iResultsCollator {
     
     private List<String> algorithmNames = new ArrayList<>();

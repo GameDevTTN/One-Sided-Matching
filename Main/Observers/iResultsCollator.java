@@ -20,11 +20,13 @@ import Pair.Pair;
  *
  * @author ylo019
  */
+//Any collection of results should override this class or one of its subclasses
 public abstract class iResultsCollator implements Observer {
     
     protected PreferenceProfile pp;
     protected Map<String, iProbabilityMatrix> results = new TreeMap<>();
     
+    //can be overwritten to listen for different message type
     public void init() {
         PostBox.listen(this, MessageType.PROCESS);
         PostBox.listen(this, MessageType.PREFERENCE);
@@ -71,6 +73,20 @@ public abstract class iResultsCollator implements Observer {
         }
     }
 
+    
+    //default actions:
+    /*
+    onPreference = when a new preference profile is loaded. save the profile in variable pp, clear previous results.
+    onTable = when an algorithm outputs a probability matrix. no default action. probMatrix cannot be null.
+    
+    //no default actions.
+    onSystem = catchall on receiving a MessageType.System
+    onEndPreference = after all algorithm outputted a probability matrix
+    onEndSize = after all algorithm run all preference profile for that size
+    onEndCalculation = after all algorithm run on preference profile of all sizes
+    onProcess = when algorithms generate a MessageType.Process message
+    clear = manually clear all data after a preference profile
+    */
     protected void onPreference(PreferenceProfile profile) {
         pp = profile;
         results.clear();

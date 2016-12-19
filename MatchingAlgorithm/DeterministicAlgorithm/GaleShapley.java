@@ -16,6 +16,9 @@ import MatchingAlgorithm.Auxiliary.iProfileIterator;
  *
  * @author ylo019
  */
+//One sided Gale Shapley with uniform item preference === initial ordering of agents
+//Same as RSD.
+//obsolete - check code before using (only updated to allow compilation - no assurances of correctness or not throwing exceptions)
 public class GaleShapley extends DeterministicAlgorithm {
 
     @Override
@@ -24,7 +27,7 @@ public class GaleShapley extends DeterministicAlgorithm {
     }
 
     @Override
-    protected int[] solve(Permutation priority, PreferenceProfile input, int agents) {
+    protected int[] solve(Permutation priority, PreferenceProfile input, int agents, int objects) {
         iIterator pp = priority.getIterator();
         iProfileIterator ip = input.getIterator();
         int[] obj = new int[agents];

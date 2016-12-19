@@ -8,6 +8,7 @@ package MatchingAlgorithm.Auxiliary;
 import java.util.Arrays;
 
 import Main.Settings.FormattingIntTable;
+import Main.Settings.Settings;
 
 /**
  *
@@ -26,17 +27,21 @@ public class Permutation implements Comparable<Permutation> {
         preferences = preference.clone();
     }
     
+    //only guarantees no repeats and no out-of-bound values
     private boolean isValid(int object, int[] preference) {
         if (preference == null || preference.length != object) {
             return false;
         }
         for (int i : preference) {
-            if (i < 1 || i > object) {
+            if (i != Settings.NULL_ITEM && (i < 1 || i > object)) {
                 return false;
             }
         }
         boolean[] found = new boolean[object];
         for (int i : preference) {
+            if (i == Settings.NULL_ITEM) {
+                continue;
+            }
             if (found[i - 1]) {
                 return false;
             }

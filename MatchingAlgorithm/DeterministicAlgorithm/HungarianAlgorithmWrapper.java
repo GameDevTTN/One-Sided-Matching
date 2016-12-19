@@ -13,6 +13,7 @@ import MatchingAlgorithm.Auxiliary.ProbabilityMatrix;
 import MatchingAlgorithm.Auxiliary.iIterator;
 import MatchingAlgorithm.Auxiliary.iProbabilityMatrix;
 import blogspot.software_and_algorithms.stern_library.optimization.HungarianAlgorithm;
+import java.util.Arrays;
 
 /**
  *
@@ -23,14 +24,14 @@ import blogspot.software_and_algorithms.stern_library.optimization.HungarianAlgo
 public class HungarianAlgorithmWrapper implements iAlgorithm {
 
     @Override
-    public iProbabilityMatrix solve(PreferenceProfile input, int agents) {
-        double[][] preferences = new double[agents][agents];
+    public iProbabilityMatrix solve(PreferenceProfile input, int agents, int objects) {
+        double[][] preferences = new double[agents][objects];
         Permutation[] profiles = input.getProfiles();
         for (int i = 0; i < agents; i++) {
             iIterator iter = profiles[i].getIterator();
             applyWeights(preferences[i], iter);
         }
-        ProbabilityMatrix pm = new ProbabilityMatrix(agents);
+        ProbabilityMatrix pm = new ProbabilityMatrix(agents, objects);
         try {
             pm.addMatching(new Permutation(agents, new HungarianAlgorithm(preferences).execute()));
         } catch (InvalidPreferenceException ex) {

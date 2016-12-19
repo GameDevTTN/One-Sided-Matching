@@ -16,12 +16,13 @@ import MatchingAlgorithm.Auxiliary.iProfileIterator;
  *
  * @author ylo019
  */
+//obsolete - not updated to ensure correctness
 public class RandomSerialDictatorship extends DeterministicAlgorithm {
     
     public RandomSerialDictatorship() {}
 
     @Override
-    protected int[] solve(Permutation priority, PreferenceProfile input, int agents) {
+    protected int[] solve(Permutation priority, PreferenceProfile input, int agents, int objects) {
         iIterator pp = priority.getIterator();
         iProfileIterator ip = input.getIterator();
         boolean[] obj = new boolean[agents];

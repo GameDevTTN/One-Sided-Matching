@@ -19,6 +19,7 @@ import Pair.Pair;
  *
  * @author ylo019
  */
+//for collating double type data after each sizes
 public abstract class iDoubleResultsCollator extends iResultsCollator {
     
     protected TreeMap<String, Double> defaultTable = new TreeMap<>();
@@ -70,6 +71,7 @@ public abstract class iDoubleResultsCollator extends iResultsCollator {
         return "";
     }
     
+    //whether to conver the double into percentage
     protected boolean hasPercentageOutput() {
         return false;
     }

@@ -26,11 +26,11 @@ public abstract class HybridAlgorithm implements iAlgorithm {
     }
 
     @Override
-    public iProbabilityMatrix solve(PreferenceProfile input, int agents) {
+    public iProbabilityMatrix solve(PreferenceProfile input, int agents, int objects) {
         ProbabilisticProbabilityMatrix ppm = new ProbabilisticProbabilityMatrix(agents);
         try {
-            ppm.addPMatrix(first.solve(input, agents));
-            ppm.addPMatrix(second.solve(input, agents));
+            ppm.addPMatrix(first.solve(input, agents, objects));
+            ppm.addPMatrix(second.solve(input, agents, objects));
         } catch (EmptyMatrixException ex) {
             throw new RuntimeException("HybridAlgorithm: solve(PP, int): Empty Matrix Exception");
         }

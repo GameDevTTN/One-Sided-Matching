@@ -23,4 +23,14 @@ public class ImpartialCultureFactory {
         }
     }
     
+    public static iOrdinalIterator createImpartialCulture(Class<? extends iOrdinalIterator> oiClass, int agent, int object) {
+        System.out.println(oiClass + " " + agent + " " + object);
+        try {
+            return oiClass.getDeclaredConstructor(Integer.TYPE, Integer.TYPE).newInstance(new Integer(agent), new Integer(object));
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            System.out.println(ex);
+            throw new RuntimeException("ImpartialCultureFactory: createImpartialCulture(Class, int, int): cannot create instance");
+        }
+    }
+    
 }

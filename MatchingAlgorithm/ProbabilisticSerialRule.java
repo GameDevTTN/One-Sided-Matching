@@ -20,15 +20,15 @@ import Pair.Pair;
  * @author ylo019
  */
 public class ProbabilisticSerialRule implements iAlgorithm {
-
+    
     @Override
-    public iProbabilityMatrix solve(PreferenceProfile input, int agents) {
-        ProbabilisticProbabilityMatrix output = new ProbabilisticProbabilityMatrix(agents);
+    public iProbabilityMatrix solve(PreferenceProfile input, int agents, int objects) {
+        ProbabilisticProbabilityMatrix output = new ProbabilisticProbabilityMatrix(agents, objects);
         iProfileIterator ip = input.getIterator();
         double time = 0;
-        double[] obj = new double[agents];
+        double[] obj = new double[objects];
         int[] agentsCake = new int[agents];
-        while (!Settings.doubleEqual(1, time) && time <= 1) {
+        while (!Settings.doubleEqual(((double)objects)/agents, time) && time <= ((double)objects)/agents) {
             //each agent choose a cake
             int[] agentsOnCake = new int[agents];
             for (int i = 1; i <= input.size(); i++) {

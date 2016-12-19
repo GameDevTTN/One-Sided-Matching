@@ -17,10 +17,11 @@ import MatchingAlgorithm.DeterministicAlgorithm.DeterministicAlgorithm;
  *
  * @author ylo019
  */
+//obsolete - not updated to ensure correctness
 public class YankeeSwapStandard extends DeterministicAlgorithm {
     
    @Override
-    protected int[] solve(Permutation priority, PreferenceProfile input, int agents) {
+    protected int[] solve(Permutation priority, PreferenceProfile input, int agents, int objects) {
         iIterator pp = priority.getIterator();
         iProfileIterator ip = input.getIterator();
         int[] obj = new int[agents];

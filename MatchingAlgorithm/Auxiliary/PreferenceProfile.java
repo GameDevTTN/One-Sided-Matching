@@ -45,6 +45,10 @@ public class PreferenceProfile {
     public int size() {
         return agents;
     }
+    
+    public int objectSize() {
+        return objects;
+    }
 
     @Override
     public String toString() {
@@ -56,30 +60,34 @@ public class PreferenceProfile {
     }
     
     public boolean stochasticDominates(int agent, double[] has, double[] other) { //or the same
-        if (agent <= 0 || agent > agents) {
-            throw new RuntimeException("doesNotEnvy(int agent, double[] has, double[] other): agent is out of bound");
-        }
-        double hasSum = 0;
-        double otherSum = 0;
-        iIterator prefIterator = preferences[agent - 1].getIterator();
-        while (prefIterator.hasNext()) {
-            int obj = prefIterator.getNext() - 1;
-            hasSum += has[obj];
-            otherSum += other[obj];
-            if (!Settings.doubleEqual(hasSum, otherSum) && otherSum > hasSum) {
-                return false;
-            }
-        }
-        return true;
+        PartialComparatorResult pcr = PreferencesComparatorFactory.buildDoubleArrayComparator(preferences[agent - 1].getIterator()).compare(has, other);
+//        if (agent <= 0 || agent > agents) {
+//            throw new RuntimeException("doesNotEnvy(int agent, double[] has, double[] other): agent is out of bound");
+//        }
+//        double hasSum = 0;
+//        double otherSum = 0;
+//        iIterator prefIterator = preferences[agent - 1].getIterator();
+//        while (prefIterator.hasNext()) {
+//            int obj = prefIterator.getNext() - 1;
+//            hasSum += has[obj];
+//            otherSum += other[obj];
+//            if (!Settings.doubleEqual(hasSum, otherSum) && otherSum > hasSum) {
+//                return false;
+//            }
+//        }
+//        return true;
+        return (pcr == PartialComparatorResult.GREATER || pcr == PartialComparatorResult.EQUAL);
     }
     
     
     public boolean hasStrongSdEnvy(int agent, double[] has, double[] other) {
-        return !stochasticDominates(agent, has.clone(), other.clone()); //own allocation is not better or the same
+        PartialComparatorResult pcr = PreferencesComparatorFactory.buildDoubleArrayComparator(preferences[agent - 1].getIterator()).compare(has, other);
+        return (pcr == PartialComparatorResult.INCOMPARABLE || pcr == PartialComparatorResult.LESS); //own allocation is not better or the same
     }
     
     public boolean hasWeakSdEnvy(int agent, double[] has, double[] other) {
-        return stochasticDominates(agent, other.clone(), has.clone()) && !stochasticDominates(agent, has.clone(), other.clone()); //other's allocation is strictly better
+        PartialComparatorResult pcr = PreferencesComparatorFactory.buildDoubleArrayComparator(preferences[agent - 1].getIterator()).compare(has, other);
+        return pcr == PartialComparatorResult.LESS; //other's allocation is strictly better
     }
     
     public Double optimalProportionalityValue(int agent, double[] has) {
@@ -99,43 +107,47 @@ public class PreferenceProfile {
     }
     
     public boolean doesSDPrefer(int agent, double[] has, double[] other) {
-        if (agent <= 0 || agent > agents) {
-            throw new RuntimeException("doesSDPrefer(int agent, double[] has, double[] other): agent is out of bound");
-        }
-        double hasSum = 0;
-        double otherSum = 0;
-        boolean hasBetter = true; //doesn't matter if hasBetter, equal is fine
-        iIterator prefIterator = preferences[agent - 1].getIterator();
-        while (prefIterator.hasNext()) {
-            int obj = prefIterator.getNext() - 1;
-            hasSum += has[obj];
-            otherSum += other[obj];
-            if (!Settings.doubleEqual(hasSum, otherSum) && otherSum > hasSum) {
-                return false;
-            }
-        }
-        return hasBetter;
+        PartialComparatorResult pcr = PreferencesComparatorFactory.buildDoubleArrayComparator(preferences[agent - 1].getIterator()).compare(has, other);
+        return (pcr == PartialComparatorResult.GREATER || pcr == PartialComparatorResult.EQUAL);
+//        if (agent <= 0 || agent > agents) {
+//            throw new RuntimeException("doesSDPrefer(int agent, double[] has, double[] other): agent is out of bound");
+//        }
+//        double hasSum = 0;
+//        double otherSum = 0;
+//        boolean hasBetter = true; //doesn't matter if hasBetter, equal is fine
+//        iIterator prefIterator = preferences[agent - 1].getIterator();
+//        while (prefIterator.hasNext()) {
+//            int obj = prefIterator.getNext() - 1;
+//            hasSum += has[obj];
+//            otherSum += other[obj];
+//            if (!Settings.doubleEqual(hasSum, otherSum) && otherSum > hasSum) {
+//                return false;
+//            }
+//        }
+//        return hasBetter;
     }
     
     public boolean doesStrictSDPrefer(int agent, double[] has, double[] other) {
-        if (agent <= 0 || agent > agents) {
-            throw new RuntimeException("doesSDPrefer(int agent, double[] has, double[] other): agent is out of bound");
-        }
-        double hasSum = 0;
-        double otherSum = 0;
-        boolean hasBetter = false;
-        iIterator prefIterator = preferences[agent - 1].getIterator();
-        while (prefIterator.hasNext()) {
-            int obj = prefIterator.getNext() - 1;
-            hasSum += has[obj];
-            otherSum += other[obj];
-            if (!Settings.doubleEqual(hasSum, otherSum) && hasSum > otherSum) {
-                hasBetter = true;
-            } else if (!Settings.doubleEqual(hasSum, otherSum) && otherSum > hasSum) {
-                return false;
-            }
-        }
-        return hasBetter;
+        PartialComparatorResult pcr = PreferencesComparatorFactory.buildDoubleArrayComparator(preferences[agent - 1].getIterator()).compare(has, other);
+        return (pcr == PartialComparatorResult.GREATER);
+//        if (agent <= 0 || agent > agents) {
+//            throw new RuntimeException("doesSDPrefer(int agent, double[] has, double[] other): agent is out of bound");
+//        }
+//        double hasSum = 0;
+//        double otherSum = 0;
+//        boolean hasBetter = false;
+//        iIterator prefIterator = preferences[agent - 1].getIterator();
+//        while (prefIterator.hasNext()) {
+//            int obj = prefIterator.getNext() - 1;
+//            hasSum += has[obj];
+//            otherSum += other[obj];
+//            if (!Settings.doubleEqual(hasSum, otherSum) && hasSum > otherSum) {
+//                hasBetter = true;
+//            } else if (!Settings.doubleEqual(hasSum, otherSum) && otherSum > hasSum) {
+//                return false;
+//            }
+//        }
+//        return hasBetter;
     }
 
     public Permutation[] getProfiles() {
@@ -190,6 +202,7 @@ public class PreferenceProfile {
             }
         }
 
+        @Override
         public boolean hasNext(int agent) {
             if (agent <= 0 || agent > agents) {
                 throw new RuntimeException("hasNext(int agent): agent is out of bound");
@@ -197,6 +210,7 @@ public class PreferenceProfile {
             return pointers[agent - 1].hasNext();
         }
 
+        @Override
         public int getNext(int agent) { //param: agent number from 1 to size
             if (agent <= 0 || agent > agents) {
                 throw new RuntimeException("getNext(int agent): agent is out of bound");
@@ -205,7 +219,7 @@ public class PreferenceProfile {
         }
 
         @Override
-        public int size() {
+        public final int size() {
             return PreferenceProfile.this.size();
         }
     }

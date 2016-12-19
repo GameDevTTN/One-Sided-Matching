@@ -32,8 +32,8 @@ public class YankeeSwapStochastic extends StochasticAlgorithm {
     }
     
     @Override
-    protected iProbabilityMatrix solve(Permutation priority, PreferenceProfile input, int agents) {
-        ProbabilityMatrix output = new ProbabilityMatrix(agents);
+    protected iProbabilityMatrix solve(Permutation priority, PreferenceProfile input, int agents, int objects) {
+        ProbabilityMatrix output = new ProbabilityMatrix(agents, objects);
         Permutation[] presentOrder = StaticFunctions.permutations(agents);
         for (Permutation p : presentOrder) {
             PostBox.broadcast(MessageType.PROCESS, new Pair<>("Present Order", p));

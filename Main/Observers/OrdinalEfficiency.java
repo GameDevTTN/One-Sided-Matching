@@ -13,6 +13,8 @@ import MatchingAlgorithm.Auxiliary.iProbabilityMatrix;
  *
  * @author ylo019
  */
+//record the percentage of probability matrix that is SD efficient (interim efficiency) for each algorithms
+//if FIXED_ORDER is set to on, SD efficiency === Ex-post efficiency
 public class OrdinalEfficiency extends iDoubleResultsCollator {
 
     @Override

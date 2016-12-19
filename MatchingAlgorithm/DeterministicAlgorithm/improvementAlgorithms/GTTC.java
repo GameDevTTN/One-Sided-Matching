@@ -5,6 +5,7 @@
  */
 package MatchingAlgorithm.DeterministicAlgorithm.improvementAlgorithms;
 
+import Main.Settings.Settings;
 import MatchingAlgorithm.Auxiliary.InvalidPreferenceException;
 import MatchingAlgorithm.Auxiliary.Permutation;
 import MatchingAlgorithm.Auxiliary.PreferenceProfile;
@@ -30,13 +31,21 @@ public class GTTC {
     public static Permutation improve(Permutation result, PreferenceProfile input) {
         if (result.size() == input.size()) {
             iProfileIterator iterator = input.getIterator();
-            int[] resultArr = result.getArray();
-            int[] hasObj = new int[resultArr.length];
+            int[] resultArr = result.getArray(); //who holds what
+            int[] hasObj = new int[input.objectSize()]; //what is held by who
             for (int i = 0; i < resultArr.length; i++) {
-                hasObj[resultArr[i] - 1] = i + 1;
+                if (resultArr[i] != Settings.NULL_ITEM) {
+                    hasObj[resultArr[i] - 1] = i + 1;
+                }
             }
-            int[] allocated = new int[resultArr.length];
+            int[] allocated = new int[input.size()];
             int allocatedAgents = 0;
+            for (int j = 0; j < resultArr.length; j++) {
+                if (resultArr[j] == Settings.NULL_ITEM) {
+                    allocated[j] = Settings.NULL_ITEM;
+                    ++allocatedAgents;
+                }
+            }
             while (allocatedAgents < allocated.length) {
                 iterator.resetPointers();
                 int[] pointsTo = new int[resultArr.length];

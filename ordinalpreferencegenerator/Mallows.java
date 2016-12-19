@@ -21,13 +21,19 @@ import java.util.List;
 public class Mallows implements iOrdinalIterator {
 
     protected final int size;
+    protected final int obj;
     private int runs;
     private final int PROFILE_COUNT = Settings.PROFILE_COUNT;
-    private Permutation[] out;
     
     Mallows(int count) { //package private
         size = count;
-        out = new Permutation[size];
+        obj = count;
+        runs = PROFILE_COUNT;
+    }
+    
+    Mallows(int agent, int object) {
+        size = agent;
+        obj = object;
         runs = PROFILE_COUNT;
     }
     
@@ -45,13 +51,13 @@ public class Mallows implements iOrdinalIterator {
         //edit code below to make it generate Mallows distribution
         List<Integer> array = new ArrayList<>();
         
-        for (int i = 0; i < out.length; i++) {
+        for (int i = 0; i < obj; i++) {
             array.add(i + 1);
         }
-        for (int i = 0; i < out.length; i++) {
+        for (int i = 0; i < size; i++) {
             List<Integer> listOfInts = new ArrayList<>();
             listOfInts.addAll(array);
-            int[] shuffledArray = new int[size];
+            int[] shuffledArray = new int[obj];
             int indexCounter = 0;
             while (!listOfInts.isEmpty()) {
                 for (int j = 0; j < listOfInts.size(); j++) {
@@ -74,20 +80,20 @@ public class Mallows implements iOrdinalIterator {
 //                shuffledArray[j] = listOfInts.get(j);
 //            }
             try {
-                out[i] = new Permutation(size, shuffledArray);
+                out[i] = new Permutation(obj, shuffledArray);
             } catch (InvalidPreferenceException ex) {
                 throw new RuntimeException("OrdinalPreferenceRandomiser: getNext(): shuffledArray is not a permutation");
             }
         }
         try {
-            return new PreferenceProfile(size, size, out);
+            return new PreferenceProfile(size, obj, out);
         } catch (InvalidPreferenceException ex) {
             throw new RuntimeException(ex.getMessage());
         }
     }
     
     protected Permutation[] returnProfile() {
-        return out.clone();
+        return null;//out.clone();
     }
 
     @Override

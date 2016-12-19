@@ -15,8 +15,12 @@ public class ProbabilisticProbabilityMatrix extends iProbabilityMatrix {
     private double weight;
     
     public ProbabilisticProbabilityMatrix(int agent) {
-        super(agent, agent);
-        distribution = new double[agent][agent];
+        this(agent, agent);
+    }
+    
+    public ProbabilisticProbabilityMatrix(int agent, int object) {
+        super(agent, object);
+        distribution = new double[agent][object];
     }
     
     public boolean addMatching(int[] p, double weight) {

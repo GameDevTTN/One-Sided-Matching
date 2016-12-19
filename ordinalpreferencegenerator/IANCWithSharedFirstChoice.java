@@ -24,7 +24,7 @@ public class IANCWithSharedFirstChoice extends IANC {
             return false;
         }
         try {
-            return NotAllUniqueFirstChoice.check(new PreferenceProfile(size, size, returnProfile()));
+            return NotAllUniqueFirstChoice.check(new PreferenceProfile(agents, agents, returnProfile()));
         } catch (InvalidPreferenceException ex) {
             throw new RuntimeException("IANCWSFC: isValid(): IPE thrown");
         }

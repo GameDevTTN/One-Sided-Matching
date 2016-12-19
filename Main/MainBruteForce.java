@@ -54,7 +54,7 @@ public class MainBruteForce extends iResultsCollator implements iAppClass {
         for (int i = Settings.M; i <= Settings.N; i+=Settings.INCREMENT) {
             int h = 0; int unH = 0;
             PostBox.broadcast(MessageType.PRINT, "Beginning of size " + i);
-            iOrdinalIterator op = ImpartialCultureFactory.createImpartialCulture(Settings.ORDINAL_PREFERENCE, i);
+            iOrdinalIterator op = (Settings.O == -1 ? ImpartialCultureFactory.createImpartialCulture(Settings.ORDINAL_PREFERENCE, i) : ImpartialCultureFactory.createImpartialCulture(Settings.ORDINAL_PREFERENCE, i, Settings.O));
             while (op.hasNext()) {
                 PreferenceProfile next = op.getNext();
                 //only run a % of the profile
@@ -109,7 +109,7 @@ public class MainBruteForce extends iResultsCollator implements iAppClass {
                     break;
                 } else if (profiles[r].compareTo(newPerm[r]) > 0) {
                     try {
-                        PreferenceProfile newPP = new PreferenceProfile(newPerm.length, newPerm.length, newPerm);
+                        PreferenceProfile newPP = new PreferenceProfile(currProfile.size(), currProfile.objectSize(), newPerm);
                         if (hash.containsKey(newPP)) {
                             if (leastRecentUse.remove(newPP)) {
                                 leastRecentUse.add(newPP);

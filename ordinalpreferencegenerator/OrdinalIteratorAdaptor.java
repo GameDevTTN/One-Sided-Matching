@@ -17,9 +17,18 @@ import MatchingAlgorithm.Auxiliary.PreferenceProfile;
  */
 public abstract class OrdinalIteratorAdaptor implements iOrdinalIterator {
     
-    protected final int size;
+    protected final int agents;
+    protected final int objects;
     protected final Permutation[] profiles;
     protected final int[] profileIndex;
+    
+    public static OrdinalIteratorAdaptor getIterator(Class<? extends OrdinalIteratorAdaptor> iteratorClass, int agents, int objects) {
+        try {
+            return iteratorClass.getConstructor(Integer.TYPE, Integer.TYPE).newInstance(new Integer(agents), new Integer(objects));
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            throw new RuntimeException("OrdinalIteratorAdaptor: getIterator(Class, int, int): cannot create new instance.");
+        }
+    }
     
     public static OrdinalIteratorAdaptor getIterator(Class<? extends OrdinalIteratorAdaptor> iteratorClass, int count) {
         if (count > 10 || count <= 1) {
@@ -33,17 +42,25 @@ public abstract class OrdinalIteratorAdaptor implements iOrdinalIterator {
     }
     
     OrdinalIteratorAdaptor(int count) { //package private
-        size = count;
-        profiles = StaticFunctions.permutations(size);
-        profileIndex = new int[size];
+        agents = count;
+        objects = count;
+        profiles = StaticFunctions.permutations(agents);
+        profileIndex = new int[agents];
+    }
+    
+    OrdinalIteratorAdaptor(int agent, int object) {
+        agents = agent;
+        objects = object;
+        profiles = StaticFunctions.permutations(object);
+        profileIndex = new int[agents];
     }
     
     @Override
     public abstract boolean hasNext();
     
     protected Permutation[] returnProfile() {
-        Permutation[] output = new Permutation[size];
-        for (int i = 0; i < size; i++) {
+        Permutation[] output = new Permutation[agents];
+        for (int i = 0; i < agents; i++) {
             output[i] = profiles[profileIndex[i]];
         }
         return output;
@@ -57,7 +74,7 @@ public abstract class OrdinalIteratorAdaptor implements iOrdinalIterator {
         } while (!isValid());
         //return the preference profile
         try {
-            return new PreferenceProfile(size, size, output);
+            return new PreferenceProfile(agents, objects, output);
         } catch (InvalidPreferenceException ex) {
             throw new RuntimeException(ex.getMessage());
         }

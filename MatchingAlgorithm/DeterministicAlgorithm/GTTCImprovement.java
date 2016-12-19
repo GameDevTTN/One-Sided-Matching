@@ -36,8 +36,8 @@ public class GTTCImprovement<S extends DeterministicAlgorithm> extends Determini
     }
     
     @Override
-    protected int[] solve(Permutation priority, PreferenceProfile input, int agents) {
-        return inner.solve(priority, input, agents);
+    protected int[] solve(Permutation priority, PreferenceProfile input, int agents, int objects) {
+        return inner.solve(priority, input, agents, objects);
     }
     
     @Override

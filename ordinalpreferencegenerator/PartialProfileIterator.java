@@ -33,13 +33,13 @@ public class PartialProfileIterator extends OrdinalIteratorAdaptor {
     @Override
     public PreferenceProfile getNext() {
         Permutation[] output = returnProfile();
-        int i = size-1;
+        int i = agents-1;
         if (++profileIndex[i] >= profiles.length) {
             ++profileIndex[0];
         }
         //return the preference profile
         try {
-            return new PreferenceProfile(size, size, output);
+            return new PreferenceProfile(agents, agents, output);
         } catch (InvalidPreferenceException ex) {
             throw new RuntimeException(ex.getMessage());
         }
@@ -47,7 +47,7 @@ public class PartialProfileIterator extends OrdinalIteratorAdaptor {
     
     @Override
     public String toString() {
-        return FormattingObjectTable.OneDimTable(Arrays.copyOfRange(returnProfile(), 0, size - 1));
+        return FormattingObjectTable.OneDimTable(Arrays.copyOfRange(returnProfile(), 0, agents - 1));
     }
 
     @Override

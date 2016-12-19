@@ -14,10 +14,12 @@ import Pair.Pair;
  *
  * @author ylo019
  */
+//to count the number of preferences - does not process the data otherwise
 public class PreferencesCounter extends iResultsCollator {
     
     private int counter = 0;
     
+    @Override
     public void init() {
         PostBox.listen(this, MessageType.PREFERENCE);
         PostBox.listen(this, MessageType.SYSTEM);

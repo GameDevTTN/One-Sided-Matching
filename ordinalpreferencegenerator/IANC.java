@@ -20,6 +20,9 @@ public class IANC extends OrdinalIteratorAdaptor {
         super(count);
     }
     
+    public IANC(int agent, int object) {
+        super(agent, object);
+    }
     
     protected boolean isValid() {
         if (profileIndex[0] > 0) {
@@ -58,9 +61,9 @@ public class IANC extends OrdinalIteratorAdaptor {
 
     @Override
     protected void updateProfileIndex() {
-        for (int i = size-1; i >= 0; i--) {
+        for (int i = agents-1; i >= 0; i--) {
             if (++profileIndex[i] < profiles.length) {
-                for (int j = i; j < size; j++) {
+                for (int j = i; j < agents; j++) {
                     profileIndex[j] = profileIndex[i];
                 }
                 break;
