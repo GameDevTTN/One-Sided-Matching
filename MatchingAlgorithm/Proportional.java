@@ -22,13 +22,15 @@ public class Proportional implements iAlgorithm {
     @Override
     public iProbabilityMatrix solve(PreferenceProfile input, int agents, int objects) {
         ProbabilityMatrix pm = new ProbabilityMatrix(agents, objects);
-        for (int i = 0; i < agents; i++) {
+        int max = Math.max(agents, objects);
+        for (int i = 0; i < max; i++) {
             int[] match = new int[agents];
             for (int j = 0; j < agents; j++) {
-                int val = (j+i) % agents + 1;
+                int val = (i+j+1 > max ? i+j+1-max : i+j+1);
                 match[j] = (val <= objects ? val : Settings.NULL_ITEM);
             }
             try {
+                System.out.println(Arrays.toString(match));
                 pm.addMatching(new Permutation(agents, objects, match));
             } catch (InvalidPreferenceException ex) {
                 throw new RuntimeException("Proportional: solve(PreferenceProfile, int): fails to add Matching");
