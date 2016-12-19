@@ -19,14 +19,6 @@ public class GTTC {
     
     private GTTC() {}
     
-    public static void main(String[] args) throws InvalidPreferenceException {
-        Permutation res = new Permutation(4, new int[]{1,2,3,4});
-        PreferenceProfile inp = new PreferenceProfile(4, 4, new Permutation[]{new Permutation(4, new int[]{1,2,3,4}),
-                                                                                new Permutation(4, new int[]{1,3,2,4}),
-                                                                                new Permutation(4, new int[]{2,3,4,1}),
-                                                                                new Permutation(4, new int[]{3,2,4,1})});
-        System.out.println(improve(res, inp));
-    }
 
     public static Permutation improve(Permutation result, PreferenceProfile input) {
         if (result.size() == input.size()) {
@@ -71,7 +63,7 @@ public class GTTC {
                 }
             }
             try {
-                return new Permutation(result.size(), allocated);
+                return new Permutation(result.size(), result.maxCount(), allocated);
             } catch (InvalidPreferenceException ex) {
                 throw new RuntimeException("YankeeSwapStandardWithGTTC: improve(...): allocated is not a permutation");
             }

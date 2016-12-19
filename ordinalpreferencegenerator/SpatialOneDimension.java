@@ -16,6 +16,7 @@ import java.util.List;
  *
  * @author ASUS
  */
+//obsolete class
 public class SpatialOneDimension implements iOrdinalIterator{
 
     protected final int size;
@@ -72,7 +73,7 @@ public class SpatialOneDimension implements iOrdinalIterator{
 //                shuffledArray[j] = listOfInts.get(j);
 //            }
             try {
-                out[i] = new Permutation(size, shuffledArray);
+                out[i] = new Permutation(size, size, shuffledArray);
             } catch (InvalidPreferenceException ex) {
                 throw new RuntimeException("OrdinalPreferenceRandomiser: getNext(): shuffledArray is not a permutation");
             }

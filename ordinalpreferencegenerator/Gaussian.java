@@ -21,14 +21,16 @@ import java.util.Random;
 public class Gaussian implements iOrdinalIterator{
     
     protected final int size;
+    protected final int objectSize;
     private int runs;
     private final int PROFILE_COUNT = Settings.PROFILE_COUNT;
     private Permutation[] out;
     
     private Random r = new Random();
     
-    Gaussian(int count) { //package private
+    Gaussian(int count, int object) { //package private
         size = count;
+        objectSize = object;
         out = new Permutation[size];
         runs = PROFILE_COUNT;
     }
@@ -74,7 +76,7 @@ public class Gaussian implements iOrdinalIterator{
             //sort
 
             try {
-                out[i] = new Permutation(size, ranks);
+                out[i] = new Permutation(size, objectSize, ranks);
             } catch (InvalidPreferenceException ex) {
                 throw new RuntimeException("OrdinalPreferenceRandomiser: getNext(): shuffledArray is not a permutation");
             }

@@ -165,9 +165,9 @@ public abstract class Settings {
     public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = IANC.class;
     public static final double PREF_PARAM = 0.6;
     //M = minimum number of agents
-    public static final int M = 5; //5
+    public static final int M = 4; //5
     //N = maximum number of agents
-    public static final int N = 5; //100
+    public static final int N = 4; //100
     //O = number of objects [O = -1 to set O = current number of agents]
     public static final int O = 5;
     public static final int INCREMENT = 1; //5

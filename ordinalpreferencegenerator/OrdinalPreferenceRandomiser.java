@@ -17,6 +17,7 @@ import MatchingAlgorithm.Auxiliary.PreferenceProfile;
  *
  * @author ylo019
  */
+//obsolete class
 public class OrdinalPreferenceRandomiser {
     
     private final static OrdinalIteratorAdaptor[] staticArray = new OrdinalIteratorAdaptor[20];
@@ -51,7 +52,7 @@ public class OrdinalPreferenceRandomiser {
                         shuffledArray[j] = listOfInts.get(j);
                     }
                     try {
-                        out[i] = new Permutation(count, shuffledArray);
+                        out[i] = new Permutation(count, count, shuffledArray);
                     } catch (InvalidPreferenceException ex) {
                         throw new RuntimeException("OrdinalPreferenceRandomiser: getNext(): shuffledArray is not a permutation");
                     }

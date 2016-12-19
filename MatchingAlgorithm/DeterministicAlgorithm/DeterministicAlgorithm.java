@@ -37,7 +37,7 @@ public abstract class DeterministicAlgorithm implements iAlgorithm {
                 temp[i] = i + 1;
             }
             try {
-                priority[0] = new Permutation(agents, temp);
+                priority[0] = new Permutation(agents, objects, temp);
             } catch (InvalidPreferenceException ex) {
                 throw new RuntimeException("temp error");
             }
@@ -50,7 +50,7 @@ public abstract class DeterministicAlgorithm implements iAlgorithm {
             PostBox.broadcast(MessageType.PROCESS, new Pair<>("Priority", p));
             int[] result = solve(p, input, agents, objects); //my implementation of Permutation.getIterator() always returns PermutationIterator
             try {
-                Permutation matching = improve(new Permutation(agents, result), input);
+                Permutation matching = improve(new Permutation(agents, objects, result), input);
                 PostBox.broadcast(MessageType.PROCESS, new Pair<>("Matching", matching));
                 output.addMatching(matching);
             } catch (InvalidPreferenceException ex) {

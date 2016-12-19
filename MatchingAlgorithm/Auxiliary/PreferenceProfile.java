@@ -31,7 +31,7 @@ public class PreferenceProfile {
     }
 
     private boolean isValid(Permutation[] preferences) {
-        if (preferences == null || preferences.length != agents ) {
+        if (preferences == null || preferences.length != agents) {
             return false;
         }
         for (Permutation p : preferences) {

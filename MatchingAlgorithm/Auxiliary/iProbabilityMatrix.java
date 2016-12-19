@@ -133,7 +133,7 @@ public abstract class iProbabilityMatrix {
     }
     
     public double read(int agent, int object) {
-        if (agent <= 0 || object <= 0 || agent > size() || object > size()) {
+        if (agent <= 0 || object <= 0 || agent > size() || object > objectSize()) {
             throw new RuntimeException("iProbabilityMatrix: read(int, int): agent, object not between 1 and size inclusive");
         }
         try {

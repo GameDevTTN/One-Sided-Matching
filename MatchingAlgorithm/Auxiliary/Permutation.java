@@ -16,28 +16,31 @@ import Main.Settings.Settings;
  */
 public class Permutation implements Comparable<Permutation> {
     
+    private int maxCount;
+    
     public Permutation(Permutation clone) throws InvalidPreferenceException {
-        this(clone.preferences.length, clone.preferences);
+        this(clone.preferences.length, clone.maxCount, clone.preferences);
     }
     
-    public Permutation(int object, int[] preference) throws InvalidPreferenceException {
-        if (!isValid(object, preference)) {
+    public Permutation(int agent, int object, int[] preference) throws InvalidPreferenceException {
+        maxCount = object;
+        if (!isValid(agent, preference)) {
             throw new InvalidPreferenceException("Preference(): preference is null or is not a valid preference array of size object");
         }
         preferences = preference.clone();
     }
     
     //only guarantees no repeats and no out-of-bound values
-    private boolean isValid(int object, int[] preference) {
-        if (preference == null || preference.length != object) {
+    private boolean isValid(int agent, int[] preference) {
+        if (preference == null || preference.length != agent) {
             return false;
         }
         for (int i : preference) {
-            if (i != Settings.NULL_ITEM && (i < 1 || i > object)) {
+            if (i != Settings.NULL_ITEM && (i < 1 || i > maxCount)) {
                 return false;
             }
         }
-        boolean[] found = new boolean[object];
+        boolean[] found = new boolean[maxCount];
         for (int i : preference) {
             if (i == Settings.NULL_ITEM) {
                 continue;
@@ -56,7 +59,7 @@ public class Permutation implements Comparable<Permutation> {
             inv[preferences[i] - 1] = i + 1;
         }
         try {
-            return new Permutation(preferences.length, inv);
+            return new Permutation(preferences.length, maxCount, inv);
         } catch (InvalidPreferenceException ex) {
             throw new RuntimeException("Permutation: inverse(): output is not a permutation");
         }
@@ -93,7 +96,7 @@ public class Permutation implements Comparable<Permutation> {
         for (int i = 0; i < newPref.length; i++) {
             newPref[i] = pattern.preferences[preferences[i] - 1];
         }
-        return new Permutation(preferences.length, newPref);
+        return new Permutation(preferences.length, maxCount, newPref);
     }
     
     protected int[] preferences;
@@ -107,6 +110,10 @@ public class Permutation implements Comparable<Permutation> {
             return 0;
         }
         return preferences.length;
+    }
+    
+    public int maxCount() {
+        return maxCount;
     }
 
     @Override

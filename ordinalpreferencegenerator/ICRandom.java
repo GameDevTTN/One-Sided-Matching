@@ -21,13 +21,13 @@ import MatchingAlgorithm.Auxiliary.PreferenceProfile;
 public class ICRandom implements iOrdinalIterator {
     
     protected final int size;
+    protected final int objectSize;
     private int runs;
     private final int PROFILE_COUNT = Settings.PROFILE_COUNT;
-    private Permutation[] out;
     
-    ICRandom(int count) { //package private
+    ICRandom(int count, int objects) { //package private
         size = count;
-        out = new Permutation[size];
+        this.objectSize = objects;
         runs = PROFILE_COUNT;
     }
     
@@ -54,7 +54,7 @@ public class ICRandom implements iOrdinalIterator {
                 shuffledArray[j] = listOfInts.get(j);
             }
             try {
-                out[i] = new Permutation(size, shuffledArray);
+                out[i] = new Permutation(size, objectSize, shuffledArray);
             } catch (InvalidPreferenceException ex) {
                 throw new RuntimeException("OrdinalPreferenceRandomiser: getNext(): shuffledArray is not a permutation");
             }
@@ -66,10 +66,6 @@ public class ICRandom implements iOrdinalIterator {
         }
     }
     
-    protected Permutation[] returnProfile() {
-        return out.clone();
-    }
-
     @Override
     public int profileLength() {
         return size;

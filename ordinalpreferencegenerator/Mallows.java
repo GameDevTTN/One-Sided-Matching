@@ -80,7 +80,7 @@ public class Mallows implements iOrdinalIterator {
 //                shuffledArray[j] = listOfInts.get(j);
 //            }
             try {
-                out[i] = new Permutation(obj, shuffledArray);
+                out[i] = new Permutation(size, obj, shuffledArray);
             } catch (InvalidPreferenceException ex) {
                 throw new RuntimeException("OrdinalPreferenceRandomiser: getNext(): shuffledArray is not a permutation");
             }

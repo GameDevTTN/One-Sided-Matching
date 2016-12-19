@@ -39,7 +39,7 @@ public class YankeeSwapStochastic extends StochasticAlgorithm {
             PostBox.broadcast(MessageType.PROCESS, new Pair<>("Present Order", p));
             int[] result = solveFixedPresentOrder(priority, p, input, agents); //my implementation of Permutation.getIterator() always returns PermutationIterator
             try {
-                output.addMatching(new Permutation(agents, result));
+                output.addMatching(new Permutation(agents, objects, result));
             } catch (InvalidPreferenceException ex) {
                 throw new RuntimeException("YSS: solve(): matching generated is invalid");
             }

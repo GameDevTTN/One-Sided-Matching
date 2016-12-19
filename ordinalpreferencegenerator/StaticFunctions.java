@@ -36,7 +36,7 @@ public class StaticFunctions {
     private static int generatePermutations(Permutation[] profiles, int index, List<Integer> var, int[] i, int pos) {
         if (var.isEmpty()) {
             try {
-                profiles[index++] = new Permutation(i.length, i);
+                profiles[index++] = new Permutation(i.length, i.length, i);
             } catch (InvalidPreferenceException ex) {
                 throw new RuntimeException(ex.getMessage());
             }

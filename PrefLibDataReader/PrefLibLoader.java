@@ -66,7 +66,7 @@ public class PrefLibLoader {
                         prefList[index++] = value;
                     }
                 }
-                frequency[i] = new Pair<>(new Permutation(numOfObjects, prefList), freq);
+                frequency[i] = new Pair<>(new Permutation(numOfObjects, numOfObjects, prefList), freq);
             }
         } catch (FileNotFoundException | NumberFormatException | InvalidPreferenceException e) {
             throw new NotPrefLibFileException(e.getMessage());

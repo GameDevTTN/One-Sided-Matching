@@ -29,7 +29,7 @@ public class Proportional implements iAlgorithm {
                 match[j] = (val <= objects ? val : Settings.NULL_ITEM);
             }
             try {
-                pm.addMatching(new Permutation(agents, match));
+                pm.addMatching(new Permutation(agents, objects, match));
             } catch (InvalidPreferenceException ex) {
                 throw new RuntimeException("Proportional: solve(PreferenceProfile, int): fails to add Matching");
             }

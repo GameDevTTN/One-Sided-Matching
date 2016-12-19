@@ -126,7 +126,7 @@ public class GenericImplementation extends DeterministicAlgorithm {
         int[] delayedMemory = Arrays.copyOf(obj, agents); //if it does not have rounds or delayed memory, this should always not empty
         
         //datastructure for item preferences
-        List<Integer>[] itemPref = new List[agents];
+        List<Integer>[] itemPref = new List[objects];
         for (int i = 0; i < itemPref.length; i++) {
             itemPref[i] = new ArrayList<>();
         }

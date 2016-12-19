@@ -33,7 +33,7 @@ public class HungarianAlgorithmWrapper implements iAlgorithm {
         }
         ProbabilityMatrix pm = new ProbabilityMatrix(agents, objects);
         try {
-            pm.addMatching(new Permutation(agents, new HungarianAlgorithm(preferences).execute()));
+            pm.addMatching(new Permutation(agents, objects, new HungarianAlgorithm(preferences).execute()));
         } catch (InvalidPreferenceException ex) {
             throw new RuntimeException("HungarianAlgorithmWrapper: solve(): matching generated is invalid");
         }

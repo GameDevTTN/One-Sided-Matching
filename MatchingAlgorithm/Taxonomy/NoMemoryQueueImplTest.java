@@ -44,7 +44,7 @@ public class NoMemoryQueueImplTest extends DeterministicAlgorithm {
         int[] obj = new int[objects];
         
         //datastructure for item preferences
-        List<Integer>[] itemPref = new List[agents];
+        List<Integer>[] itemPref = new List[objects];
         for (int i = 0; i < itemPref.length; i++) {
             itemPref[i] = new ArrayList<>();
         }
