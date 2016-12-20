@@ -60,27 +60,23 @@ public class Mallows implements iOrdinalIterator {
             int[] shuffledArray = new int[obj];
             int indexCounter = 0;
             while (!listOfInts.isEmpty()) {
+                double random = Math.random();
+                double chance = 0.0;
                 for (int j = 0; j < listOfInts.size(); j++) {
-                    double chance;
                     if (Settings.PREF_PARAM == 1.0) {
                         throw new RuntimeException("Not yet supporting Q == 1.0");
                     } else {
-                        chance = ((1 - Settings.PREF_PARAM) * Math.pow(Settings.PREF_PARAM, j))/(1 - Math.pow(Settings.PREF_PARAM, listOfInts.size()));
+                        chance += ((1 - Settings.PREF_PARAM) * Math.pow(Settings.PREF_PARAM, j))/(1 - Math.pow(Settings.PREF_PARAM, listOfInts.size()));
                     }
-                    if (Math.random() < chance) {
+                    if (random < chance) {
                         shuffledArray[indexCounter++] = listOfInts.remove(j);
                         break;
                     }
                 }
             }
-            if (!listOfInts.isEmpty()) {
-                throw new RuntimeException("leakage");
-            }
-//            for (int j = 0; j < listOfInts.size(); j++) {
-//                shuffledArray[j] = listOfInts.get(j);
-//            }
+
             try {
-                out[i] = new Permutation(size, obj, shuffledArray);
+                out[i] = new Permutation(obj, obj, shuffledArray);
             } catch (InvalidPreferenceException ex) {
                 throw new RuntimeException("OrdinalPreferenceRandomiser: getNext(): shuffledArray is not a permutation");
             }

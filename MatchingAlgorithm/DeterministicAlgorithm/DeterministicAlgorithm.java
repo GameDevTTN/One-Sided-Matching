@@ -37,7 +37,7 @@ public abstract class DeterministicAlgorithm implements iAlgorithm {
                 temp[i] = i + 1;
             }
             try {
-                priority[0] = new Permutation(agents, objects, temp);
+                priority[0] = new Permutation(agents, agents, temp);
             } catch (InvalidPreferenceException ex) {
                 throw new RuntimeException("temp error");
             }

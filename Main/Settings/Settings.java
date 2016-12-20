@@ -124,7 +124,7 @@ public abstract class Settings {
 //                    MemorylessAcceptLastQueueHasDelayedKnowledgeGTTC.class
             
             //temporary debug/quick test classes
-            NoMemoryQueueImplTest.class
+//            NoMemoryQueueImplTest.class
     };
     
     public static void init() {
@@ -155,21 +155,22 @@ public abstract class Settings {
     public static final String INTEGER_OUTPUT = "%2d";
     
     //code for null item
+    //required to be -1 for Hungarian Algorithm (unless modifying the code in HA)
     public static final int NULL_ITEM = -1;
     
-    public static final boolean FIXED_ORDER_FOR_ALGORITHM = false; //set to true for large value of n to only do 1 permutation
+    public static final boolean FIXED_ORDER_FOR_ALGORITHM = true; //set to true for large value of n to only do 1 permutation
     //if FIXED_ORDER... is false, DO NOT TRY ANYTHING bigger m or n (maximum m or n = 12). Otherwise the fact(n) will overflow
     
     //main method location & number of agents/items
     public static final Class APP_CLASS = MainBruteForce.class;
-    public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = IANC.class;
-    public static final double PREF_PARAM = 0.6;
+    public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = Mallows.class;
+    public static final double PREF_PARAM = 0.9;
     //M = minimum number of agents
-    public static final int M = 3; //5
+    public static final int M = 7; //5
     //N = maximum number of agents
-    public static final int N = 3; //100
+    public static final int N = 7; //100
     //O = number of objects [O = -1 to set O = current number of agents]
-    public static final int O = 4;
+    public static final int O = 12;
     public static final int INCREMENT = 1; //5
     public static final double RUN_CHANCE = 1;
     public static final int PROFILE_COUNT = 100; //use 10000 for real runs //not relevant for IC/IAC/IANC

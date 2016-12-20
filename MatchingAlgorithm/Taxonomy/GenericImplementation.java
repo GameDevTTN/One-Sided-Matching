@@ -53,7 +53,9 @@ public class GenericImplementation extends DeterministicAlgorithm {
                 continue;
             }
             new AlgorithmObserver(GenericImplementation.class, params).init();
-            new AlgorithmObserver(new GTTCImprovement(new GenericImplementation(params[0], params[1], params[2], params[3], params[4]))).init();
+            if (params[1] == false) {
+                new AlgorithmObserver(new GTTCImprovement(new GenericImplementation(params[0], params[1], params[2], params[3], params[4]))).init();
+            }
         }
     }
 //improved with GTTC
