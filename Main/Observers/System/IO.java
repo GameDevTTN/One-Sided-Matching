@@ -78,7 +78,7 @@ public class IO implements Observer {
             PostBox.listen(singleton, MessageType.PRINT);
             //PostBox.listen(singleton, MessageType.NOTIFICATION);
         } else {
-            singleton.count = 0;
+//            singleton.count = 0;
         }
         return singleton;
     }
@@ -88,19 +88,20 @@ public class IO implements Observer {
         singleton.reset(path);
         return singleton;        
     }
-    private int count = 0;
+//    private int count = 0;
     private int fileIndex = 0;
     @Override
     public void update(Observable o, Object o1) {
-        if (((PostBox)o).getSource() == MessageType.PREFERENCE) {
-            if (count >= 5000) {
-                count -= 5000;
-                ++fileIndex;
-                close();
-                reset();
-            }
-            ++count;
+        if (output != null && output.length() >= 1024*1024) {
+            incrementFileIndex();
         }
+//        if (((PostBox)o).getSource() == MessageType.PREFERENCE) {
+//            if (count >= 5000) {
+//                count -= 5000;
+//                incrementFileIndex();
+//            }
+//            ++count;
+//        }
         if (o1 instanceof Pair) {
             Pair p = (Pair)o1;
             if (p.getS() instanceof String) {
@@ -116,6 +117,12 @@ public class IO implements Observer {
         } else {
             pw.write(o1 + "\n");
         }
+    }
+    
+    private void incrementFileIndex() {
+        ++fileIndex;
+        close();
+        reset();
     }
     
     public void close() {

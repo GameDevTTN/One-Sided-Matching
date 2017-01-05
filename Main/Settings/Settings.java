@@ -164,16 +164,16 @@ public abstract class Settings {
     //main method location & number of agents/items
     public static final Class APP_CLASS = MainBruteForce.class;
     public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = Mallows.class;
-    public static final double PREF_PARAM = 0.9;
+    public static final double PREF_PARAM = 0.80;
     //M = minimum number of agents
-    public static final int M = 7; //5
+    public static final int M = 40; //5
     //N = maximum number of agents
-    public static final int N = 7; //100
+    public static final int N = 40; //100
     //O = number of objects [O = -1 to set O = current number of agents]
-    public static final int O = 12;
-    public static final int INCREMENT = 1; //5
+    public static final int O = -1;
+    public static final int INCREMENT = 10; //5
     public static final double RUN_CHANCE = 1;
-    public static final int PROFILE_COUNT = 100; //use 10000 for real runs //not relevant for IC/IAC/IANC
+    public static final int PROFILE_COUNT = 10000; //use 10000 for real runs //not relevant for IC/IAC/IANC
     public static final String PATH = "141216/Output2/";//"290716/Mallows10/";
     public static final String DATA_SAVE_PATH = null; //"randomDataPackTest/real/Pack1/";
     
