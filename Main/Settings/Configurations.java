@@ -6,6 +6,7 @@
 package Main.Settings;
 
 import Main.Observers.AlgorithmObserver;
+import Main.Observers.System.MessageType;
 import Main.Observers.iResultsCollator;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +19,16 @@ import ordinalpreferencegenerator.iOrdinalIterator;
  */
 public class Configurations {
     
-    private static Configurations singleton = new Configurations();
+    private static final Configurations singleton = new Configurations();
     //public static final Class<? extends iOrdinalIterator> ORDINAL_PREFERENCE = Mallows.class;
-    public static final int PROFILE_COUNT = 10000; //use 10000 for real runs //not relevant for IC/IAC/IANC
+    //public static final int PROFILE_COUNT = 10000; //use 10000 for real runs //not relevant for IC/IAC/IANC
 
     
     private boolean allSet = false;
     private iResultsCollator[] rc = null;
     private AlgorithmObserver[] ao = null;
     private iOrdinalIterator[] oi = null;
+    private MessageType[] mt = null;
     private int index = 0;
 //    //params
 //    private int increment = 10; //5
@@ -37,7 +39,7 @@ public class Configurations {
 //    //O = number of objects [O = -1 to set O = current number of agents]
 //    private int O = -1;
 //    public static final double RUN_CHANCE = 1;
-    public static final boolean FIXED_ORDER_FOR_ALGORITHM = false; //set to true for large value of n to only do 1 permutation
+    public static boolean FIXED_ORDER_FOR_ALGORITHM = true; //set to true for large value of n to only do 1 permutation
     //if FIXED_ORDER... is false, DO NOT TRY ANYTHING bigger m or n (maximum m or n = 12). Otherwise the fact(n) will overflow
 //    public static final double PREF_PARAM = 0.8;
     
@@ -82,6 +84,15 @@ public class Configurations {
         return false;
     }
     
+    public void setOutput(MessageType[] mt) {
+        if (!allSet && mt != null)
+            this.mt = mt;
+    }
+    
+    public MessageType[] getOutput() {
+        return mt;
+    }
+    
 //    iOrdinalIterator getPreferenceIterator() {
 //        return oi;
 //    }
@@ -114,7 +125,7 @@ public class Configurations {
     }
     
     private boolean allVariablesSet() {
-        return ((rc!=null) && (ao!=null) &&(oi!=null));
+        return ((rc!=null) && (ao!=null) &&(oi!=null) &&(mt!=null));
     }
 
     public String getPreferenceDescription() {

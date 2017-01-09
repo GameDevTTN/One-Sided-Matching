@@ -24,16 +24,15 @@ public class Gaussian implements iOrdinalIterator{
     protected final int size;
     protected final int objectSize;
     private int runs;
-    private final int PROFILE_COUNT = Configurations.PROFILE_COUNT;
     private Permutation[] out;
     
     private Random r = new Random();
     
-    Gaussian(int count, int object) { //package private
+    Gaussian(int run, int count, int object) { //package private
         size = count;
         objectSize = object;
         out = new Permutation[size];
-        runs = PROFILE_COUNT;
+        runs = run;
     }
 
     @Override

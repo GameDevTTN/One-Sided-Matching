@@ -36,8 +36,35 @@ public final class GenericMain {
         Configurations c = Configurations.getConfigurations();
         c.setAlgorithms(getAlgorithms());
         c.setResultCollator(getResultCollator());
-        c.setPreferenceIterator(new iOrdinalIterator[]{new IANC(3,3), new IAC(3,3)});
+        c.setPreferenceIterator(getPreferenceProfiles());
+        c.setOutput(getOutput());
     }
+    
+    private static MessageType[] getOutput() {
+        return new MessageType[]{MessageType.PREFERENCE, 
+            MessageType.ALGORITHM_NAME, 
+            MessageType.OUTPUT, 
+            MessageType.SUMMARY, 
+            MessageType.SYSTEM, 
+            MessageType.PRINT};
+//                    PostBox.listen(singleton, MessageType.PREFERENCE);
+//            PostBox.listen(singleton, MessageType.ALGORITHM_NAME);
+////            PostBox.listen(singleton, MessageType.PROCESS);
+////            PostBox.listen(singleton, MessageType.DETAILS);
+////            PostBox.listen(singleton, MessageType.TABLE);
+//            PostBox.listen(singleton, MessageType.OUTPUT);
+////            PostBox.listen(singleton, MessageType.COMPARISON);
+//            PostBox.listen(singleton, MessageType.SUMMARY);
+//            PostBox.listen(singleton, MessageType.SYSTEM);
+//            PostBox.listen(singleton, MessageType.PRINT);
+//            //PostBox.listen(singleton, MessageType.NOTIFICATION);
+    }
+    
+    private static iOrdinalIterator[] getPreferenceProfiles() {
+        return new iOrdinalIterator[]{/*new ICRandom(1000,30,30), new ICRandom(100,31,31),*/ new Mallows(1000, 10, 10, 0.65d), new Mallows(1000, 10, 10, 0.6d)};
+    }
+    //at for n = 10, at about 0.65 Mallows, NB out-performs YS
+    
     
     private static AlgorithmObserver[] getAlgorithms() {
         ArrayList<AlgorithmObserver> out = new ArrayList<>();
@@ -60,7 +87,7 @@ public final class GenericMain {
         long start = System.currentTimeMillis();
         modifySettings();
         MainBruteForce mbf = new MainBruteForce();
-        mbf.start();mbf.start();
+        mbf.start();
         PostBox.broadcast(MessageType.PRINT, "Time taken: " + (System.currentTimeMillis() - start)/1000 + "s");
     }
     

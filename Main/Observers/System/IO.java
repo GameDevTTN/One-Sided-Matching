@@ -5,6 +5,7 @@
  */
 package Main.Observers.System;
 
+import Main.Settings.Configurations;
 import Main.Settings.Format;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -69,17 +70,9 @@ public class IO implements Observer {
     public static IO getConsole() {
         if (singleton == null) {
             singleton = new IO();
-            PostBox.listen(singleton, MessageType.PREFERENCE);
-            PostBox.listen(singleton, MessageType.ALGORITHM_NAME);
-//            PostBox.listen(singleton, MessageType.PROCESS);
-//            PostBox.listen(singleton, MessageType.DETAILS);
-//            PostBox.listen(singleton, MessageType.TABLE);
-            PostBox.listen(singleton, MessageType.OUTPUT);
-//            PostBox.listen(singleton, MessageType.COMPARISON);
-            PostBox.listen(singleton, MessageType.SUMMARY);
-            PostBox.listen(singleton, MessageType.SYSTEM);
-            PostBox.listen(singleton, MessageType.PRINT);
-            //PostBox.listen(singleton, MessageType.NOTIFICATION);
+            for (MessageType t : Configurations.getConfigurations().getOutput()) {
+                PostBox.listen(singleton, t);
+            }
         } else {
 //            singleton.count = 0;
         }

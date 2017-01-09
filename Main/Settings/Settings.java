@@ -26,9 +26,9 @@ public abstract class Settings {
     
     
     //main method location & number of agents/items
-    public static final Class APP_CLASS = MainBruteForce.class;
+//    public static final Class APP_CLASS = MainBruteForce.class;
     public static final String PATH = "141216/Output2/";//"290716/Mallows10/";
-    public static final String DATA_SAVE_PATH = null; //"randomDataPackTest/real/Pack1/";
+//    public static final String DATA_SAVE_PATH = null; //"randomDataPackTest/real/Pack1/";
     
 
 }

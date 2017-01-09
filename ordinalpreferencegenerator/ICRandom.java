@@ -24,12 +24,11 @@ public class ICRandom implements iOrdinalIterator {
     protected final int size;
     protected final int objectSize;
     private int runs;
-    private final int PROFILE_COUNT = Configurations.PROFILE_COUNT;
     
-    ICRandom(int count, int objects) { //package private
+    public ICRandom(int run, int count, int objects) { //package private
         size = count;
         this.objectSize = objects;
-        runs = PROFILE_COUNT;
+        runs = run;
     }
     
     @Override

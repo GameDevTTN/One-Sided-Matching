@@ -25,25 +25,25 @@ public class Mallows implements iOrdinalIterator {
     protected final int size;
     protected final int obj;
     private int runs;
-    private final int PROFILE_COUNT = Configurations.PROFILE_COUNT;
+    //private final int PROFILE_COUNT;// = Configurations.PROFILE_COUNT;
     private final double PREF_PARAM;
     
-    Mallows(int count) {
-        this(count, 0.99d);
+    public Mallows(int run, int count) {
+        this(run, count, 0.99d);
     }
     
-    Mallows(int agent, int object) {
-        this(agent, object, 0.99d);
+    public Mallows(int run, int agent, int object) {
+        this(run, agent, object, 0.99d);
     }
     
-    Mallows(int count, double param) { //package private
-        this(count, count, param);
+    public Mallows(int run, int count, double param) { //package private
+        this(run, count, count, param);
     }
     
-    Mallows(int agent, int object, double param) {
+    public Mallows(int run, int agent, int object, double param) {
         size = agent;
         obj = object;
-        runs = PROFILE_COUNT;
+        runs = run;
         if (param <= 0.0d || param >= 1.0d) {
             param = 0.99d;
         }
