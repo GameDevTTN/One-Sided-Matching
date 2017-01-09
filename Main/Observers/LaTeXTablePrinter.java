@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import Main.Observers.Auxiliary.dtoTable;
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
+import Main.Settings.Configurations;
 import Main.Settings.Settings;
 import MatchingAlgorithm.iAlgorithm;
 import Pair.Pair;
@@ -35,25 +36,12 @@ public class LaTeXTablePrinter extends iResultsCollator {
     public void init() {
         PostBox.listen(this, MessageType.SUMMARY);
         PostBox.listen(this, MessageType.SYSTEM);
-        for (Class<? extends iAlgorithm> c : Settings.classes) {
-            try {
-                algorithmNames.add(c.newInstance().getName());
-            } catch (InstantiationException | IllegalAccessException ex) {
-                Logger.getLogger(LaTeXTablePrinter.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        for (Class<? extends iAlgorithm> c : Settings.classesWithIntParam) {
-            try {
-                algorithmNames.add(c.getConstructor(Integer.TYPE).newInstance(2).getName());
-            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException ex) {
-                Logger.getLogger(LaTeXTablePrinter.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        algorithmNames = Configurations.getConfigurations().getAlgorithmNames();
         values = new List[algorithmNames.size()];
         for (int i = 0; i < values.length; i++) {
             values[i] = new ArrayList<>();
         }
-        size = Settings.M;
+        size = Configurations.getConfigurations().peekIterator().profileLength();
     }
     
 
@@ -90,7 +78,7 @@ public class LaTeXTablePrinter extends iResultsCollator {
     protected void onEndSize() {
         PostBox.broadcast(MessageType.PRINT, toString());
         clear();
-        size += Settings.INCREMENT;
+        size += Configurations.getConfigurations().peekIterator().profileLength();
     }
     
     @Override
@@ -106,7 +94,7 @@ public class LaTeXTablePrinter extends iResultsCollator {
     public String toString() {
         String output = "";
         for (int i = 0; i < algorithmNames.size(); i++) {
-            output += Settings.ORDINAL_PREFERENCE.getSimpleName();
+            output += Configurations.getConfigurations().getPreferenceDescription();
             output += "," + size;                    
             output += "," + algorithmNames.get(i);
             for (int j = 0; j < values[i].size(); j++) {

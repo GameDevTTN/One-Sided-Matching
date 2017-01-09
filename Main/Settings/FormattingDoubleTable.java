@@ -17,7 +17,7 @@ public class FormattingDoubleTable {
             if (!out.equals(""))
                 out += "\n";
             for (double d : arr) {
-                out += Settings.format(d) + " ";
+                out += Format.Format(d) + " ";
             }
         }
         return out;

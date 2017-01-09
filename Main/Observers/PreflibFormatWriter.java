@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
+import Main.Settings.Configurations;
 import Main.Settings.Settings;
 import MatchingAlgorithm.Auxiliary.Permutation;
 import MatchingAlgorithm.Auxiliary.PreferenceProfile;
@@ -32,7 +33,7 @@ public class PreflibFormatWriter extends iResultsCollator {
     
     @Override
     public void init() {
-        size = Settings.M;
+        size = Configurations.getConfigurations().peekIterator().profileLength();
         if (Settings.DATA_SAVE_PATH != null) {
             PostBox.listen(this, MessageType.PREFERENCE);
             PostBox.listen(this, MessageType.SYSTEM);
@@ -64,7 +65,7 @@ public class PreflibFormatWriter extends iResultsCollator {
     
     @Override
     protected void onEndSize() {
-        size += Settings.INCREMENT;
+        size = Configurations.getConfigurations().peekIterator().profileLength();
         index = 0;
     }
     

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Main;
+package Main.Settings;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,6 +20,7 @@ import Main.Observers.System.CsvLog;
 import Main.Observers.System.IO;
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
+import Main.Settings.Configurations;
 import Main.Settings.Settings;
 import Main.Settings.iAppClass;
 import MatchingAlgorithm.Auxiliary.InvalidPreferenceException;
@@ -49,24 +50,21 @@ public class MainBruteForce extends iResultsCollator implements iAppClass {
         IO.getConsole();
         CsvLog.getConsole();
         this.init();
-        Settings.init();
-        PostBox.broadcast(MessageType.PRINT, Settings.ORDINAL_PREFERENCE.getSimpleName());
-        for (int i = Settings.M; i <= Settings.N; i+=Settings.INCREMENT) {
+        Configurations.getConfigurations().init();
+        //Settings.init();
+        do {
+            PostBox.broadcast(MessageType.PRINT, Configurations.getConfigurations().peekIterator().getName());
             int h = 0; int unH = 0;
-            PostBox.broadcast(MessageType.PRINT, "Beginning of size " + i);
-            iOrdinalIterator op = (Settings.O == -1 ? ImpartialCultureFactory.createImpartialCulture(Settings.ORDINAL_PREFERENCE, i) : ImpartialCultureFactory.createImpartialCulture(Settings.ORDINAL_PREFERENCE, i, Settings.O));
+            PostBox.broadcast(MessageType.PRINT, "Beginning of Iterator " + Configurations.getConfigurations().peekIterator().getName());
+            iOrdinalIterator op = Configurations.getConfigurations().peekIterator();
             while (op.hasNext()) {
                 PreferenceProfile next = op.getNext();
-                //only run a % of the profile
-                if (Math.random() > Settings.RUN_CHANCE) {
-                    continue;
-                }
                 //check if the profile has been ran already
                 PreferenceProfile id = preferenceAlreadyRan(next);
                 if (id != null) {
                     ++h;
                     PostBox.broadcast(MessageType.PREFERENCE, new Pair<>(id, false));
-                    for (Map.Entry<String, iProbabilityMatrix> e : hash.getOrDefault(id, new HashMap<String,iProbabilityMatrix>()).entrySet()) {
+                    for (Map.Entry<String, iProbabilityMatrix> e : hash.getOrDefault(id, new HashMap<>()).entrySet()) {
                         PostBox.broadcast(MessageType.TABLE, new Pair<>(e.getKey(), e.getValue())); //feed the reordered list to match the raw data
                     }
                 } else {
@@ -81,7 +79,8 @@ public class MainBruteForce extends iResultsCollator implements iAppClass {
             PostBox.broadcast(MessageType.PRINT, "End of size");
             PostBox.broadcast(MessageType.PRINT, "Hashed: " + h + " Unhashed: " + unH);
             PostBox.broadcast(MessageType.SYSTEM, new Pair<>("End Size",""));
-        }
+        } while (Configurations.getConfigurations().nextIterator());
+            
         PostBox.broadcast(MessageType.PRINT, "End of calculation");
         PostBox.broadcast(MessageType.SYSTEM, new Pair<>("End Calculation", ""));
         IO.getConsole().close();

@@ -5,6 +5,7 @@
  */
 package MatchingAlgorithm.Auxiliary;
 
+import Main.Settings.Format;
 import Main.Settings.Settings;
 import Pair.Pair;
 
@@ -24,6 +25,6 @@ public class PairDoubles extends Pair<Double, Double> {
     
     @Override
     public String toString() {
-        return Settings.format(getS() - getT());
+        return Format.Format(getS() - getT());
     }
 }

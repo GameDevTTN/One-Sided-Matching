@@ -5,6 +5,7 @@
  */
 package Main.Observers.Auxiliary;
 
+import Main.Settings.Format;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -22,7 +23,7 @@ public class dtoPercentageTable extends dtoTable<Double> {
     
     @Override
     public String lookup(String s) {
-        return (results.containsKey(s) ? Settings.format(results.get(s)/100) : "fails to find");
+        return (results.containsKey(s) ? Format.Format(results.get(s)/100) : "fails to find");
     }
 
     @Override
@@ -31,7 +32,7 @@ public class dtoPercentageTable extends dtoTable<Double> {
         for (Map.Entry<String, Double> e : results.entrySet()) {
             if (!out.equals(""))
                 out += "\n";
-            out += Settings.format(e.getValue()) + "% " + e.getKey();
+            out += Format.Format(e.getValue()) + "% " + e.getKey();
         }
         return out;
     }    

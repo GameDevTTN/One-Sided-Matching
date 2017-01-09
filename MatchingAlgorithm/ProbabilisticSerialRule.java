@@ -7,6 +7,7 @@ package MatchingAlgorithm;
 
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
+import Main.Settings.Format;
 import Main.Settings.Settings;
 import MatchingAlgorithm.Auxiliary.PreferenceProfile;
 import MatchingAlgorithm.Auxiliary.ProbabilisticProbabilityMatrix;
@@ -28,12 +29,12 @@ public class ProbabilisticSerialRule implements iAlgorithm {
         double time = 0;
         double[] obj = new double[objects];
         int[] agentsCake = new int[agents];
-        while (!Settings.doubleEqual(((double)objects)/agents, time) && time <= ((double)objects)/agents) {
+        while (!Format.DoubleEqual(((double)objects)/agents, time) && time <= ((double)objects)/agents) {
             //each agent choose a cake
             int[] agentsOnCake = new int[agents];
             for (int i = 1; i <= input.size(); i++) {
                 int desiredItem = agentsCake[i - 1];
-                while (desiredItem == 0 || Settings.doubleEqual(1, obj[desiredItem - 1])) {
+                while (desiredItem == 0 || Format.DoubleEqual(1, obj[desiredItem - 1])) {
                     desiredItem = ip.getNext(i); //this shouldn't crash, but it may
                 }
                 ++agentsOnCake[desiredItem - 1];
@@ -51,7 +52,7 @@ public class ProbabilisticSerialRule implements iAlgorithm {
             for (int i = 0; i < agents; i++) {
                 obj[i] += agentsOnCake[i] * min;
             }
-            PostBox.broadcast(MessageType.PROCESS, new Pair<>("",Settings.format(min) + " time has passed. New time is " + Settings.format(time)));
+            PostBox.broadcast(MessageType.PROCESS, new Pair<>("",Format.Format(min) + " time has passed. New time is " + Format.Format(time)));
             output.addMatching(agentsCake, min);
         }
         return output;

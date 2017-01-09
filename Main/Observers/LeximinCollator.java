@@ -13,6 +13,7 @@ import java.util.TreeMap;
 
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
+import Main.Settings.Format;
 import Main.Settings.Settings;
 import MatchingAlgorithm.Auxiliary.iProbabilityMatrix;
 import MatchingAlgorithm.Auxiliary.iProfileIterator;
@@ -103,10 +104,10 @@ public class LeximinCollator extends iResultsCollator {
             }
             int index = first.size() - 1;
             while (index >= 0) {
-                if (!Settings.doubleEqual(first.get(index), second.get(index)) && first.get(index) < second.get(index)) {
+                if (!Format.DoubleEqual(first.get(index), second.get(index)) && first.get(index) < second.get(index)) {
                     return true;
                 }
-                if (!Settings.doubleEqual(first.get(index), second.get(index)) && first.get(index) > second.get(index)) {
+                if (!Format.DoubleEqual(first.get(index), second.get(index)) && first.get(index) > second.get(index)) {
                     return false;
                 }
                 --index;

@@ -17,7 +17,7 @@ public class FormattingObjectTable {
         for (Object p : array) {
             if (!out.equals(""))
                 out += "\n";
-            out += Settings.format(p);
+            out += Format.Format(p);
         }
         return out;
     }

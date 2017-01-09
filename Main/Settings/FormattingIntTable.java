@@ -14,7 +14,7 @@ public class FormattingIntTable {
     public static String OneDimTable(int[] array) {
         String out = "";
         for (int i : array) {
-            out += Settings.format(i) + " ";
+            out += Format.Format(i) + " ";
         }
         return out;
     }

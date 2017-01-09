@@ -5,6 +5,8 @@
  */
 package ordinalpreferencegenerator;
 
+import Main.Settings.Configurations;
+import Main.Settings.Format;
 import Main.Settings.Settings;
 import MatchingAlgorithm.Auxiliary.InvalidPreferenceException;
 import MatchingAlgorithm.Auxiliary.Permutation;
@@ -23,18 +25,29 @@ public class Mallows implements iOrdinalIterator {
     protected final int size;
     protected final int obj;
     private int runs;
-    private final int PROFILE_COUNT = Settings.PROFILE_COUNT;
+    private final int PROFILE_COUNT = Configurations.PROFILE_COUNT;
+    private final double PREF_PARAM;
     
-    Mallows(int count) { //package private
-        size = count;
-        obj = count;
-        runs = PROFILE_COUNT;
+    Mallows(int count) {
+        this(count, 0.99d);
     }
     
     Mallows(int agent, int object) {
+        this(agent, object, 0.99d);
+    }
+    
+    Mallows(int count, double param) { //package private
+        this(count, count, param);
+    }
+    
+    Mallows(int agent, int object, double param) {
         size = agent;
         obj = object;
         runs = PROFILE_COUNT;
+        if (param <= 0.0d || param >= 1.0d) {
+            param = 0.99d;
+        }
+        PREF_PARAM = param;
     }
     
     @Override
@@ -63,10 +76,10 @@ public class Mallows implements iOrdinalIterator {
                 double random = Math.random();
                 double chance = 0.0;
                 for (int j = 0; j < listOfInts.size(); j++) {
-                    if (Settings.PREF_PARAM == 1.0) {
+                    if (PREF_PARAM == 1.0) {
                         throw new RuntimeException("Not yet supporting Q == 1.0");
                     } else {
-                        chance += ((1 - Settings.PREF_PARAM) * Math.pow(Settings.PREF_PARAM, j))/(1 - Math.pow(Settings.PREF_PARAM, listOfInts.size()));
+                        chance += ((1 - PREF_PARAM) * Math.pow(PREF_PARAM, j))/(1 - Math.pow(PREF_PARAM, listOfInts.size()));
                     }
                     if (random < chance) {
                         shuffledArray[indexCounter++] = listOfInts.remove(j);
@@ -99,7 +112,7 @@ public class Mallows implements iOrdinalIterator {
     
     @Override
     public String getName() {
-        return "Mallows";
+        return "Mallows " + Format.DoubleToString(PREF_PARAM);
     }
     
 }

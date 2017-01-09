@@ -12,6 +12,7 @@ import Main.Observers.KeyResultBroadcaster;
 import Main.Observers.System.IO;
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
+import Main.Settings.Configurations;
 import Main.Settings.Settings;
 import Main.Settings.iAppClass;
 import MatchingAlgorithm.DeterministicAlgorithm.YankeeSwap.YankeeSwapStandardWithGTTC;
@@ -27,7 +28,7 @@ public class StrategyProofnessStart implements iAppClass {
     public void start() {
         
         IO.getConsole();
-        int size = Settings.N;
+        int size = 0;//Configurations.getConfigurations().getParams()[1];
         PartialIterator op = PartialIterator.getIterator(size);
 //        OrdinalPreferenceIterator op = OrdinalPreferenceRandomiser.getRandomiser(10, 300);
         new KeyResultBroadcaster().init();

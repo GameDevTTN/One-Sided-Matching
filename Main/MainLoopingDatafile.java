@@ -30,7 +30,7 @@ public class MainLoopingDatafile  implements iAppClass {
     public void start() {
         
         IO.getConsole();
-        Settings.init();
+//        Settings.init();
         IO.getConsole(); //??why calling it twice??
         
         for (File e : new File("randomDataPackTest/real/Pack1/").listFiles()) {

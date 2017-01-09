@@ -5,6 +5,7 @@
  */
 package Main.Observers.System;
 
+import Main.Settings.Format;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,6 +23,8 @@ import Pair.Pair;
  * @author ylo019
  */
 public class IO implements Observer {
+    
+    private static final int MB_128 = 1024 * 1024 * 128;
     
     private static IO singleton;
     private File output;
@@ -92,7 +95,7 @@ public class IO implements Observer {
     private int fileIndex = 0;
     @Override
     public void update(Observable o, Object o1) {
-        if (output != null && output.length() >= 1024*1024) {
+        if (output != null && output.length() >= MB_128) { //128mb
             incrementFileIndex();
         }
 //        if (((PostBox)o).getSource() == MessageType.PREFERENCE) {
@@ -106,13 +109,13 @@ public class IO implements Observer {
             Pair p = (Pair)o1;
             if (p.getS() instanceof String) {
                 if (!p.getS().equals("") && !p.getT().equals(""))
-                    pw.write(Settings.format(p.getS()) + ":\n");
+                    pw.write(Format.Format(p.getS()) + ":\n");
                     //System.out.println(Settings.format(p.getS()) + ":");
                 if (!p.getT().equals(""))
-                    pw.write(Settings.format(p.getT()) + "\n");
+                    pw.write(Format.Format(p.getT()) + "\n");
                     //System.out.println(Settings.format(p.getT()));
             } else {
-                pw.write(Settings.format(p.getS()));
+                pw.write(Format.Format(p.getS()));
             }
         } else {
             pw.write(o1 + "\n");

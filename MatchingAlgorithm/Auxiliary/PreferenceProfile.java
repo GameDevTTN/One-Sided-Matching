@@ -5,6 +5,7 @@
  */
 package MatchingAlgorithm.Auxiliary;
 
+import Main.Settings.Format;
 import java.util.Arrays;
 
 import Main.Settings.FormattingObjectTable;
@@ -93,7 +94,7 @@ public class PreferenceProfile {
     public Double optimalProportionalityValue(int agent, double[] has) {
         double OPV = Double.POSITIVE_INFINITY;
         iIterator iter = preferences[agent - 1].getIterator();
-        if (Settings.doubleEqual(has[iter.getNext() - 1], 0.0)) {
+        if (Format.DoubleEqual(has[iter.getNext() - 1], 0.0)) {
             return Double.NaN;
         }
         iter.resetPointer();

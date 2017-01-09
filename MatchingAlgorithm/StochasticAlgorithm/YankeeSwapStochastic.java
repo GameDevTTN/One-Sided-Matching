@@ -8,6 +8,7 @@ package MatchingAlgorithm.StochasticAlgorithm;
 import ordinalpreferencegenerator.StaticFunctions;
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
+import Main.Settings.Format;
 import Main.Settings.Settings;
 import MatchingAlgorithm.Auxiliary.InvalidPreferenceException;
 import MatchingAlgorithm.Auxiliary.Permutation;
@@ -108,7 +109,7 @@ public class YankeeSwapStochastic extends StochasticAlgorithm {
     
     @Override
     public String getName() {
-        return "Yankee Swap Stochastic: " + Settings.format(k);
+        return "Yankee Swap Stochastic: " + Format.Format(k);
     }
 
     private boolean rule(int desiredItem, int itemBetterThanBest, int itemWorseThanBest) {

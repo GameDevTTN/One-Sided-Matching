@@ -5,6 +5,7 @@
  */
 package Pair;
 
+import Main.Settings.Format;
 import Main.Settings.Settings;
 
 /**
@@ -30,6 +31,6 @@ public class Pair<S,T> {
     }
     
     public String toString() {
-        return Settings.format(s) + " " + Settings.format(t);
+        return Format.Format(s) + " " + Format.Format(t);
     }
 }

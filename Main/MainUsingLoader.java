@@ -23,12 +23,12 @@ import PrefLibDataReader.PrefLibLoader;
  */
 public class MainUsingLoader  {
     
-    private final Class<? extends iResultsCollator>[] collators;
-    private final Class<? extends iAlgorithm>[] classes;
+//    private final Class<? extends iResultsCollator>[] collators;
+//    private final Class<? extends iAlgorithm>[] classes;
 
     public MainUsingLoader() {
-        this.collators = Settings.collators;
-        this.classes = Settings.classes;
+//        this.collators = Settings.collators;
+//        this.classes = Settings.classes;
     }
     //private final Class[] classes = {};
     public void start() {
@@ -37,7 +37,7 @@ public class MainUsingLoader  {
         PrefLibLoader op = PrefLibLoader.load(new File("Simple Test.txt"));
         int casesRemaining = 5;
 //        OrdinalPreferenceIterator op = OrdinalPreferenceRandomiser.getRandomiser(10, 300);
-        Settings.init();
+        //Settings.init();
         while (casesRemaining > 0) {
             PreferenceProfile next = op.getRandom();
             //print priority

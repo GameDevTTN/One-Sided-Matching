@@ -5,6 +5,7 @@
  */
 package ordinalpreferencegenerator;
 
+import Main.Settings.Configurations;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +24,7 @@ public class ICRandom implements iOrdinalIterator {
     protected final int size;
     protected final int objectSize;
     private int runs;
-    private final int PROFILE_COUNT = Settings.PROFILE_COUNT;
+    private final int PROFILE_COUNT = Configurations.PROFILE_COUNT;
     
     ICRandom(int count, int objects) { //package private
         size = count;

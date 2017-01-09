@@ -81,4 +81,8 @@ public class AlgorithmObserver implements Observer {
         }
     }
     
+    public String getName() {
+        return algorithm.getName();
+    }
+    
 }

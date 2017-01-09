@@ -5,6 +5,7 @@
  */
 package MatchingAlgorithm.Auxiliary;
 
+import Main.Settings.Format;
 import Main.Settings.Settings;
 import java.util.Comparator;
 
@@ -31,7 +32,7 @@ public abstract class PreferencesComparatorFactory {
                     int obj = preferences.getNext() - 1;
                     selfSum += self[obj];
                     otherSum += other[obj];
-                    if (!Settings.doubleEqual(selfSum, otherSum)) {
+                    if (!Format.DoubleEqual(selfSum, otherSum)) {
                         if (selfSum > otherSum) {
                             selfHigher = true;
                         } else if (otherSum > selfSum) {

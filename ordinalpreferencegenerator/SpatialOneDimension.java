@@ -5,6 +5,7 @@
  */
 package ordinalpreferencegenerator;
 
+import Main.Settings.Configurations;
 import Main.Settings.Settings;
 import MatchingAlgorithm.Auxiliary.InvalidPreferenceException;
 import MatchingAlgorithm.Auxiliary.Permutation;
@@ -21,13 +22,17 @@ public class SpatialOneDimension implements iOrdinalIterator{
 
     protected final int size;
     private int runs;
-    private final int PROFILE_COUNT = Settings.PROFILE_COUNT;
+    private final int PROFILE_COUNT = Configurations.PROFILE_COUNT;
     private Permutation[] out;
+    
+    private final double PREF_PARAM;
     
     SpatialOneDimension(int count) { //package private
         size = count;
         out = new Permutation[size];
         runs = PROFILE_COUNT;
+        PREF_PARAM = 0.99d;
+        
     }
     
     @Override
@@ -55,10 +60,10 @@ public class SpatialOneDimension implements iOrdinalIterator{
             while (!listOfInts.isEmpty()) {
                 for (int j = 0; j < listOfInts.size(); j++) {
                     double chance;
-                    if (Settings.PREF_PARAM == 1.0) {
+                    if (PREF_PARAM == 1.0) {
                         throw new RuntimeException("Not yet supporting Q == 1.0");
-                    } else {
-                        chance = ((1 - Settings.PREF_PARAM) * Math.pow(Settings.PREF_PARAM, j))/(1 - Math.pow(Settings.PREF_PARAM, listOfInts.size()));
+                    } else { //this is the wrong mallows - need fix
+                        chance = ((1 - PREF_PARAM) * Math.pow(PREF_PARAM, j))/(1 - Math.pow(PREF_PARAM, listOfInts.size()));
                     }
                     if (Math.random() < chance) {
                         shuffledArray[indexCounter++] = listOfInts.remove(j);

@@ -26,7 +26,8 @@ import java.util.List;
  */
 public class GenericImplementation extends DeterministicAlgorithm { 
 
-    public static void initAll() {
+    public static List<AlgorithmObserver> fetchAll() {
+        List<AlgorithmObserver> out = new ArrayList<AlgorithmObserver>();
         for (int i = 0; i < Math.pow(2,5); i++) {
             Boolean[] params = new Boolean[5];
             for (int j = 0; j < params.length; j++) {
@@ -52,11 +53,14 @@ public class GenericImplementation extends DeterministicAlgorithm {
             if (params[3] == true || params[4] == true) {
                 continue;
             }
-            new AlgorithmObserver(GenericImplementation.class, params).init();
+            out.add(new AlgorithmObserver(GenericImplementation.class, params));
+            //new AlgorithmObserver(GenericImplementation.class, params).init();
             if (params[1] == false) {
-                new AlgorithmObserver(new GTTCImprovement(new GenericImplementation(params[0], params[1], params[2], params[3], params[4]))).init();
+                out.add(new AlgorithmObserver(new GTTCImprovement(new GenericImplementation(params[0], params[1], params[2], params[3], params[4]))));
+                //new AlgorithmObserver(new GTTCImprovement(new GenericImplementation(params[0], params[1], params[2], params[3], params[4]))).init();
             }
         }
+        return out;
     }
 //improved with GTTC
     

@@ -13,6 +13,7 @@ import java.util.TreeMap;
 
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
+import Main.Settings.Format;
 import Main.Settings.Settings;
 import MatchingAlgorithm.Auxiliary.iProbabilityMatrix;
 import Pair.Pair;
@@ -70,7 +71,7 @@ public class CompareTables extends iResultsCollator {
                 if (!out.equals(""))
                     out += "\n";
                 for (Boolean d : e.getValue()) {
-                    out += ( d ? Settings.format(d): "    ") + ", ";
+                    out += ( d ? Format.Format(d): "    ") + ", ";
                 }
                 out += e.getKey();
             }

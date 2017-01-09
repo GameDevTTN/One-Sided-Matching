@@ -12,6 +12,7 @@ import java.util.TreeMap;
 
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
+import Main.Settings.Format;
 import Main.Settings.Settings;
 import MatchingAlgorithm.Auxiliary.iProbabilityMatrix;
 import Pair.Pair;
@@ -69,7 +70,7 @@ public class NetSatisfactionComparator extends iResultsCollator {
                 if (!out.equals(""))
                     out += "\n";
                 for (Double d : e.getValue()) {
-                    out += Settings.format(d) + " ";
+                    out += Format.Format(d) + " ";
                 }
                 out += e.getKey();
             }

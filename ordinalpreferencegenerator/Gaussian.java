@@ -5,6 +5,7 @@
  */
 package ordinalpreferencegenerator;
 
+import Main.Settings.Configurations;
 import Main.Settings.Settings;
 import MatchingAlgorithm.Auxiliary.InvalidPreferenceException;
 import MatchingAlgorithm.Auxiliary.Permutation;
@@ -23,7 +24,7 @@ public class Gaussian implements iOrdinalIterator{
     protected final int size;
     protected final int objectSize;
     private int runs;
-    private final int PROFILE_COUNT = Settings.PROFILE_COUNT;
+    private final int PROFILE_COUNT = Configurations.PROFILE_COUNT;
     private Permutation[] out;
     
     private Random r = new Random();

@@ -7,6 +7,8 @@ package Main.Observers;
 
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
+import Main.Settings.Configurations;
+import Main.Settings.Format;
 import Main.Settings.Settings;
 import MatchingAlgorithm.Auxiliary.iProbabilityMatrix;
 import UtilityModels.ExponentialModel;
@@ -39,10 +41,10 @@ public class LogWriter extends iResultsCollator {
             for (iUtilitiesModel ium : utilModels) {
                 String log = Settings.RUN + ", " + index + ", ";
                 log += e.getKey();
-                log += (", " + Settings.ORDINAL_PREFERENCE.getSimpleName() + ", " + Settings.PREF_PARAM);
+                log += (", " + Configurations.getConfigurations().getPreferenceDescription());
                 log += (", " + ium.getName());
                 for (double[] d : e.getValue().inPreferenceOrder(pp)) {
-                    log += (", " + Settings.DoubleToString(utility(d, ium)));
+                    log += (", " + Format.DoubleToString(utility(d, ium)));
                 }
                 PostBox.broadcast(MessageType.LOG_ENTRY, log); 
             }

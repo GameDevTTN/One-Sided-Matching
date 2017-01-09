@@ -8,6 +8,7 @@ package MatchingAlgorithm.DeterministicAlgorithm;
 import ordinalpreferencegenerator.StaticFunctions;
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
+import Main.Settings.Configurations;
 import Main.Settings.Settings;
 import MatchingAlgorithm.iAlgorithm;
 import MatchingAlgorithm.Auxiliary.InvalidPreferenceException;
@@ -30,7 +31,7 @@ public abstract class DeterministicAlgorithm implements iAlgorithm {
         ProbabilityMatrix output = new ProbabilityMatrix(agents, objects);
         Permutation[] priority = null;
         //hack code ---
-        if (Settings.FIXED_ORDER_FOR_ALGORITHM) {
+        if (Configurations.FIXED_ORDER_FOR_ALGORITHM) {
             priority = new Permutation[1];
             int[] temp = new int[agents];
             for (int i = 0; i < agents; i++) {
