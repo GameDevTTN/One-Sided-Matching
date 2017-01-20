@@ -38,6 +38,7 @@ public final class GenericMain {
         c.setResultCollator(getResultCollator());
         c.setPreferenceIterator(getPreferenceProfiles());
         c.setOutput(getOutput());
+        Configurations.FIXED_ORDER_FOR_ALGORITHM = true;
     }
     
     private static MessageType[] getOutput() {
@@ -61,7 +62,7 @@ public final class GenericMain {
     }
     
     private static iOrdinalIterator[] getPreferenceProfiles() {
-        return new iOrdinalIterator[]{/*new ICRandom(1000,30,30), new ICRandom(100,31,31),*/ new Mallows(1000, 10, 10, 0.65d), new Mallows(1000, 10, 10, 0.6d)};
+        return new iOrdinalIterator[]{new Mallows(10000, 5, 5, 0.8d), /*new ICRandom(100,31,31),*/ /*new Mallows(1000, 10, 10, 0.65d)*/};
     }
     //at for n = 10, at about 0.65 Mallows, NB out-performs YS
     
@@ -77,8 +78,8 @@ public final class GenericMain {
     }
     
     private static iResultsCollator[] getResultCollator() {
-        return new iResultsCollator[]{new LogWriter(), new PreferencesCounter(), new PreferenceOrder(), new BordaPercentageOfMax(),
-            new CompareTables(), new EquivalentAlgorithm(), new BordaScoreRaw(), new PluralityScoreRaw(), new Timer()};
+        return new iResultsCollator[]{new LogWriter(), new PreferencesCounter(), new PreferenceOrder(),
+            new CompareTables(), new EquivalentAlgorithm(), new BordaScoreRaw(), new BordaWorstAgentToRank(), new BordaOrderBias(), new PluralityScoreRaw(), new Timer()};
     }
     
     private GenericMain() {}

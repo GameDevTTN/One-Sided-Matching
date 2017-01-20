@@ -10,7 +10,7 @@ import Main.Observers.System.MessageType;
 import MatchingAlgorithm.Auxiliary.iProbabilityMatrix;
 
 /**
- *
+ * Currently not doing anything
  * @author ylo019
  */
 public class RankEfficiency extends iDoubleResultsCollator {

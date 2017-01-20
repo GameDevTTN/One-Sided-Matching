@@ -5,6 +5,7 @@
  */
 package Main.Settings;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -47,13 +48,20 @@ public class Format {
         return singleton.listToString(l);
     }
     
+    public static String DoubleArrayToString(double[] o) {
+        if (singleton == null) {
+            singleton = new Format();
+        }
+        return singleton.doubleArrayToString(o);
+    }
+    
     public static String Format(Object o) {
         if (singleton == null) {
             singleton = new Format();
         }
         return singleton.format(o);
     }
-    
+        
     public static boolean DoubleEqual(double a, double b) {
         if (singleton == null) {
             singleton = new Format();
@@ -78,6 +86,15 @@ public class Format {
         return s;
     }
     
+    private String doubleArrayToString(double[] o) {
+        String s = "{ ";
+        for (double d : o) {
+            s += format(d) + " ";
+        }
+        s += "}";
+        return s;
+    }
+    
     public String format(Object o) {
         if (o instanceof Double) {
             return DoubleToString((Double)o);
@@ -85,6 +102,8 @@ public class Format {
             return IntToString((Integer)o);
         } else if (o instanceof List) {
             return ListToString((List)o);
+        } else if (o instanceof double[]) {
+            return DoubleArrayToString((double[]) o);
         }
         return o.toString();
     }

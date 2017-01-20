@@ -214,12 +214,13 @@ public abstract class iProbabilityMatrix {
         } catch (EmptyMatrixException ex) {
             throw new RuntimeException("iProbabilityMatrix: getBordaCount(PreferenceProfile): matrix is empty");
         }
-        iProfileIterator iter = pref.getIterator();
+//        iProfileIterator iter = pref.getIterator();
         for (int a = 0; a < pref.size(); a++) { //loop for each agent
-            int score = pref.size();
-            while (iter.hasNext(a + 1)) {
-                sum += normalized[a][iter.getNext(a + 1) - 1] * score--;
-            }
+//            int score = pref.size();
+//            while (iter.hasNext(a + 1)) {
+//                sum += normalized[a][iter.getNext(a + 1) - 1] * score--;
+//            }
+            sum += getAgentBordaCount(pref, a + 1);
         }
         return sum/pref.size(); //returns the average borda score
     }
@@ -231,16 +232,34 @@ public abstract class iProbabilityMatrix {
         } catch (EmptyMatrixException ex) {
             throw new RuntimeException("iProbabilityMatrix: getMinBordaCount(PreferenceProfile): matrix is empty");
         }
-        iProfileIterator iter = pref.getIterator();
+//        iProfileIterator iter = pref.getIterator();
         for (int a = 0; a < pref.size(); a++) { //loop for each agent
-            int score = pref.size();
-            double currTotal = 0;
-            while (iter.hasNext(a + 1)) {
-                currTotal += normalized[a][iter.getNext(a + 1) - 1] * score--;
-            }
-            min = Math.min(min, currTotal);
+//            int score = pref.size();
+//            double currTotal = 0;
+//            while (iter.hasNext(a + 1)) {
+//                currTotal += normalized[a][iter.getNext(a + 1) - 1] * score--;
+//            }
+            min = Math.min(min, getAgentBordaCount(pref, a + 1));
         }
         return min; //returns the average borda score
+    }
+    
+    public Double getAgentBordaCount(PreferenceProfile pref, int agent) {
+        if (agent <= 0 || agent > size()) {
+            throw new RuntimeException("iProbabilityMatrix: getAgentBordaCount(PreferenceProfile, int): agent not between 1 and size inclusive");
+        }
+        try {
+            normalize();
+        } catch (EmptyMatrixException ex) {
+            return 0.0d;
+        }
+        int score = pref.size();
+        double total = 0;
+        iProfileIterator iter = pref.getIterator();
+        while (iter.hasNext(agent)) {
+            total += normalized[agent - 1][iter.getNext(agent) - 1] * score--;
+        }
+        return total;
     }
 
     public double[][] inPreferenceOrder(PreferenceProfile pp) {
