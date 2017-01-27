@@ -26,12 +26,22 @@ import java.util.Arrays;
 //Run every permutation for inital order of agents if FIXED_ORDER set to true, otherwise run the numerical order for agent
 public abstract class DeterministicAlgorithm implements iAlgorithm {
     
+    private boolean fixedOrder = false;
+    
+    public void setFixInitialOrder(boolean fixedOrder) {
+        this.fixedOrder = fixedOrder;
+    }
+    
+    public boolean getFixInitialOrder() {
+        return fixedOrder;
+    }
+    
     @Override
     public iProbabilityMatrix solve(PreferenceProfile input, int agents, int objects) {
         ProbabilityMatrix output = new ProbabilityMatrix(agents, objects);
         Permutation[] priority = null;
-        //hack code ---
-        if (Configurations.FIXED_ORDER_FOR_ALGORITHM) {
+        //hack code --- //20/01/17 This is now a feature
+        if (fixedOrder) {
             priority = new Permutation[1];
             int[] temp = new int[agents];
             for (int i = 0; i < agents; i++) {

@@ -5,7 +5,6 @@
  */
 package Main.Settings;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**

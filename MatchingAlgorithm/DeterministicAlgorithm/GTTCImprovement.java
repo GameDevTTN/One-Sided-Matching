@@ -30,6 +30,7 @@ public class GTTCImprovement<S extends DeterministicAlgorithm> extends Determini
     public GTTCImprovement (S da) {
         if (da != null) {
             inner = da;
+            setFixInitialOrder(da.getFixInitialOrder());
         } else {
             throw new RuntimeException("GTTCImprovement(S): da is null");
         }

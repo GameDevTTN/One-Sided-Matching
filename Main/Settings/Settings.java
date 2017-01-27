@@ -5,10 +5,6 @@
  */
 package Main.Settings;
 
-import java.util.List;
-
-import ordinalpreferencegenerator.iOrdinalIterator;
-import ordinalpreferencegenerator.*;
 //import MatchingAlgorithm.Gurobi.*;
 
 /**
@@ -27,7 +23,7 @@ public abstract class Settings {
     
     //main method location & number of agents/items
 //    public static final Class APP_CLASS = MainBruteForce.class;
-    public static final String PATH = "170117/Output/";//"290716/Mallows10/";
+    public static final String PATH = "250117/Output/";//"290716/Mallows10/";
 //    public static final String DATA_SAVE_PATH = null; //"randomDataPackTest/real/Pack1/";
     
 

@@ -39,7 +39,8 @@ public class Configurations {
 //    //O = number of objects [O = -1 to set O = current number of agents]
 //    private int O = -1;
 //    public static final double RUN_CHANCE = 1;
-    public static boolean FIXED_ORDER_FOR_ALGORITHM = false; //set to true for large value of n to only do 1 permutation
+    //public static boolean FIXED_ORDER_FOR_ALGORITHM = false; //set to true for large value of n to only do 1 permutation
+    //refactored to let class DeterministicAlgorithm handles it internally
     //if FIXED_ORDER... is false, DO NOT TRY ANYTHING bigger m or n (maximum m or n = 12). Otherwise the fact(n) will overflow
 //    public static final double PREF_PARAM = 0.8;
     

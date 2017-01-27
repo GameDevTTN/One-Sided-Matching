@@ -4,16 +4,11 @@ package Main;
 import Main.Settings.MainBruteForce;
 import Main.Observers.AlgorithmObserver;
 import Main.Observers.CompareTables;
-import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import Main.Observers.System.*;
 import Main.Observers.*;
 import Main.Observers.BordaRelated.*;
 import Main.Settings.Configurations;
-import Main.Settings.Settings;
-import Main.Settings.iAppClass;
 import MatchingAlgorithm.DeterministicAlgorithm.*;
 import MatchingAlgorithm.*;
 import MatchingAlgorithm.Taxonomy.GenericImplementation;
@@ -38,12 +33,12 @@ public final class GenericMain {
         c.setResultCollator(getResultCollator());
         c.setPreferenceIterator(getPreferenceProfiles());
         c.setOutput(getOutput());
-        Configurations.FIXED_ORDER_FOR_ALGORITHM = true;
     }
     
     private static MessageType[] getOutput() {
         return new MessageType[]{MessageType.PREFERENCE, 
             MessageType.ALGORITHM_NAME, 
+            //MessageType.DETAILS,
             MessageType.OUTPUT, 
             MessageType.SUMMARY, 
             MessageType.SYSTEM, 
@@ -62,7 +57,7 @@ public final class GenericMain {
     }
     
     private static iOrdinalIterator[] getPreferenceProfiles() {
-        return new iOrdinalIterator[]{new Mallows(10000, 5, 5, 0.8d), /*new ICRandom(100,31,31),*/ /*new Mallows(1000, 10, 10, 0.65d)*/};
+        return new iOrdinalIterator[]{new Mallows(10000, 30, 30, 0.9f)/*new TruncatedIC(4, 4), new IC(4, 4)/*new ICRandom(100,31,31),*/ /*new Mallows(1000, 10, 10, 0.65d)*/};
     }
     //at for n = 10, at about 0.65 Mallows, NB out-performs YS
     
@@ -71,7 +66,8 @@ public final class GenericMain {
         ArrayList<AlgorithmObserver> out = new ArrayList<>();
         out.add(new AlgorithmObserver(HungarianAlgorithmWrapper.class));
         out.add(new AlgorithmObserver(Proportional.class));
-        out.addAll(GenericImplementation.fetchAll());
+        boolean fixOrder = true;
+        out.addAll(GenericImplementation.fetchAll(fixOrder));
         AlgorithmObserver[] arr = new AlgorithmObserver[0];
         arr = out.toArray(arr);
         return arr;

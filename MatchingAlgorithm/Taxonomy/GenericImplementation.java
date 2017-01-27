@@ -11,6 +11,7 @@ import Main.Observers.System.PostBox;
 import Main.Settings.Settings;
 import MatchingAlgorithm.Auxiliary.Permutation;
 import MatchingAlgorithm.Auxiliary.PreferenceProfile;
+import MatchingAlgorithm.Auxiliary.Restrictions.*;
 import MatchingAlgorithm.Auxiliary.TakeItemEvent;
 import MatchingAlgorithm.Auxiliary.iIterator;
 import MatchingAlgorithm.Auxiliary.iProfileIterator;
@@ -26,8 +27,8 @@ import java.util.List;
  */
 public class GenericImplementation extends DeterministicAlgorithm { 
 
-    public static List<AlgorithmObserver> fetchAll() {
-        List<AlgorithmObserver> out = new ArrayList<AlgorithmObserver>();
+    public static List<AlgorithmObserver> fetchAll(boolean fixedOrder) {
+        List<AlgorithmObserver> out = new ArrayList<>();
         for (int i = 0; i < Math.pow(2,5); i++) {
             Boolean[] params = new Boolean[5];
             for (int j = 0; j < params.length; j++) {
@@ -53,10 +54,12 @@ public class GenericImplementation extends DeterministicAlgorithm {
             if (params[3] == true || params[4] == true) {
                 continue;
             }
-            out.add(new AlgorithmObserver(GenericImplementation.class, params));
+            GenericImplementation gi = new GenericImplementation(params[0], params[1], params[2], params[3], params[4]);
+            gi.setFixInitialOrder(fixedOrder);
+            out.add(new AlgorithmObserver(gi));
             //new AlgorithmObserver(GenericImplementation.class, params).init();
             if (params[1] == false) {
-                out.add(new AlgorithmObserver(new GTTCImprovement(new GenericImplementation(params[0], params[1], params[2], params[3], params[4]))));
+                out.add(new AlgorithmObserver(new GTTCImprovement(gi)));
                 //new AlgorithmObserver(new GTTCImprovement(new GenericImplementation(params[0], params[1], params[2], params[3], params[4]))).init();
             }
         }
@@ -125,6 +128,10 @@ public class GenericImplementation extends DeterministicAlgorithm {
     
     @Override
     protected int[] solve(Permutation priority, PreferenceProfile input, int agents, int objects) {
+        //hack code - just apply the restriction on all
+        List<iRestriction> restrictions = new ArrayList<>();
+        restrictions.add(new LimitedByItemHeldBy(objects, objects/2));
+        //end hack code
         iIterator pp = priority.getIterator();
         iProfileIterator ip = input.getIterator();
         //who has what object
@@ -186,8 +193,9 @@ public class GenericImplementation extends DeterministicAlgorithm {
                 if (!itemPref[getItemPrefIndex(desiredItem)].contains(temp)) {
                     itemPref[getItemPrefIndex(desiredItem)].add(temp);
                 }
-                if (itemPref[getItemPrefIndex(desiredItem)].indexOf(actingAgent) < itemPref[getItemPrefIndex(desiredItem)].indexOf(temp)) {
+                if (itemPref[getItemPrefIndex(desiredItem)].indexOf(actingAgent) < itemPref[getItemPrefIndex(desiredItem)].indexOf(temp) && checkRestriction(restrictions, actingAgent, desiredItem, temp)) {
                     PostBox.broadcast(new TakeItemEvent(actingAgent, desiredItem, temp));
+                    updateRestriction(restrictions, actingAgent, desiredItem, temp);
                     if (isStack()) {
                         agentOrder.add(0, temp);
                     } else if (isQueue()) {
@@ -212,6 +220,7 @@ public class GenericImplementation extends DeterministicAlgorithm {
                 hasTaken[actingAgent - 1] = desiredItem; //takes item
                 obj[desiredItem - 1] = actingAgent; //acting agent have the item
                 PostBox.broadcast(new TakeItemEvent(actingAgent, desiredItem));
+                updateRestriction(restrictions, actingAgent, desiredItem, temp);
                 if (!hasMemory()) {
                     ip.resetPointers(); //reset the round
                     for (List<Integer> itemPref1 : itemPref) {
@@ -222,5 +231,21 @@ public class GenericImplementation extends DeterministicAlgorithm {
         }
         return hasTaken;
     }
-    
+ 
+    //hack code
+    private boolean checkRestriction(List<iRestriction> restriction, int actingAgent, int item, int currentAgent) {
+        for (iRestriction r : restriction) {
+            if (!r.attemptToTake(actingAgent, item, currentAgent)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void updateRestriction(List<iRestriction> restriction, int actingAgent, int item, int currentAgent) {
+        for (iRestriction r : restriction) {
+            r.take(actingAgent, item, currentAgent);
+        }
+    }
+    //end hack code
 }
