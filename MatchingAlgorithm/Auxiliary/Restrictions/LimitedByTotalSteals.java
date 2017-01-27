@@ -11,23 +11,32 @@ package MatchingAlgorithm.Auxiliary.Restrictions;
  */
 public class LimitedByTotalSteals implements iRestriction {
     
+    private int param;
+    private int counts;
+    
     public LimitedByTotalSteals(int param) {
-        
+        counts = 0;
+        this.param = param;
     }
 
     @Override
     public boolean attemptToTake(int actingAgent, int item, int currentAgent) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (currentAgent == 0) {
+            return true;
+        }
+        return counts < param;
     }
 
     @Override
     public void reset() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        counts = 0;
     }
 
     @Override
     public void take(int actingAgnet, int item, int currentAgent) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(currentAgent > 0) {
+            counts++;
+        }
     }
     
 }
