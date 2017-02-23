@@ -25,6 +25,10 @@ public class ICRandom implements iOrdinalIterator {
     protected final int objectSize;
     private int runs;
     
+    public ICRandom(int run, int n) {
+        this(run, n, n);
+    }
+    
     public ICRandom(int run, int count, int objects) { //package private
         size = count;
         this.objectSize = objects;

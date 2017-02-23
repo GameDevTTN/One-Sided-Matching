@@ -24,7 +24,7 @@ public class WeaklyEnvyPairsCount extends EnvyAgentCount {
     
     @Override
     public String getName() {
-        return "w\\#EF";
+        return "w\\#EF Pairs";
     }
     
 }

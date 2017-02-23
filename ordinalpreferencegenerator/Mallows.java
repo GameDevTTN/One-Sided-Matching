@@ -44,7 +44,7 @@ public class Mallows implements iOrdinalIterator {
         size = agent;
         obj = object;
         runs = run;
-        if (param <= 0.0d || param >= 1.0d) {
+        if (param < 0.0d || param >= 1.0d) {
             param = 0.99d;
         }
         PREF_PARAM = param;

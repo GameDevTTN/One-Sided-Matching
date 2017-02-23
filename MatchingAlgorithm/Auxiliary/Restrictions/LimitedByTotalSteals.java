@@ -39,4 +39,9 @@ public class LimitedByTotalSteals implements iRestriction {
         }
     }
     
+    @Override
+    public String toString() {
+        return "Total Steal <= " + param;
+    }
+    
 }

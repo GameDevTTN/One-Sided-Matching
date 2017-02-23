@@ -24,7 +24,7 @@ public class EnvyPairsCounter extends EnvyAgentCount {
     
     @Override
     public String getName() {
-        return "\\#EF";
+        return "\\#EF Pairs";
     }
     
 }

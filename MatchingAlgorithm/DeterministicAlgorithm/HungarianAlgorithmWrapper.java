@@ -12,6 +12,8 @@ import MatchingAlgorithm.Auxiliary.PreferenceProfile;
 import MatchingAlgorithm.Auxiliary.ProbabilityMatrix;
 import MatchingAlgorithm.Auxiliary.iIterator;
 import MatchingAlgorithm.Auxiliary.iProbabilityMatrix;
+import UtilityModels.ExponentialModel;
+import UtilityModels.iUtilitiesModel;
 import blogspot.software_and_algorithms.stern_library.optimization.HungarianAlgorithm;
 import java.util.Arrays;
 
@@ -22,6 +24,14 @@ import java.util.Arrays;
 
 //this class uses the code from class blogspot.software_and_algorithms.stern_library.optimization written by Kevin L.Stern
 public class HungarianAlgorithmWrapper implements iAlgorithm {
+    
+    public HungarianAlgorithmWrapper() {
+        this(new ExponentialModel(0.0));
+    }
+    private iUtilitiesModel model;
+    public HungarianAlgorithmWrapper(iUtilitiesModel model) {
+        this.model = (model == null ? new ExponentialModel(0.0) : model);
+    }
 
     @Override
     public iProbabilityMatrix solve(PreferenceProfile input, int agents, int objects) {
@@ -41,15 +51,16 @@ public class HungarianAlgorithmWrapper implements iAlgorithm {
     }
     
     protected void applyWeights(double[] pref, iIterator iter) {
-        int weight = 0;
+        double[] utilities = model.getUtilities(iter.size());
+        int index = 0;
         while (iter.hasNext()) {
-            pref[iter.getNext() - 1] = weight++; //the Hungarian Algorithm look for min cost - I need a matching that generate max borda
+            pref[iter.getNext() - 1] = utilities[0] - utilities[index++]; //the Hungarian Algorithm look for min cost - I need a matching that generate max borda
         }
     }
 
     @Override
     public String getName() {
-        return "HA";
+        return "HA " + model.getName();
     }
     
 }

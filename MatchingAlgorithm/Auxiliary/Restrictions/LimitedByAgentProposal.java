@@ -15,7 +15,7 @@ public class LimitedByAgentProposal implements iRestriction {
     private int size;
     private int[] counts;
     
-    public LimitedByAgentProposal(int size, int param) {
+    public LimitedByAgentProposal(int size, int param) { //size is number of agents
         counts = new int[size];
         this.size = size;
         this.param = param;
@@ -39,6 +39,11 @@ public class LimitedByAgentProposal implements iRestriction {
         if (currentAgent > 0) {
             counts[currentAgent - 1]++;
         }
+    }
+    
+    @Override
+    public String toString() {
+        return "Agent proposes <= " + param;
     }
     
 }

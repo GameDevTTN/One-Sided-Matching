@@ -90,49 +90,49 @@ public class LaTeXTablePrinter extends iResultsCollator {
         }
     }
     
-    @Override
-    public String toString() {
-        String output = "";
-        for (int i = 0; i < algorithmNames.size(); i++) {
-            output += Configurations.getConfigurations().getPreferenceDescription();
-            output += "," + size;                    
-            output += "," + algorithmNames.get(i);
-            for (int j = 0; j < values[i].size(); j++) {
-                output += "," + values[i].get(j);
-            }
-            output += "\n";
-        }
-        
-        return output;
-    }
-    
 //    @Override
 //    public String toString() {
 //        String output = "";
-//        output += "\\caption{} \\label{tab:title}\n\\begin{tabular}{";
-//        for (int i = 0; i <= measures.size(); i++) {
-//            output += "l";
-//        }
-//        output += "}\n";
-//        //process data here
-//        //heading
-//        for (String s : measures) {
-//            output += " & " + s;
-//        }
-//        output += "\\\\\n";
-//        //loop
 //        for (int i = 0; i < algorithmNames.size(); i++) {
-//            //name of algo
-//            output += algorithmNames.get(i);
-//            //data
+//            output += Configurations.getConfigurations().getPreferenceDescription();
+//            output += "," + size;                    
+//            output += "," + algorithmNames.get(i);
 //            for (int j = 0; j < values[i].size(); j++) {
-//                output += " & " + values[i].get(j);
+//                output += "," + values[i].get(j);
 //            }
-//            output += "\\\\\n";
+//            output += "\n";
 //        }
 //        
-//        output +="\\end{tabular}\n";
 //        return output;
 //    }
+    
+    @Override
+    public String toString() {
+        String output = "";
+        output += "\\caption{} \\label{tab:title}\n\\begin{tabular}{";
+        for (int i = 0; i <= measures.size(); i++) {
+            output += "l";
+        }
+        output += "}\n";
+        //process data here
+        //heading
+        for (String s : measures) {
+            output += " & " + s;
+        }
+        output += "\\\\\n";
+        //loop
+        for (int i = 0; i < algorithmNames.size(); i++) {
+            //name of algo
+            output += algorithmNames.get(i);
+            //data
+            for (int j = 0; j < values[i].size(); j++) {
+                output += " & " + values[i].get(j);
+            }
+            output += "\\\\\n";
+        }
+        
+        output +="\\end{tabular}\n";
+        return output;
+    }
 
 }

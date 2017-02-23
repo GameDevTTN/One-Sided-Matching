@@ -24,7 +24,7 @@ public class ExponentialModel implements iUtilitiesModel {
         double[] out = new double[size];
         if (alpha == 0.0) {
             for (int i = 0; i < out.length; i++) {
-                out[i] = (double)(size - 1 - i);///(size - 1);
+                out[i] = (double)(size - i);///(size - 1);
             }
         } else {
             for (int i = 0; i < out.length; i++) {

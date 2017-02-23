@@ -32,6 +32,11 @@ public class BordaOrderBias extends iGenericResultsCollator<double[]> {
             array[i] += value.getAgentBordaCount(pp, i + 1);
         }
     }
+    
+    @Override
+    protected String getName() {
+        return "Order Bias";
+    }
 
     @Override
     protected MessageType broadcastType() {
@@ -46,13 +51,13 @@ public class BordaOrderBias extends iGenericResultsCollator<double[]> {
     @Override
     protected double[] onEachEntry(String key) {
         double[] out = getMap().getOrDefault(key, defaultValue());
-        double[] includesMean = new double[out.length + 1];
+        double[] includesMean = new double[out.length];
         double sum = 0.0d;
         for (int i = 0; i < out.length; i++) {
             includesMean[i] = out[i]/getProfileCount();
             sum += includesMean[i];
         }
-        includesMean[includesMean.length - 1] = sum/out.length;
+        //includesMean[includesMean.length - 1] = sum/out.length;
         return includesMean;
     }
 

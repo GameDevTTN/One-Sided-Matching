@@ -5,28 +5,12 @@
  */
 package Main.Settings;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.WeakHashMap;
-
-import ordinalpreferencegenerator.ImpartialCultureFactory;
 import ordinalpreferencegenerator.iOrdinalIterator;
-import Main.Observers.iResultsCollator;
 import Main.Observers.System.CsvLog;
 import Main.Observers.System.IO;
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
-import Main.Settings.Configurations;
-import Main.Settings.Settings;
-import Main.Settings.iAppClass;
-import MatchingAlgorithm.Auxiliary.InvalidPreferenceException;
-import MatchingAlgorithm.Auxiliary.Permutation;
 import MatchingAlgorithm.Auxiliary.PreferenceProfile;
-import MatchingAlgorithm.Auxiliary.iProbabilityMatrix;
 import Pair.Pair;
 
 /**
@@ -42,7 +26,7 @@ public class MainBruteForce implements iAppClass {
     public void start() {
         
         IO.getConsole();
-        CsvLog.getConsole();
+        //CsvLog.getConsole();
         Configurations.getConfigurations().init();
         //Settings.init();
         do {
@@ -63,7 +47,7 @@ public class MainBruteForce implements iAppClass {
         PostBox.broadcast(MessageType.PRINT, "End of calculation");
         PostBox.broadcast(MessageType.SYSTEM, new Pair<>("End Calculation", ""));
         IO.getConsole().close();
-        CsvLog.getConsole().close();
+        //CsvLog.getConsole().close();
     }
     
 }

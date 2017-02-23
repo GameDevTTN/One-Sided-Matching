@@ -5,18 +5,17 @@
  */
 package MatchingAlgorithm.Taxonomy;
 
-import Main.Observers.AlgorithmObserver;
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
 import Main.Settings.Settings;
 import MatchingAlgorithm.Auxiliary.Permutation;
 import MatchingAlgorithm.Auxiliary.PreferenceProfile;
-import MatchingAlgorithm.Auxiliary.Restrictions.*;
+import MatchingAlgorithm.Auxiliary.Restrictions.iRestriction;
+import MatchingAlgorithm.Auxiliary.Restrictions.iRestrictionFactory;
 import MatchingAlgorithm.Auxiliary.TakeItemEvent;
 import MatchingAlgorithm.Auxiliary.iIterator;
 import MatchingAlgorithm.Auxiliary.iProfileIterator;
 import MatchingAlgorithm.DeterministicAlgorithm.DeterministicAlgorithm;
-import MatchingAlgorithm.DeterministicAlgorithm.GTTCImprovement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,42 +24,27 @@ import java.util.List;
  *
  * @author ylo019
  */
-public class GenericImplementation extends DeterministicAlgorithm { 
-
-    
+public class AdaptiveNoMemoryAcceptFirstQueue extends DeterministicAlgorithm {
     private final int ROUND_PLACEHOLDER = -1;
     
     
     private boolean hasMemory = true;
     private boolean acceptFirst = true;
     private boolean stack = true;
-    private boolean delayedKnowledge = false;
-    private boolean sameItemPref = false;
+    private boolean delayedMemory = true;
     
-    protected GenericImplementation() {
-        
-    }
     //default implementation - RSD - should be overridden regardless
-    public GenericImplementation(boolean memory, boolean acceptFirst, boolean stack, boolean delayedKnowledge, boolean sameItemPref) {
-        this.hasMemory = memory;
-        this.acceptFirst = acceptFirst;
-        this.stack = stack;
-        this.delayedKnowledge = delayedKnowledge;
-        this.sameItemPref = sameItemPref;
+    public AdaptiveNoMemoryAcceptFirstQueue() {
+        this.hasMemory = false;
+        this.acceptFirst = true;
+        this.stack = false;
+        this.delayedMemory = true;
         this.factory = new iRestrictionFactory() {
             @Override
             public iRestriction[] getRestrictions(int agent, int item) {
                 return new iRestriction[]{};
             }
         };
-        clearRestriction(0, 0);
-    }
-    
-    public GenericImplementation(boolean memory, boolean acceptFirst, boolean stack, boolean delayedKnowledge, boolean sameItemPref, iRestrictionFactory factory) {
-        this(memory, acceptFirst, stack, delayedKnowledge, sameItemPref);
-        if (factory != null) {
-            this.factory = factory;
-        }
         clearRestriction(0, 0);
     }
     
@@ -81,26 +65,18 @@ public class GenericImplementation extends DeterministicAlgorithm {
         return !isStack();
     }
     
-    private boolean hasDelayedMemory() {
-        return delayedKnowledge;
-    }
-    
-    private boolean itemSharePreferences() {
-        return sameItemPref;
-    }
-    
+   
     private int getItemPrefIndex(int desiredItem) {
-        return (itemSharePreferences() ? 0 : desiredItem - 1);
+        return (desiredItem - 1);
+    }
+    
+    private boolean hasDelayedMemory() {
+        return delayedMemory;
     }
     
     @Override
     public String getName() {
-        return (hasMemory ? "Memory" : "NoMemory") + " " +
-                (acceptFirst ? "AcceptFirst" : "AcceptLast") + " " +
-                (stack ? "Stack" : "Queue") + " " +
-                //(delayedKnowledge ? "DelayMemory" : "NoDelayMemory") + " " +
-                //(sameItemPref ? "SharePref" : "NoSharePref") + " " +
-                (restrictions.toString());
+        return "No Memory Adaptive Boston";
     }
     
     iRestrictionFactory factory = null;
@@ -121,7 +97,7 @@ public class GenericImplementation extends DeterministicAlgorithm {
         iProfileIterator ip = input.getIterator();
         //who has what object
         int[] obj = new int[objects];
-        int[] delayedMemory = Arrays.copyOf(obj, agents); //if it does not have rounds or delayed memory, this should always not empty
+        int[] memory = Arrays.copyOf(obj, agents); //if it does not have rounds or delayed memory, this should always not empty
         
         //datastructure for item preferences
         List<Integer>[] itemPref = new List[objects];
@@ -136,9 +112,7 @@ public class GenericImplementation extends DeterministicAlgorithm {
         while (pp.hasNext()) {
             agentOrder.add(pp.getNext());
         }
-        if (isQueue() && hasDelayedMemory()) {
-            agentOrder.add(ROUND_PLACEHOLDER);
-        }
+        agentOrder.add(ROUND_PLACEHOLDER);
         while (!agentOrder.isEmpty()) {
             PostBox.broadcast(MessageType.DETAILS, Arrays.toString(agentOrder.toArray()));
             int actingAgent = agentOrder.remove(0);
@@ -146,7 +120,7 @@ public class GenericImplementation extends DeterministicAlgorithm {
                 if (agentOrder.isEmpty()) {
                     break;
                 } else {
-                    delayedMemory = Arrays.copyOf(obj, agents);
+                    memory = Arrays.copyOf(obj, agents);
                     agentOrder.add(ROUND_PLACEHOLDER);
                 }
                 continue; //skip the rest of the while loop
@@ -166,10 +140,10 @@ public class GenericImplementation extends DeterministicAlgorithm {
             //if I know someone has the item & I will be rejected. don't propose and go back to the top of the queue
             //that belief is allowed to be wrong
             if (hasDelayedMemory() &&
-                    delayedMemory[getItemPrefIndex(desiredItem)] > 0 //I know someone has it
+                    memory[getItemPrefIndex(desiredItem)] > 0 //I know someone has it
                     && itemPref[getItemPrefIndex(desiredItem)].contains(actingAgent) //I know item's pref for me
-                    && itemPref[getItemPrefIndex(desiredItem)].contains(delayedMemory[desiredItem - 1]) //I know item's pref for other
-                    && itemPref[getItemPrefIndex(desiredItem)].indexOf(delayedMemory[desiredItem - 1]) < itemPref[getItemPrefIndex(desiredItem)].indexOf(actingAgent)) { //that person is ranked higher than me
+                    && itemPref[getItemPrefIndex(desiredItem)].contains(memory[desiredItem - 1]) //I know item's pref for other
+                    && itemPref[getItemPrefIndex(desiredItem)].indexOf(memory[desiredItem - 1]) < itemPref[getItemPrefIndex(desiredItem)].indexOf(actingAgent)) { //that person is ranked higher than me
                 agentOrder.add(0, actingAgent); //do not propose and retake turn
                 continue; //repeat the while loop
             }
@@ -208,6 +182,11 @@ public class GenericImplementation extends DeterministicAlgorithm {
                 updateRestriction(actingAgent, desiredItem, temp);
                 if (!hasMemory()) {
                     ip.resetPointers(); //reset the round
+                    if (agentOrder.remove(Integer.valueOf(ROUND_PLACEHOLDER))) {//reset the position of round placeholder
+                        agentOrder.add(ROUND_PLACEHOLDER); //add placeholder at the end
+                    } else {
+                        throw new RuntimeException("missing round placeholder");
+                    }
                     for (List<Integer> itemPref1 : itemPref) {
                         itemPref1.clear();
                     }
@@ -244,3 +223,4 @@ public class GenericImplementation extends DeterministicAlgorithm {
     }
     //end hack code
 }
+
