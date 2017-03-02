@@ -17,7 +17,7 @@ import java.util.Arrays;
  *
  * @author ylo019
  */
-public class Proportional implements iAlgorithm {
+public class Proportional implements iOneSidedAlgorithm {
     
     @Override
     public iProbabilityMatrix solve(PreferenceProfile input, int agents, int objects) {

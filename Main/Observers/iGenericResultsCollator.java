@@ -5,8 +5,6 @@
  */
 package Main.Observers;
 
-import Main.Observers.Auxiliary.dtoPercentageTable;
-import Main.Observers.Auxiliary.dtoTable;
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
 import MatchingAlgorithm.Auxiliary.iProbabilityMatrix;
@@ -47,7 +45,7 @@ public abstract class iGenericResultsCollator<T> extends iResultsCollator {
             output.put(s, onEachEntry(s));
         }
         PostBox.broadcast(broadcastType(), 
-                new Pair<>(getName() + getSuffix(), formatOutput(output)));
+                new Pair<>(getName() + getSuffix() + getSide(), formatOutput(output)));
         profileCount = 0;
         clear();
     }
@@ -66,6 +64,19 @@ public abstract class iGenericResultsCollator<T> extends iResultsCollator {
     
     protected String getSuffix() {
         return "";
+    }
+    
+    protected String getSide() {
+        switch (getPref()) {
+            case ONE_SIDED:
+                return "";
+            case TWO_SIDED_PROPOSER:
+                return "(left)";
+            case TWO_SIDED_PROPOSEE:
+                return "(right)";
+                default:
+                    return "";
+        }
     }
    
     protected abstract MessageType broadcastType();

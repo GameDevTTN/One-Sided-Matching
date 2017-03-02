@@ -5,8 +5,9 @@
  */
 package Main.Settings;
 
-import Main.Observers.AlgorithmObserver;
+import Main.Observers.OneSidedAlgorithmObserver;
 import Main.Observers.System.MessageType;
+import Main.Observers.iAlgorithmObserver;
 import Main.Observers.iResultsCollator;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Configurations {
     
     private boolean allSet = false;
     private iResultsCollator[] rc = null;
-    private AlgorithmObserver[] ao = null;
+    private iAlgorithmObserver[] ao = null;
     private iOrdinalIterator[] oi = null;
     private MessageType[] mt = null;
     private int index = 0;
@@ -50,7 +51,7 @@ public class Configurations {
     
     public List<String> getAlgorithmNames() {
         List<String> out = new ArrayList<>();
-        for (AlgorithmObserver a : ao) {
+        for (iAlgorithmObserver a : ao) {
             if (a != null) {
                 out.add(a.getName());
             }
@@ -63,7 +64,7 @@ public class Configurations {
             this.rc = rc;
     }
     
-    public void setAlgorithms(AlgorithmObserver[] ao) {
+    public void setAlgorithms(iAlgorithmObserver[] ao) {
         if (!allSet && ao != null)
             this.ao = ao;
     }
@@ -117,7 +118,7 @@ public class Configurations {
             if (r != null)
                 r.init();
         }
-        for (AlgorithmObserver a : ao) {
+        for (iAlgorithmObserver a : ao) {
             if (a != null)
                 a.init();
         }

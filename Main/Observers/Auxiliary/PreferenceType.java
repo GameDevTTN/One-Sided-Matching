@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MatchingAlgorithm;
+package Main.Observers.Auxiliary;
 
 /**
  *
  * @author ylo019
  */
-public interface iAlgorithm {
+public enum PreferenceType {
     
-    public String getName();
+    ONE_SIDED, TWO_SIDED_PROPOSER, TWO_SIDED_PROPOSEE;
+    
 }

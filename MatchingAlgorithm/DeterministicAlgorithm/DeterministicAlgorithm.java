@@ -8,23 +8,20 @@ package MatchingAlgorithm.DeterministicAlgorithm;
 import ordinalpreferencegenerator.StaticFunctions;
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
-import Main.Settings.Configurations;
-import Main.Settings.Settings;
-import MatchingAlgorithm.iAlgorithm;
+import MatchingAlgorithm.iOneSidedAlgorithm;
 import MatchingAlgorithm.Auxiliary.InvalidPreferenceException;
 import MatchingAlgorithm.Auxiliary.Permutation;
 import MatchingAlgorithm.Auxiliary.PreferenceProfile;
 import MatchingAlgorithm.Auxiliary.ProbabilityMatrix;
 import MatchingAlgorithm.Auxiliary.iProbabilityMatrix;
 import Pair.Pair;
-import java.util.Arrays;
 
 /**
  *
  * @author ylo019
  */
 //Run every permutation for inital order of agents if FIXED_ORDER set to true, otherwise run the numerical order for agent
-public abstract class DeterministicAlgorithm implements iAlgorithm {
+public abstract class DeterministicAlgorithm implements iOneSidedAlgorithm {
     
     private boolean fixedOrder = false;
     

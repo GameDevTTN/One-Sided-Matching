@@ -7,6 +7,8 @@ package MatchingAlgorithm.Auxiliary;
 
 import Main.Settings.FormattingDoubleTable;
 import UtilityModels.iUtilitiesModel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -333,5 +335,22 @@ public abstract class iProbabilityMatrix {
             }
         }
         return true;
+    }
+    
+    public iProbabilityMatrix invert() {
+        iProbabilityMatrix matrix = new AbstractProbabilityMatrix(objects, agents); //inverting the matrix size
+        for (int i = 0; i < agents; i++) {
+            for (int j = 0; j < objects; j++) {
+                matrix.normalized[j][i] = normalized[i][j];
+            }
+        }
+        ProbabilisticProbabilityMatrix out = new ProbabilisticProbabilityMatrix(objects, agents);
+        try {
+            out.addPMatrix(matrix);
+        } catch (EmptyMatrixException ex) {
+            System.out.println("iProbabilityMatrix: invert(): EmptyMatrixException");
+            return null;
+        }
+        return out;
     }
 }

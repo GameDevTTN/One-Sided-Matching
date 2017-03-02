@@ -20,7 +20,7 @@ import Pair.Pair;
  *
  * @author ylo019
  */
-public class ProbabilisticSerialRule implements iAlgorithm {
+public class ProbabilisticSerialRule implements iOneSidedAlgorithm {
     
     @Override
     public iProbabilityMatrix solve(PreferenceProfile input, int agents, int objects) {

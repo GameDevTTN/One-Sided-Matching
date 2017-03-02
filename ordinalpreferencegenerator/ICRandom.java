@@ -29,7 +29,7 @@ public class ICRandom implements iOrdinalIterator {
         this(run, n, n);
     }
     
-    public ICRandom(int run, int count, int objects) { //package private
+    public ICRandom(int run, int count, int objects) { 
         size = count;
         this.objectSize = objects;
         runs = run;
@@ -46,25 +46,25 @@ public class ICRandom implements iOrdinalIterator {
         }
         --runs;
         Permutation[] out = new Permutation[size];
-        Integer[] array = new Integer[size];
-        for (int i = 0; i < out.length; i++) {
+        Integer[] array = new Integer[objectSize];
+        for (int i = 0; i < array.length; i++) {
             array[i] = i+1;
         }
         for (int i = 0; i < out.length; i++) {
             List<Integer> listOfInts = Arrays.asList(array);
             Collections.shuffle(listOfInts);
-            int[] shuffledArray = new int[size];
+            int[] shuffledArray = new int[objectSize];
             for (int j = 0; j < listOfInts.size(); j++) {
                 shuffledArray[j] = listOfInts.get(j);
             }
             try {
-                out[i] = new Permutation(size, objectSize, shuffledArray);
+                out[i] = new Permutation(objectSize, objectSize, shuffledArray);
             } catch (InvalidPreferenceException ex) {
                 throw new RuntimeException("OrdinalPreferenceRandomiser: getNext(): shuffledArray is not a permutation");
             }
         }
         try {
-            return new PreferenceProfile(size, size, out);
+            return new PreferenceProfile(size, objectSize, out);
         } catch (InvalidPreferenceException ex) {
             throw new RuntimeException(ex.getMessage());
         }

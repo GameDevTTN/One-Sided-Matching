@@ -11,7 +11,7 @@ import java.util.Observer;
 
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
-import MatchingAlgorithm.iAlgorithm;
+import MatchingAlgorithm.iOneSidedAlgorithm;
 import MatchingAlgorithm.Auxiliary.PreferenceProfile;
 import Pair.Pair;
 import java.util.Arrays;
@@ -20,11 +20,11 @@ import java.util.Arrays;
  *
  * @author ylo019
  */
-public class AlgorithmObserver implements Observer {
+public class OneSidedAlgorithmObserver implements iAlgorithmObserver<iOneSidedAlgorithm> {
     
-    private iAlgorithm algorithm;
+    private iOneSidedAlgorithm algorithm;
     
-    public AlgorithmObserver(iAlgorithm algo) {
+    public OneSidedAlgorithmObserver(iOneSidedAlgorithm algo) {
         if (algo != null) {
             algorithm = algo;
         } else {
@@ -32,27 +32,27 @@ public class AlgorithmObserver implements Observer {
         }
     }
     
-    public AlgorithmObserver(Class<? extends iAlgorithm> algoClass) {
-        try {
-            algorithm = algoClass.getConstructor().newInstance();
-        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            try {
-                algorithm = algoClass.getConstructor(Double.TYPE).newInstance(new Double(0.5));
-            } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex1) {
-                
-            }
-        }
-    }
+//    public AlgorithmObserver(Class<? extends iOneSidedAlgorithm> algoClass) {
+//        try {
+//            algorithm = algoClass.getConstructor().newInstance();
+//        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+//            try {
+//                algorithm = algoClass.getConstructor(Double.TYPE).newInstance(new Double(0.5));
+//            } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex1) {
+//                
+//            }
+//        }
+//    }
     
-    public AlgorithmObserver(Class<? extends iAlgorithm> algoClass, int param) {
-        try {
-            algorithm = algoClass.getConstructor(Integer.TYPE).newInstance(new Integer(param));
-        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex1) {
-                
-        }
-    }
+//    public OneSidedAlgorithmObserver(Class<? extends iOneSidedAlgorithm> algoClass, int param) {
+//        try {
+//            algorithm = algoClass.getConstructor(Integer.TYPE).newInstance(new Integer(param));
+//        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex1) {
+//                
+//        }
+//    }
     
-    public AlgorithmObserver(Class<? extends iAlgorithm> algoClass, Boolean[] params) {
+    public OneSidedAlgorithmObserver(Class<? extends iOneSidedAlgorithm> algoClass, Boolean[] params) {
         try {
             Class[] clazzes = new Class[params.length];
             Arrays.fill(clazzes, Boolean.TYPE);
@@ -62,6 +62,7 @@ public class AlgorithmObserver implements Observer {
         }
     }
     
+    @Override
     public void init() {
         PostBox.listen(this, MessageType.PREFERENCE);
     }

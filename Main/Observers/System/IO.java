@@ -109,6 +109,7 @@ public class IO implements Observer {
                     //System.out.println(Settings.format(p.getT()));
             } else {
                 pw.write(Format.Format(p.getS()));
+                pw.write(Format.Format(p.getT()));
             }
         } else {
             pw.write(o1 + "\n");

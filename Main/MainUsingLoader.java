@@ -12,7 +12,7 @@ import Main.Observers.System.IO;
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
 import Main.Settings.Settings;
-import MatchingAlgorithm.iAlgorithm;
+import MatchingAlgorithm.iOneSidedAlgorithm;
 import MatchingAlgorithm.Auxiliary.PreferenceProfile;
 import Pair.Pair;
 import PrefLibDataReader.PrefLibLoader;

@@ -5,7 +5,7 @@
  */
 package MatchingAlgorithm.Taxonomy;
 
-import Main.Observers.AlgorithmObserver;
+import Main.Observers.OneSidedAlgorithmObserver;
 import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
 import Main.Settings.Settings;

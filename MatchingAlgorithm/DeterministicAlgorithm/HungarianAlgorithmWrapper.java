@@ -5,7 +5,7 @@
  */
 package MatchingAlgorithm.DeterministicAlgorithm;
 
-import MatchingAlgorithm.iAlgorithm;
+import MatchingAlgorithm.iOneSidedAlgorithm;
 import MatchingAlgorithm.Auxiliary.InvalidPreferenceException;
 import MatchingAlgorithm.Auxiliary.Permutation;
 import MatchingAlgorithm.Auxiliary.PreferenceProfile;
@@ -23,7 +23,7 @@ import java.util.Arrays;
  */
 
 //this class uses the code from class blogspot.software_and_algorithms.stern_library.optimization written by Kevin L.Stern
-public class HungarianAlgorithmWrapper implements iAlgorithm {
+public class HungarianAlgorithmWrapper implements iOneSidedAlgorithm {
     
     public HungarianAlgorithmWrapper() {
         this(new ExponentialModel(0.0));

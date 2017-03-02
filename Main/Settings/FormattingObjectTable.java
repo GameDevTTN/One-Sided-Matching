@@ -19,6 +19,7 @@ public class FormattingObjectTable {
                 out += "\n";
             out += Format.Format(p);
         }
+        out += "\n";
         return out;
     }
     

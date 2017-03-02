@@ -5,6 +5,7 @@
  */
 package Main.Observers;
 
+import Main.Observers.Auxiliary.PreferenceType;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -25,6 +26,19 @@ public abstract class iResultsCollator implements Observer {
     
     protected PreferenceProfile pp;
     protected Map<String, iProbabilityMatrix> results = new TreeMap<>();
+    private PreferenceType pref;
+    
+    public iResultsCollator() {
+        pref = PreferenceType.ONE_SIDED;
+    }
+    
+    void setPreferenceType(PreferenceType newType) {
+        pref = newType;
+    }
+    
+    protected PreferenceType getPref() {
+        return pref;
+    }
     
     //can be overwritten to listen for different message type
     public void init() {
@@ -47,12 +61,18 @@ public abstract class iResultsCollator implements Observer {
                     break;
                 case PREFERENCE:
                     if (p1.getS() instanceof PreferenceProfile) {
-                        onPreference((PreferenceProfile) p1.getS());
+                        if (PreferenceType.ONE_SIDED == pref || PreferenceType.TWO_SIDED_PROPOSER == pref)
+                            onPreference((PreferenceProfile) p1.getS());
+                        else if ((p1.getT() instanceof PreferenceProfile) && PreferenceType.TWO_SIDED_PROPOSEE == pref)
+                            onPreference((PreferenceProfile) p1.getT());
                     }
                     break;
                 case TABLE:
                     if (p1.getS() instanceof String && p1.getT() instanceof iProbabilityMatrix) {
-                        onTable((String) p1.getS(), (iProbabilityMatrix) p1.getT());
+                        if (PreferenceType.ONE_SIDED == pref || PreferenceType.TWO_SIDED_PROPOSER == pref)
+                            onTable((String) p1.getS(), (iProbabilityMatrix) p1.getT());
+                        else if (PreferenceType.TWO_SIDED_PROPOSEE == pref)
+                            onTable((String) p1.getS(), ((iProbabilityMatrix) p1.getT()).invert());
                     }
                     break;
                 case SYSTEM:
@@ -92,6 +112,9 @@ public abstract class iResultsCollator implements Observer {
         results.clear();
     }
     protected void onTable(String algoName, iProbabilityMatrix probMatrix) {
+        if (PreferenceType.TWO_SIDED_PROPOSEE == pref) {
+            //reverse probMatrix
+        }
         if (results.put(algoName, probMatrix) != null) {
             System.out.println(this.getClass());
             throw new RuntimeException("Duplicate Results");

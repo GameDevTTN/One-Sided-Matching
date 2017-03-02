@@ -2,7 +2,7 @@ package Main;
 
 
 import Main.Settings.MainBruteForce;
-import Main.Observers.AlgorithmObserver;
+import Main.Observers.OneSidedAlgorithmObserver;
 import Main.Observers.CompareTables;
 
 import Main.Observers.System.*;
@@ -57,39 +57,39 @@ public final class GenericMain {
     }
     
     private static iOrdinalIterator[] getPreferenceProfiles() {
-//        return new iOrdinalIterator[]{new IC(3, 3)}; //no
+        return new iOrdinalIterator[]{new ICRandom(10000, 20, 5)}; //no
 //        return new iOrdinalIterator[]{new IC(3, 3), new ICRandom(100000, 4, 4), new ICRandom(100000, 5, 5), new ICRandom(50000, 6, 6), new ICRandom(50000, 7, 7)};
 //        return new iOrdinalIterator[]{new IC(3, 3), new ICRandom(10000, 4, 4), new ICRandom(10000, 5, 5)}; //no
 //        return new iOrdinalIterator[]{new ICRandom(50000, 10), new ICRandom(50000, 15), new ICRandom(50000, 20), new ICRandom(50000, 25), new ICRandom(50000, 30), new ICRandom(50000, 35), new ICRandom(50000, 40), new ICRandom(50000, 45), new ICRandom(50000, 50)};
-        return new iOrdinalIterator[]{new Mallows(100000, 5, 5, 0f),new Mallows(100000, 5, 5, 0.1f),new Mallows(100000, 5, 5, 0.2f), new Mallows(100000, 5, 5, 0.3f), new Mallows(100000, 5, 5, 0.4f),
-                                    new Mallows(100000, 5, 5, 0.5f), new Mallows(100000, 5, 5, 0.6f), new Mallows(100000, 5, 5, 0.7f), new Mallows(100000, 5, 5, 0.8f), new Mallows(100000, 5, 5, 0.9f),
-                                    new Mallows(100000, 10, 10, 0f),new Mallows(100000, 10, 10, 0.1f),new Mallows(100000, 10, 10, 0.2f), new Mallows(100000, 10, 10, 0.3f), new Mallows(100000, 10, 10, 0.4f),
-                                    new Mallows(100000, 10, 10, 0.5f), new Mallows(100000, 10, 10, 0.6f), new Mallows(100000, 10, 10, 0.7f), new Mallows(100000, 10, 10, 0.8f), new Mallows(100000, 10, 10, 0.9f),
-                                    new Mallows(100000, 15, 15, 0f),new Mallows(100000, 15, 15, 0.1f),new Mallows(100000, 15, 15, 0.2f), new Mallows(100000, 15, 15, 0.3f), new Mallows(100000, 15, 15, 0.4f),
-                                    new Mallows(100000, 15, 15, 0.5f), new Mallows(100000, 15, 15, 0.6f), new Mallows(100000, 15, 15, 0.7f), new Mallows(100000, 15, 15, 0.8f), new Mallows(100000, 15, 15, 0.9f),
-                                    new Mallows(100000, 20, 20, 0f),new Mallows(100000, 20, 20, 0.1f),new Mallows(100000, 20, 20, 0.2f), new Mallows(100000, 20, 20, 0.3f), new Mallows(100000, 20, 20, 0.4f),
-                                    new Mallows(100000, 20, 20, 0.5f), new Mallows(100000, 20, 20, 0.6f), new Mallows(100000, 20, 20, 0.7f), new Mallows(100000, 20, 20, 0.8f), new Mallows(100000, 20, 20, 0.9f)};
+//        return new iOrdinalIterator[]{new Mallows(100000, 5, 5, 0f),new Mallows(100000, 5, 5, 0.1f),new Mallows(100000, 5, 5, 0.2f), new Mallows(100000, 5, 5, 0.3f), new Mallows(100000, 5, 5, 0.4f),
+//                                    new Mallows(100000, 5, 5, 0.5f), new Mallows(100000, 5, 5, 0.6f), new Mallows(100000, 5, 5, 0.7f), new Mallows(100000, 5, 5, 0.8f), new Mallows(100000, 5, 5, 0.9f),
+//                                    new Mallows(100000, 10, 10, 0f),new Mallows(100000, 10, 10, 0.1f),new Mallows(100000, 10, 10, 0.2f), new Mallows(100000, 10, 10, 0.3f), new Mallows(100000, 10, 10, 0.4f),
+//                                    new Mallows(100000, 10, 10, 0.5f), new Mallows(100000, 10, 10, 0.6f), new Mallows(100000, 10, 10, 0.7f), new Mallows(100000, 10, 10, 0.8f), new Mallows(100000, 10, 10, 0.9f),
+//                                    new Mallows(100000, 15, 15, 0f),new Mallows(100000, 15, 15, 0.1f),new Mallows(100000, 15, 15, 0.2f), new Mallows(100000, 15, 15, 0.3f), new Mallows(100000, 15, 15, 0.4f),
+//                                    new Mallows(100000, 15, 15, 0.5f), new Mallows(100000, 15, 15, 0.6f), new Mallows(100000, 15, 15, 0.7f), new Mallows(100000, 15, 15, 0.8f), new Mallows(100000, 15, 15, 0.9f),
+//                                    new Mallows(100000, 20, 20, 0f),new Mallows(100000, 20, 20, 0.1f),new Mallows(100000, 20, 20, 0.2f), new Mallows(100000, 20, 20, 0.3f), new Mallows(100000, 20, 20, 0.4f),
+//                                    new Mallows(100000, 20, 20, 0.5f), new Mallows(100000, 20, 20, 0.6f), new Mallows(100000, 20, 20, 0.7f), new Mallows(100000, 20, 20, 0.8f), new Mallows(100000, 20, 20, 0.9f)};
 //        return new iOrdinalIterator[]{new Mallows(10000, 10, 10, 0f),new Mallows(10000, 10, 10, 0.1f),new Mallows(10000, 10, 10, 0.2f), new Mallows(10000, 10, 10, 0.3f), new Mallows(10000, 10, 10, 0.4f),
                                     //new Mallows(10000, 10, 10, 0.5f), new Mallows(10000, 10, 10, 0.6f), new Mallows(10000, 10, 10, 0.7f), new Mallows(10000, 10, 10, 0.8f), new Mallows(10000, 10, 10, 0.9f)}; //no
     }
     //at for n = 10, at about 0.65 Mallows, NB out-performs YS
     
     
-    private static AlgorithmObserver[] getAlgorithms() {
-        ArrayList<AlgorithmObserver> out = new ArrayList<>();
+    private static OneSidedAlgorithmObserver[] getAlgorithms() {
+        ArrayList<OneSidedAlgorithmObserver> out = new ArrayList<>();
         for (double d : getExponentialParams()) {
-            out.add(new AlgorithmObserver(new HungarianAlgorithmWrapper(new ExponentialModel(d))));
+            out.add(new OneSidedAlgorithmObserver(new HungarianAlgorithmWrapper(new ExponentialModel(d))));
         }
-        out.add(new AlgorithmObserver(new HungarianAlgorithmWrapper(new AntiPluralityModel())));
-        out.add(new AlgorithmObserver(Proportional.class));
-        out.add(new AlgorithmObserver(ProbabilisticSerialRule.class));
+        out.add(new OneSidedAlgorithmObserver(new HungarianAlgorithmWrapper(new AntiPluralityModel())));
+        out.add(new OneSidedAlgorithmObserver(new Proportional()));
+        //out.add(new OneSidedAlgorithmObserver(new ProbabilisticSerialRule()));
         //out.add(new AlgorithmObserver(AdaptiveNoMemoryAcceptFirstQueue.class));
         AdaptiveBoston ab = new AdaptiveBoston();
         boolean fixOrder = true;
         ab.setFixInitialOrder(fixOrder);
-        out.add(new AlgorithmObserver(ab));
+        //out.add(new OneSidedAlgorithmObserver(ab));
         out.addAll(fetchAll(fixOrder));
-        AlgorithmObserver[] arr = new AlgorithmObserver[0];
+        OneSidedAlgorithmObserver[] arr = new OneSidedAlgorithmObserver[0];
         arr = out.toArray(arr);
         return arr;
     }
@@ -107,7 +107,7 @@ public final class GenericMain {
         list.addAll(Arrays.asList(new iResultsCollator[]{new BordaScoreRaw(), new BordaWorstAgentToRank(), new BordaOrderBias(), new PluralityScoreRaw(),
             new EnvyAgentCount(), new EnvyFreeProfilesCount(), new EnvyPairsCounter(),
             new WeaklyEnvyAgentCount(), new WeaklyEnvyFreeProfilesCount(), new WeaklyEnvyPairsCount(),
-            new SDProportionalSummary(), new SDProportionalityChecker(), new SDProportionalityAgentCount(),
+            //new SDProportionalSummary(), new SDProportionalityChecker(), new SDProportionalityAgentCount(),
             new LaTeXTablePrinter(), new Timer()}));
         iResultsCollator[] array = new iResultsCollator[0];
         array = list.toArray(array);
@@ -118,8 +118,8 @@ public final class GenericMain {
         return new double[]{-1.0, -0.75, -0.5, -0.25, 0.0, 0.5, 1.0, 1.5, 2.0};
     }
 
-    public static List<AlgorithmObserver> fetchAll(boolean fixedOrder) {
-        List<AlgorithmObserver> out = new ArrayList<>();
+    public static List<OneSidedAlgorithmObserver> fetchAll(boolean fixedOrder) {
+        List<OneSidedAlgorithmObserver> out = new ArrayList<>();
         for (int i = 0; i < Math.pow(2, 5); i++) {
             Boolean[] params = new Boolean[5];
             for (int j = 0; j < params.length; j++) {
@@ -137,9 +137,9 @@ public final class GenericMain {
             for (int j = 0; j < 1; j++) {
                 GenericImplementation gi = new GenericImplementation(params[0], params[1], params[2], params[3], params[4], factory);
                 gi.setFixInitialOrder(fixedOrder);
-                out.add(new AlgorithmObserver(gi));
+                out.add(new OneSidedAlgorithmObserver(gi));
                 if (params[1] == false) {
-                    out.add(new AlgorithmObserver(new GTTCImprovement(gi)));
+                    out.add(new OneSidedAlgorithmObserver(new GTTCImprovement(gi)));
                 }
 //                factory = new iRestrictionFactory() {
 //                    @Override

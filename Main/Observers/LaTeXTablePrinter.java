@@ -17,7 +17,7 @@ import Main.Observers.System.MessageType;
 import Main.Observers.System.PostBox;
 import Main.Settings.Configurations;
 import Main.Settings.Settings;
-import MatchingAlgorithm.iAlgorithm;
+import MatchingAlgorithm.iOneSidedAlgorithm;
 import Pair.Pair;
 
 /**

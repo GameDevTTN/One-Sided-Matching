@@ -5,7 +5,7 @@
  */
 package MatchingAlgorithm.Hybrid;
 
-import MatchingAlgorithm.iAlgorithm;
+import MatchingAlgorithm.iOneSidedAlgorithm;
 import MatchingAlgorithm.Auxiliary.EmptyMatrixException;
 import MatchingAlgorithm.Auxiliary.PreferenceProfile;
 import MatchingAlgorithm.Auxiliary.ProbabilisticProbabilityMatrix;
@@ -15,12 +15,12 @@ import MatchingAlgorithm.Auxiliary.iProbabilityMatrix;
  *
  * @author ylo019
  */
-public abstract class HybridAlgorithm implements iAlgorithm {
+public abstract class HybridAlgorithm implements iOneSidedAlgorithm {
     
-    private iAlgorithm first;
-    private iAlgorithm second;
+    private iOneSidedAlgorithm first;
+    private iOneSidedAlgorithm second;
     
-    protected HybridAlgorithm(iAlgorithm first, iAlgorithm second) {
+    protected HybridAlgorithm(iOneSidedAlgorithm first, iOneSidedAlgorithm second) {
         this.first = first;
         this.second = second;
     }
