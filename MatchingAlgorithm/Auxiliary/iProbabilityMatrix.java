@@ -338,6 +338,12 @@ public abstract class iProbabilityMatrix {
     }
     
     public iProbabilityMatrix invert() {
+        try {
+            normalize();
+        } catch (EmptyMatrixException ex) {
+            System.out.println("iProbabilityMatrix: invert(): fail to normalize");
+            return null;
+        }
         iProbabilityMatrix matrix = new AbstractProbabilityMatrix(objects, agents); //inverting the matrix size
         for (int i = 0; i < agents; i++) {
             for (int j = 0; j < objects; j++) {

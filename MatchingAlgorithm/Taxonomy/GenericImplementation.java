@@ -25,6 +25,7 @@ import java.util.List;
  *
  * @author ylo019
  */
+//restriction code correct but outdated
 public class GenericImplementation extends DeterministicAlgorithm { 
 
     
@@ -47,21 +48,18 @@ public class GenericImplementation extends DeterministicAlgorithm {
         this.stack = stack;
         this.delayedKnowledge = delayedKnowledge;
         this.sameItemPref = sameItemPref;
-        this.factory = new iRestrictionFactory() {
-            @Override
-            public iRestriction[] getRestrictions(int agent, int item) {
-                return new iRestriction[]{};
-            }
-        };
-        clearRestriction(0, 0);
+        this.factory = new RestrictionFactoryAdaptor();
+        this.factory.clearRestriction(0, 0);
     }
     
     public GenericImplementation(boolean memory, boolean acceptFirst, boolean stack, boolean delayedKnowledge, boolean sameItemPref, iRestrictionFactory factory) {
         this(memory, acceptFirst, stack, delayedKnowledge, sameItemPref);
         if (factory != null) {
             this.factory = factory;
+        } else {
+            this.factory = new RestrictionFactoryAdaptor();
         }
-        clearRestriction(0, 0);
+        this.factory.clearRestriction(0, 0);
     }
     
     //default implementation - RSD - should be overridden regardless
@@ -100,23 +98,15 @@ public class GenericImplementation extends DeterministicAlgorithm {
                 (stack ? "Stack" : "Queue") + " " +
                 //(delayedKnowledge ? "DelayMemory" : "NoDelayMemory") + " " +
                 //(sameItemPref ? "SharePref" : "NoSharePref") + " " +
-                (restrictions.toString());
+                (factory.toString());
     }
     
     iRestrictionFactory factory = null;
-    List<iRestriction> restrictions = new ArrayList<iRestriction>() {
-        @Override
-        public String toString() {
-            String output = "";
-            for (iRestriction r : this) {
-                output += (r.toString() + " ");
-            }
-            return output;
-        }
-    };
+    
+    //this method has no side-effects, so it is safe to expose
     @Override
-    protected int[] solve(Permutation priority, PreferenceProfile input, int agents, int objects) {
-        clearRestriction(agents, objects);
+    public int[] solve(Permutation priority, PreferenceProfile input, int agents, int objects) {
+        factory.clearRestriction(agents, objects);
         iIterator pp = priority.getIterator();
         iProfileIterator ip = input.getIterator();
         //who has what object
@@ -178,9 +168,9 @@ public class GenericImplementation extends DeterministicAlgorithm {
                 if (!itemPref[getItemPrefIndex(desiredItem)].contains(temp)) {
                     itemPref[getItemPrefIndex(desiredItem)].add(temp);
                 }
-                if (itemPref[getItemPrefIndex(desiredItem)].indexOf(actingAgent) < itemPref[getItemPrefIndex(desiredItem)].indexOf(temp) && checkRestriction(actingAgent, desiredItem, temp)) {
+                if (itemPref[getItemPrefIndex(desiredItem)].indexOf(actingAgent) < itemPref[getItemPrefIndex(desiredItem)].indexOf(temp) && factory.checkRestriction(actingAgent, desiredItem, temp)) {
                     PostBox.broadcast(new TakeItemEvent(actingAgent, desiredItem, temp));
-                    updateRestriction(actingAgent, desiredItem, temp);
+                    factory.updateRestriction(actingAgent, desiredItem, temp);
                     if (isStack()) {
                         agentOrder.add(0, temp);
                     } else if (isQueue()) {
@@ -205,7 +195,7 @@ public class GenericImplementation extends DeterministicAlgorithm {
                 hasTaken[actingAgent - 1] = desiredItem; //takes item
                 obj[desiredItem - 1] = actingAgent; //acting agent have the item
                 PostBox.broadcast(new TakeItemEvent(actingAgent, desiredItem));
-                updateRestriction(actingAgent, desiredItem, temp);
+                factory.updateRestriction(actingAgent, desiredItem, temp);
                 if (!hasMemory()) {
                     ip.resetPointers(); //reset the round
                     for (List<Integer> itemPref1 : itemPref) {
@@ -216,31 +206,4 @@ public class GenericImplementation extends DeterministicAlgorithm {
         }
         return hasTaken;
     }
- 
-    //hack code
-    private boolean checkRestriction(int actingAgent, int item, int currentAgent) {
-        for (iRestriction r : restrictions) {
-            if (!r.attemptToTake(actingAgent, item, currentAgent)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private void updateRestriction(int actingAgent, int item, int currentAgent) {
-        for (iRestriction r : restrictions) {
-            r.take(actingAgent, item, currentAgent);
-        }
-    }
-    
-    private void clearRestriction(int agents, int items) {
-        restrictions.clear();
-        if (factory == null) {
-            return;
-        }
-        for (iRestriction r : factory.getRestrictions(agents, items)) {
-            restrictions.add(r);
-        }
-    }
-    //end hack code
 }

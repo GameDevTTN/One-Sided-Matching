@@ -10,6 +10,7 @@ import Main.Observers.System.PostBox;
 import Main.Settings.Settings;
 import MatchingAlgorithm.Auxiliary.Permutation;
 import MatchingAlgorithm.Auxiliary.PreferenceProfile;
+import MatchingAlgorithm.Auxiliary.Restrictions.RestrictionFactoryAdaptor;
 import MatchingAlgorithm.Auxiliary.Restrictions.iRestriction;
 import MatchingAlgorithm.Auxiliary.Restrictions.iRestrictionFactory;
 import MatchingAlgorithm.Auxiliary.TakeItemEvent;
@@ -24,6 +25,8 @@ import java.util.List;
  *
  * @author ylo019
  */
+
+//restriction factory code outdated but still correct
 public class AdaptiveNoMemoryAcceptFirstQueue extends DeterministicAlgorithm {
     private final int ROUND_PLACEHOLDER = -1;
     
@@ -39,7 +42,7 @@ public class AdaptiveNoMemoryAcceptFirstQueue extends DeterministicAlgorithm {
         this.acceptFirst = true;
         this.stack = false;
         this.delayedMemory = true;
-        this.factory = new iRestrictionFactory() {
+        this.factory = new RestrictionFactoryAdaptor() {
             @Override
             public iRestriction[] getRestrictions(int agent, int item) {
                 return new iRestriction[]{};

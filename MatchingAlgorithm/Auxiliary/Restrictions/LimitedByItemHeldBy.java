@@ -22,7 +22,10 @@ public class LimitedByItemHeldBy implements iRestriction {
 
     @Override
     public boolean attemptToTake(int actingAgent, int item, int currentAgent) {
-        return counts[item - 1] < param;
+        if (currentAgent == 0) {
+            return true;
+        }
+        return counts[item - 1] <= param;
     }
 
     @Override

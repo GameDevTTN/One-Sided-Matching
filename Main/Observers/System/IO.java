@@ -108,8 +108,10 @@ public class IO implements Observer {
                     pw.write(Format.Format(p.getT()) + "\n");
                     //System.out.println(Settings.format(p.getT()));
             } else {
-                pw.write(Format.Format(p.getS()));
-                pw.write(Format.Format(p.getT()));
+                if (!(p.getS() instanceof Boolean))
+                    pw.write(Format.Format(p.getS()));
+                if (!(p.getT() instanceof Boolean))
+                    pw.write(Format.Format(p.getT()));
             }
         } else {
             pw.write(o1 + "\n");

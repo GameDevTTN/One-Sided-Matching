@@ -67,6 +67,7 @@ public class Mallows implements iOrdinalIterator {
         for (int i = 0; i < obj; i++) {
             array.add(i + 1);
         }
+        Collections.shuffle(array);
         for (int i = 0; i < size; i++) {
             List<Integer> listOfInts = new ArrayList<>();
             listOfInts.addAll(array);

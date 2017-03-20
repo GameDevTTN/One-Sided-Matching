@@ -66,7 +66,7 @@ public abstract class iGenericResultsCollator<T> extends iResultsCollator {
         return "";
     }
     
-    protected String getSide() {
+    protected final String getSide() {
         switch (getPref()) {
             case ONE_SIDED:
                 return "";

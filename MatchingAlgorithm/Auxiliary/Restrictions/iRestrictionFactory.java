@@ -13,4 +13,7 @@ public interface iRestrictionFactory {
     
     public iRestriction[] getRestrictions(int agent, int item);
     
+    public boolean checkRestriction(int actingAgent, int item, int currentAgent);
+    public void updateRestriction(int actingAgent, int item, int currentAgent);
+    public void clearRestriction(int agents, int items);
 }

@@ -117,6 +117,7 @@ public abstract class iResultsCollator implements Observer {
         }
         if (results.put(algoName, probMatrix) != null) {
             System.out.println(this.getClass());
+            System.out.println(algoName);
             throw new RuntimeException("Duplicate Results");
         }
     }
