@@ -13,6 +13,8 @@ import java.util.Arrays;
  */
 public class ExponentialModel implements iUtilitiesModel {
     
+    public static final ExponentialModel BORDA = new ExponentialModel(0.0);
+    
     private final double alpha;
     
     public ExponentialModel(double alpha) {
@@ -24,7 +26,7 @@ public class ExponentialModel implements iUtilitiesModel {
         double[] out = new double[size];
         if (alpha == 0.0) {
             for (int i = 0; i < out.length; i++) {
-                out[i] = (double)(size - i);///(size - 1);
+                out[i] = (double)(size - i - 1);///(size - 1);
             }
         } else {
             for (int i = 0; i < out.length; i++) {

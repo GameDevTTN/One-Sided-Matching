@@ -78,11 +78,11 @@ public class Mallows implements iOrdinalIterator {
                 double chance = 0.0;
                 for (int j = 0; j < listOfInts.size(); j++) {
                     if (PREF_PARAM == 1.0) {
-                        throw new RuntimeException("Not yet supporting Q == 1.0");
+                        chance += (1.0/listOfInts.size());
                     } else {
                         chance += ((1 - PREF_PARAM) * Math.pow(PREF_PARAM, j))/(1 - Math.pow(PREF_PARAM, listOfInts.size()));
                     }
-                    if (random < chance) {
+                    if (random < chance || j == (listOfInts.size() - 1)) {
                         shuffledArray[indexCounter++] = listOfInts.remove(j);
                         break;
                     }

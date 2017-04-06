@@ -20,6 +20,7 @@ import MatchingAlgorithm.Auxiliary.Restrictions.RandomRestriction;
 import MatchingAlgorithm.Auxiliary.Restrictions.RestrictionFactoryAdaptor;
 import MatchingAlgorithm.Auxiliary.Restrictions.iRestriction;
 import MatchingAlgorithm.Auxiliary.Restrictions.iRestrictionFactory;
+import MatchingAlgorithm.ItemProposingAlgorithms.BordaAtCostForMisalloc;
 import MatchingAlgorithm.ItemProposingAlgorithms.BordaAtDecreasingAverage;
 import MatchingAlgorithm.ItemProposingAlgorithms.BordaAtIncreasingAverage;
 import MatchingAlgorithm.Taxonomy.GenericImplementation;
@@ -51,10 +52,10 @@ public final class GenericMain {
     
     private static MessageType[] getOutput() {
         return new MessageType[]{
-            MessageType.PREFERENCE, 
-            MessageType.ALGORITHM_NAME, 
+//            MessageType.PREFERENCE, 
+//            MessageType.ALGORITHM_NAME, 
 //            MessageType.DETAILS,
-            MessageType.OUTPUT, 
+//            MessageType.OUTPUT, 
             MessageType.SUMMARY, 
             MessageType.SYSTEM, 
             MessageType.PRINT};
@@ -62,8 +63,9 @@ public final class GenericMain {
     }
     
     private static iOrdinalIterator[] getPreferenceProfiles() {
-        return new iOrdinalIterator[]{new Mallows(10000, 20, 20, 0.1f)}; //no
-//        return new iOrdinalIterator[]{new IC(3, 3), new ICRandom(100000, 4, 4), new ICRandom(100000, 5, 5), new ICRandom(50000, 6, 6), new ICRandom(50000, 7, 7)};
+//        return new iOrdinalIterator[]{new Mallows(10000, 20, 20, 0.2f)}; //no
+        return new iOrdinalIterator[]{new IC(3, 3), new ICRandom(100000, 4, 4), new ICRandom(100000, 5, 5), new ICRandom(50000, 6, 6), new ICRandom(50000, 7, 7), new ICRandom(50000, 8, 8), new ICRandom(50000, 9, 9)};
+//        return new iOrdinalIterator[]{new Mallows(100000, 4, 4, 0.2f), new Mallows(100000, 5, 5, 0.2f), new Mallows(50000, 6, 6, 0.2f), new Mallows(50000, 7, 7, 0.2f)};
 //        return new iOrdinalIterator[]{new IC(3, 3), new ICRandom(10000, 4, 4), new ICRandom(10000, 5, 5)}; //no
 //        return new iOrdinalIterator[]{new ICRandom(50000, 10), new ICRandom(50000, 15), new ICRandom(50000, 20), new ICRandom(50000, 25), new ICRandom(50000, 30), new ICRandom(50000, 35), new ICRandom(50000, 40), new ICRandom(50000, 45), new ICRandom(50000, 50)};
 //        return new iOrdinalIterator[]{new Mallows(100000, 5, 5, 0f),new Mallows(100000, 5, 5, 0.1f),new Mallows(100000, 5, 5, 0.2f), new Mallows(100000, 5, 5, 0.3f), new Mallows(100000, 5, 5, 0.4f),
@@ -75,7 +77,7 @@ public final class GenericMain {
 //                                    new Mallows(100000, 20, 20, 0f),new Mallows(100000, 20, 20, 0.1f),new Mallows(100000, 20, 20, 0.2f), new Mallows(100000, 20, 20, 0.3f), new Mallows(100000, 20, 20, 0.4f),
 //                                    new Mallows(100000, 20, 20, 0.5f), new Mallows(100000, 20, 20, 0.6f), new Mallows(100000, 20, 20, 0.7f), new Mallows(100000, 20, 20, 0.8f), new Mallows(100000, 20, 20, 0.9f)};
 //        return new iOrdinalIterator[]{new Mallows(10000, 10, 10, 0f),new Mallows(10000, 10, 10, 0.1f),new Mallows(10000, 10, 10, 0.2f), new Mallows(10000, 10, 10, 0.3f), new Mallows(10000, 10, 10, 0.4f),
-                                    //new Mallows(10000, 10, 10, 0.5f), new Mallows(10000, 10, 10, 0.6f), new Mallows(10000, 10, 10, 0.7f), new Mallows(10000, 10, 10, 0.8f), new Mallows(10000, 10, 10, 0.9f)}; //no
+//                                    new Mallows(10000, 10, 10, 0.5f), new Mallows(10000, 10, 10, 0.6f), new Mallows(10000, 10, 10, 0.7f), new Mallows(10000, 10, 10, 0.8f), new Mallows(10000, 10, 10, 0.9f)}; //no
     }
     //at for n = 10, at about 0.65 Mallows, NB out-performs YS
     
@@ -101,6 +103,10 @@ public final class GenericMain {
         bada.setFixInitialOrder(fixOrder);
         out.add(new OneSidedAlgorithmObserver(bada));
         out.add(new OneSidedAlgorithmObserver(new GTTCImprovement(bada)));
+        BordaAtCostForMisalloc bacfm = new BordaAtCostForMisalloc();
+        bacfm.setFixInitialOrder(fixOrder);
+        out.add(new OneSidedAlgorithmObserver(bacfm));
+        out.add(new OneSidedAlgorithmObserver(new GTTCImprovement(bacfm)));
         out.addAll(fetchAll(fixOrder));
         OneSidedAlgorithmObserver[] arr = new OneSidedAlgorithmObserver[0];
         arr = out.toArray(arr);
@@ -129,7 +135,7 @@ public final class GenericMain {
     }
     
     private static double[] getExponentialParams() {
-        return new double[]{0.0}; //return new double[]{-1.0, -0.75, -0.5, -0.25, 0.0, 0.5, 1.0, 1.5, 2.0};
+        return new double[]{0.0, 10.0}; //return new double[]{-1.0, -0.75, -0.5, -0.25, 0.0, 0.5, 1.0, 1.5, 2.0};
     }
 
     public static List<OneSidedAlgorithmObserver> fetchAll(boolean fixedOrder) {
