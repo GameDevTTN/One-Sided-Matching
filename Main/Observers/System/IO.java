@@ -116,6 +116,7 @@ public class IO implements Observer {
         } else {
             pw.write(o1 + "\n");
         }
+        pw.flush();
     }
     
     private void incrementFileIndex() {

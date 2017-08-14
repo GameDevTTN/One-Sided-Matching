@@ -26,6 +26,17 @@ public class GraphImpl implements iGraph {
         update(ipm, pp);
     }
     
+    public GraphImpl(int size) {
+    	hasEdge = new boolean[size][size];
+    }
+    
+    public void addEdge(int from, int to) {
+    	if (from < 0 || to < 0 || from >= hasEdge.length || to >= hasEdge.length) {
+    		throw new RuntimeException("GraphImpl add Edge: out of bounds");
+    	}
+    	hasEdge[from][to] = true;
+    }
+    
     //put an edge between two nodes (item_x and item_y) iff someone with item_x wants item_y more
     private void update(iProbabilityMatrix ipm, PreferenceProfile pp) {
         for (int i = 0; i < ipm.size(); i++) {
@@ -50,7 +61,7 @@ public class GraphImpl implements iGraph {
     public boolean hasCycles() {
         NodeColour[] nodeStatus = new NodeColour[hasEdge.length];
         Arrays.fill(nodeStatus, NodeColour.WHITE);
-        List<Integer> stack = new ArrayList<Integer>(){};
+        List<Integer> stack = new ArrayList<Integer>();
         stack.add(0);
         while (true) {
             while (!stack.isEmpty()) {
@@ -84,6 +95,32 @@ public class GraphImpl implements iGraph {
                 return false;
             }
         }
+    }
+    
+    public boolean hasCycleFrom(int node) {
+        NodeColour[] nodeStatus = new NodeColour[hasEdge.length];
+        Arrays.fill(nodeStatus, NodeColour.WHITE);
+        List<Integer> stack = new ArrayList<Integer>();
+        stack.add(node);
+        while (!stack.isEmpty()) {
+            int topNode = stack.get(stack.size() - 1);
+            for (int i = 0; i < nodeStatus.length; i++) {
+                if (hasEdge[topNode][i] && nodeStatus[i] == NodeColour.WHITE) {
+                    nodeStatus[topNode] = NodeColour.GREY;
+                    stack.add(i);
+                    break;
+                } else if (hasEdge[topNode][i] && nodeStatus[i] == NodeColour.GREY) {
+                    if (i == node) {
+                    	return true;
+                    }
+                }
+            }
+            if (topNode == stack.get(stack.size() - 1)) {
+                nodeStatus[topNode] = NodeColour.BLACK;
+                stack.remove(stack.size() - 1);
+            }
+        }
+        return false;
     }
     
     @Override
